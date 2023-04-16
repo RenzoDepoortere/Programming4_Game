@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{cb208900-58b7-484e-8ab7-c8827486ca4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Managers">
+      <UniqueIdentifier>{00293c93-2145-4a65-b9ef-a842082c9847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\ObjectHelpers">
+      <UniqueIdentifier>{c8515711-fc8a-4415-8b1a-2664b8a2c65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\TypeClasses">
+      <UniqueIdentifier>{02bb8339-80e4-42ab-9b63-679dab27e035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="OwnFiles\Components">
+      <UniqueIdentifier>{aaf7c254-b085-48ac-a29a-80d8230a948d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles\GameObjects">
+      <UniqueIdentifier>{68a9d23f-6bfc-41b6-8594-aa5d433054c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\ImGUI">
+      <UniqueIdentifier>{024119a7-ecca-4ef0-8ff9-c023800848f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles\Input">
+      <UniqueIdentifier>{a399b9ec-5bab-4348-b03b-5e635dd16fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles\Commands">
+      <UniqueIdentifier>{cdf726df-23fb-4ccb-93e5-d72970517963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles\Listeners">
+      <UniqueIdentifier>{b24c4619-de30-4a39-a139-154738b99da4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OwnFiles\Steam">
+      <UniqueIdentifier>{8b0f58ec-8871-49d5-bf2b-1b0b603a8df6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Minigin.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Framework\ObjectHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Framework\ObjectHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>OwnFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>OwnFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>OwnFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatingMovement.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTextureComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imgui_internal.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_rectpack.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_textedit.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\imstb_truetype.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
+      <Filter>Framework\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashTheCache.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>OwnFiles\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMapper.h">
+      <Filter>OwnFiles\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Follower.h">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="KillCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesDisplay.h">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsDisplay.h">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="PointCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>OwnFiles\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="AchievementWrapper.h">
+      <Filter>OwnFiles\Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveObjectCommand.h">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PointComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WinnerAchievement.h">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Framework\ObjectHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Framework\ObjectHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>OwnFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>OwnFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatingMovement.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Framework\TypeClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTextureComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_demo.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_draw.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_tables.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui_widgets.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
+      <Filter>Framework\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashTheCache.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>OwnFiles\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMapper.cpp">
+      <Filter>OwnFiles\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Follower.cpp">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="KillCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesDisplay.cpp">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsDisplay.cpp">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClCompile>
+    <ClCompile Include="PointCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>OwnFiles\Steam</Filter>
+    </ClCompile>
+    <ClCompile Include="AchievementWrapper.cpp">
+      <Filter>OwnFiles\Steam</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoveObjectCommand.cpp">
+      <Filter>OwnFiles\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="PointComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="WinnerAchievement.cpp">
+      <Filter>OwnFiles\Listeners</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
