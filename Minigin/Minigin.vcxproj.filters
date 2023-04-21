@@ -39,9 +39,6 @@
     <Filter Include="OwnFiles\Listeners">
       <UniqueIdentifier>{b24c4619-de30-4a39-a139-154738b99da4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OwnFiles\Steam">
-      <UniqueIdentifier>{8b0f58ec-8871-49d5-bf2b-1b0b603a8df6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minigin.h">
@@ -161,12 +158,6 @@
     <ClInclude Include="PointCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="SteamAchievements.h">
-      <Filter>OwnFiles\Steam</Filter>
-    </ClInclude>
-    <ClInclude Include="AchievementWrapper.h">
-      <Filter>OwnFiles\Steam</Filter>
-    </ClInclude>
     <ClInclude Include="SceneCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
@@ -175,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="PointComponent.h">
       <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="WinnerAchievement.h">
-      <Filter>OwnFiles\Listeners</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,12 +278,6 @@
     <ClCompile Include="PointCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="SteamAchievements.cpp">
-      <Filter>OwnFiles\Steam</Filter>
-    </ClCompile>
-    <ClCompile Include="AchievementWrapper.cpp">
-      <Filter>OwnFiles\Steam</Filter>
-    </ClCompile>
     <ClCompile Include="SceneCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
@@ -304,9 +286,6 @@
     </ClCompile>
     <ClCompile Include="PointComponent.cpp">
       <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="WinnerAchievement.cpp">
-      <Filter>OwnFiles\Listeners</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

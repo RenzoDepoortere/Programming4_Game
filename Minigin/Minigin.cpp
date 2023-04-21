@@ -5,7 +5,6 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <chrono>
-#include <steam_api.h>
 
 #include "Minigin.h"
 #include "InputManager.h"
@@ -120,9 +119,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		// Render
 		renderer.Render();
-
-		// Steam
-		SteamAPI_RunCallbacks();
 
 		// Sleep
 		const auto sleepTime{ currentTime + milliseconds(static_cast<long long>(msPerFrame)) - high_resolution_clock::now() };

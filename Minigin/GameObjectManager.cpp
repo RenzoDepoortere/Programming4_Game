@@ -22,7 +22,6 @@
 #include "PointCommand.h"
 #include "RemoveObjectCommand.h"
 #include "PointComponent.h"
-#include "WinnerAchievement.h"
 
 void dae::GameObjectManager::CreateGameObjects(Scene& scene)
 {
@@ -320,6 +319,7 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	m_pMainCharacter->AddComponent<dae::HealthComponent>();
 	m_pMainCharacter->AddComponent<dae::PointComponent>();
 
+
 	// Secondary Character
 	// -------------------
 	m_pSideCharacter->AddComponent<dae::HealthComponent>();
@@ -352,11 +352,6 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	// Add to Scene
 	scene.Add(pHealthDisplayObject);
 
-	// Add observer
-	std::unique_ptr<Observer> pLivesDisplay{ std::make_unique<LivesDisplay>(m_pMainCharacter, pTextComponent) };
-
-	m_pMainCharacter->AddObserver(pLivesDisplay.get());
-	dae::EventManager::GetInstance().AddFollower(std::move(pLivesDisplay));
 
 	// Second healthDisplayObject
 	// --------------------------
@@ -378,11 +373,6 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	// Add to Scene
 	scene.Add(pHealthDisplayObject);
 
-	// Add observer
-	pLivesDisplay = std::make_unique<LivesDisplay>(m_pSideCharacter, pTextComponent);
-
-	m_pSideCharacter->AddObserver(pLivesDisplay.get());
-	dae::EventManager::GetInstance().AddFollower(std::move(pLivesDisplay));
 
 	// First pointObject
 	// -----------------
@@ -403,12 +393,7 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 
 	// Add to Scene
 	scene.Add(pPointDisplayObject);
-
-	// Add observer
-	std::unique_ptr<Observer> pPointsDisplay{ std::make_unique<PointsDisplay>(m_pMainCharacter, pTextComponent) };
-
-	m_pMainCharacter->AddObserver(pPointsDisplay.get());
-	dae::EventManager::GetInstance().AddFollower(std::move(pPointsDisplay));
+	
 
 	// Second pointObject
 	// ------------------
@@ -430,12 +415,6 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	// Add to Scene
 	scene.Add(pPointDisplayObject);
 
-	// Add observer
-	pPointsDisplay = std::make_unique<PointsDisplay>(m_pSideCharacter, pTextComponent);
-
-	m_pSideCharacter->AddObserver(pPointsDisplay.get());
-	dae::EventManager::GetInstance().AddFollower(std::move(pPointsDisplay));
-
 
 	// Button Prompt
 	// *************
@@ -450,58 +429,12 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	// Add to Scene
 	scene.Add(pButtonPrompt);
 
-	
-	// Input Mapper
-	// ************
-	const auto keyState{ dae::InputMapper::KeyState::Press };
-
-	// MainCharacter
-	// -------------
-
-	// Kill command
-	auto controllerInput{ std::make_pair(0, dae::InputManager::ControllerButton::None) };
-	auto inputKeys{ std::make_pair(SDL_SCANCODE_I, controllerInput) };
-
-	std::unique_ptr<KillCommand> pKillCommand{ std::make_unique<KillCommand>(m_pMainCharacter) };
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pKillCommand));
-
-	// Point command
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_O, controllerInput);
-
-	std::unique_ptr<PointCommand> pPointCommand{ std::make_unique<PointCommand>(m_pMainCharacter) };
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pPointCommand));
-
-	// SideCharacter
-	// -------------
-
-	// Kill command
-	controllerInput = std::make_pair(m_ControllerIdx, dae::InputManager::ControllerButton::ButtonY);
-	inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-	pKillCommand = std::make_unique<KillCommand>(m_pSideCharacter);
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pKillCommand));
-
-	// Point command
-	controllerInput = std::make_pair(m_ControllerIdx, dae::InputManager::ControllerButton::ButtonB);
-	inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-	pPointCommand = std::make_unique<PointCommand>(m_pSideCharacter);
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pPointCommand));
-
-	// Achievement
-	// -----------
-	std::unique_ptr<WinnerAchievement> pWinnerAchievement = std::make_unique<WinnerAchievement>();
-
-	pWinnerAchievement->AddSubscription("PointEvent");
-	dae::EventManager::GetInstance().AddFollower(std::move(pWinnerAchievement));
-
 	// Display
 	// -------
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_RETURN, controllerInput);
+	auto controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	auto inputKeys = std::make_pair(SDL_SCANCODE_RETURN, controllerInput);
 
 	// Display command
 	std::unique_ptr<RemoveObjectCommand> pSceneCommand{ std::make_unique<RemoveObjectCommand>(&scene, pButtonPrompt.get()) };
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pSceneCommand));
+	dae::InputMapper::GetInstance().MapInputKey(inputKeys, InputMapper::KeyState::Press, std::move(pSceneCommand));
 }
