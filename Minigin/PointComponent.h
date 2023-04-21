@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "Follower.h"
 
 namespace dae
 {
@@ -25,7 +24,6 @@ namespace dae
 	private:
 		// Member variables
 		int m_CurrentPoints{};
-		Event m_BaseEvent{};
 
 		// Member functions
 	};

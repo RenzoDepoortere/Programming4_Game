@@ -1,16 +1,5 @@
 #include <string>
 #include "GameObject.h"
-#include "EventManager.h"
-
-dae::GameObject::~GameObject()
-{
-	// Notify observers of destruction
-	Event destroyedEvent{};
-	destroyedEvent.eventName = "GameObjectDestroyed";
-	destroyedEvent.pGameObject = this;
-
-	NotifyObservers(destroyedEvent);
-}
 
 void dae::GameObject::Update(float deltaTime)
 {
@@ -70,28 +59,6 @@ void dae::GameObject::RenderImGUI()
 	{
 		currentChild->RenderImGUI();
 	}
-}
-
-void dae::GameObject::AddObserver(Observer* pObserver)
-{
-	// Add observer to container
-	m_pObservers.push_back(pObserver);
-}
-void dae::GameObject::RemoveObserver(Observer* pObserver)
-{
-	// Remove observer to container
-	m_pObservers.erase(std::remove(m_pObservers.begin(), m_pObservers.end(), pObserver), m_pObservers.end());
-}
-void dae::GameObject::NotifyObservers(const Event& event)
-{
-	// Notify all observers with the given event
-	for (const auto& currentObserver : m_pObservers)
-	{
-		currentObserver->Notify(event);
-	}
-
-	// Also send event to manager
-	dae::EventManager::GetInstance().SendEvent(event);
 }
 
 void dae::GameObject::SetParent(GameObject* pParent, bool keepWorldPos)

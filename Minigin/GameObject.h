@@ -7,7 +7,6 @@
 
 #include "Transform.h"
 #include "Utils.h"
-#include "Follower.h"
 
 namespace dae
 {
@@ -16,7 +15,7 @@ namespace dae
 	public:
 		// Rule of Five
 		GameObject() = default;
-		~GameObject();
+		~GameObject() = default;
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -34,11 +33,6 @@ namespace dae
 		template <typename T> T* GetComponent() const;
 		template <typename T> void RemoveComponent();
 		template <typename T> bool HasComponent() const;
-
-		// Observers
-		void AddObserver(Observer* pObserver);
-		void RemoveObserver(Observer* pObserver);
-		void NotifyObservers(const Event& event);
 
 		// Ownership
 		void SetParent(GameObject* pParent, bool keepWorldPos);
@@ -72,9 +66,6 @@ namespace dae
 		// Component
 		std::unordered_map<std::type_index,std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::type_index> m_ComponentsToDelete{};
-
-		// Observers
-		std::vector<Observer*> m_pObservers{};
 
 		// Member Functions
 		// ----------------

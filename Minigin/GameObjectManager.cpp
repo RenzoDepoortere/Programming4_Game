@@ -6,7 +6,6 @@
 #include "GameObject.h"
 #include "Utils.h"
 #include "InputMapper.h"
-#include "EventManager.h"
 
 #include "Texture2D.h"
 #include "RenderTextureComponent.h"
@@ -17,8 +16,6 @@
 #include "MoveCommand.h"
 #include "HealthComponent.h"
 #include "KillCommand.h"
-#include "LivesDisplay.h"
-#include "PointsDisplay.h"
 #include "PointCommand.h"
 #include "RemoveObjectCommand.h"
 #include "PointComponent.h"

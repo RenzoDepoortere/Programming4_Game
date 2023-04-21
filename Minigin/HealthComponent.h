@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
 #include "glm/vec3.hpp"
-#include "Follower.h"
 
 namespace dae
 {
@@ -35,7 +34,6 @@ namespace dae
 
 		glm::vec3 m_StartPos{};
 
-		Event m_BaseEvent{};
 
 		// Member functions
 	};

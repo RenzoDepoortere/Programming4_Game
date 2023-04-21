@@ -1,8 +1,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-#include "EventManager.h"
-
 void dae::SceneManager::Update(float deltaTime)
 {
 	// Update scenes
@@ -10,9 +8,6 @@ void dae::SceneManager::Update(float deltaTime)
 	{
 		scene->Update(deltaTime);
 	}
-
-	// Update observers
-	EventManager::GetInstance().Update(deltaTime);
 }
 
 void dae::SceneManager::FixedUpdate(float deltaTime)
@@ -22,9 +17,6 @@ void dae::SceneManager::FixedUpdate(float deltaTime)
 	{
 		scene->FixedUpdate(deltaTime);
 	}
-
-	// FixedUpdate observers
-	EventManager::GetInstance().FixedUpdate(deltaTime);
 }
 
 void dae::SceneManager::Render() const
@@ -34,9 +26,6 @@ void dae::SceneManager::Render() const
 	{
 		scene->Render();
 	}
-
-	// Render observers
-	EventManager::GetInstance().Render();
 }
 
 void dae::SceneManager::RenderImGUI()
@@ -46,9 +35,6 @@ void dae::SceneManager::RenderImGUI()
 	{
 		scene->RenderImGUI();
 	}
-
-	// Render ImGUI observers
-	EventManager::GetInstance().RenderImGUI();
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)

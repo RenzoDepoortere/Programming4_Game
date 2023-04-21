@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObjectCommand.h"
-#include "EventManager.h"
 
 namespace dae
 {

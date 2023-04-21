@@ -36,8 +36,8 @@
     <Filter Include="OwnFiles\Commands">
       <UniqueIdentifier>{cdf726df-23fb-4ccb-93e5-d72970517963}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OwnFiles\Listeners">
-      <UniqueIdentifier>{b24c4619-de30-4a39-a139-154738b99da4}</UniqueIdentifier>
+    <Filter Include="OwnFiles\Observers">
+      <UniqueIdentifier>{2798b335-deba-44be-975a-c1c5a79b3571}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -137,23 +137,11 @@
     <ClInclude Include="GameObjectCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="Follower.h">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClInclude>
     <ClInclude Include="KillCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
       <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesDisplay.h">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClInclude>
-    <ClInclude Include="PointsDisplay.h">
-      <Filter>OwnFiles\Listeners</Filter>
     </ClInclude>
     <ClInclude Include="PointCommand.h">
       <Filter>OwnFiles\Commands</Filter>
@@ -166,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="PointComponent.h">
       <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>OwnFiles\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,23 +251,11 @@
     <ClCompile Include="GameObjectCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="Follower.cpp">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClCompile>
     <ClCompile Include="KillCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesDisplay.cpp">
-      <Filter>OwnFiles\Listeners</Filter>
-    </ClCompile>
-    <ClCompile Include="PointsDisplay.cpp">
-      <Filter>OwnFiles\Listeners</Filter>
     </ClCompile>
     <ClCompile Include="PointCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
@@ -286,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="PointComponent.cpp">
       <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>OwnFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>OwnFiles\Observers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

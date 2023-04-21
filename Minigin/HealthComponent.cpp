@@ -9,11 +9,6 @@ dae::HealthComponent::HealthComponent(dae::GameObject* pParentObject)
 	m_CurrentHealth = m_MaxHealth;
 
 	m_StartPos = pParentObject->GetWorldPosition();
-
-	// Event
-	m_BaseEvent.eventName = "PlayerDied";
-	m_BaseEvent.pGameObject = pParentObject;
-
 }
 
 void dae::HealthComponent::SetCurrentHealth(float amount)
@@ -24,9 +19,6 @@ void dae::HealthComponent::SetCurrentHealth(float amount)
 	// Check if dead
 	if (m_CurrentHealth <= 0.f)
 	{
-		// Notify observers
-		GetGameObject()->NotifyObservers(m_BaseEvent);
-
 		// Respawn
 		Respawn();
 	}
