@@ -226,6 +226,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputMapper.h" />
+    <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Observer.h" />
@@ -267,6 +268,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputMapper.cpp" />
+    <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MoveCommand.cpp" />

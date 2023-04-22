@@ -19,6 +19,7 @@
 #include "PointCommand.h"
 #include "RemoveObjectCommand.h"
 #include "PointComponent.h"
+#include "LivesComponent.h"
 
 void dae::GameObjectManager::CreateGameObjects(Scene& scene)
 {
@@ -313,13 +314,13 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 
 	// Main Character
 	// --------------
-	m_pMainCharacter->AddComponent<dae::HealthComponent>();
+	dae::HealthComponent* pMainHealthComponent = m_pMainCharacter->AddComponent<dae::HealthComponent>();
 	m_pMainCharacter->AddComponent<dae::PointComponent>();
 
 
 	// Secondary Character
 	// -------------------
-	m_pSideCharacter->AddComponent<dae::HealthComponent>();
+	dae::HealthComponent* pSideHealthComponent = m_pSideCharacter->AddComponent<dae::HealthComponent>();
 	m_pSideCharacter->AddComponent<dae::PointComponent>();
 
 
@@ -346,6 +347,9 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	pTextComponent->SetTexture(pTexture);
 	pTextComponent->SetText("Test");
 
+	dae::LivesComponent* pLivesComponent = pHealthDisplayObject->AddComponent<dae::LivesComponent>();
+	pLivesComponent->SetComponentToFollow(pMainHealthComponent);
+
 	// Add to Scene
 	scene.Add(pHealthDisplayObject);
 
@@ -367,6 +371,9 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	pTextComponent->SetTexture(pTexture);
 	pTextComponent->SetText("Test");
 	
+	pLivesComponent = pHealthDisplayObject->AddComponent<dae::LivesComponent>();
+	pLivesComponent->SetComponentToFollow(pSideHealthComponent);
+
 	// Add to Scene
 	scene.Add(pHealthDisplayObject);
 
@@ -413,6 +420,22 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	scene.Add(pPointDisplayObject);
 
 
+	// Input mapper
+	// ************
+
+	// Kill command
+	auto controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	auto inputKeys = std::make_pair(SDL_SCANCODE_I, controllerInput);
+
+	std::unique_ptr<KillCommand> pKillCommand{ std::make_unique<KillCommand>(m_pMainCharacter) };
+	dae::InputMapper::GetInstance().MapInputKey(inputKeys, InputMapper::KeyState::Press, std::move(pKillCommand));
+
+	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	inputKeys = std::make_pair(SDL_SCANCODE_K, controllerInput);
+
+	pKillCommand = std::make_unique<KillCommand>(m_pSideCharacter);
+	dae::InputMapper::GetInstance().MapInputKey(inputKeys, InputMapper::KeyState::Press, std::move(pKillCommand));
+
 	// Button Prompt
 	// *************
 	std::shared_ptr<GameObject> pButtonPrompt = std::make_shared<dae::GameObject>();
@@ -428,8 +451,8 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 
 	// Display
 	// -------
-	auto controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	auto inputKeys = std::make_pair(SDL_SCANCODE_RETURN, controllerInput);
+	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	inputKeys = std::make_pair(SDL_SCANCODE_RETURN, controllerInput);
 
 	// Display command
 	std::unique_ptr<RemoveObjectCommand> pSceneCommand{ std::make_unique<RemoveObjectCommand>(&scene, pButtonPrompt.get()) };

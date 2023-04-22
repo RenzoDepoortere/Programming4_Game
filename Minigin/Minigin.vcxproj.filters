@@ -161,6 +161,9 @@
     <ClInclude Include="Subject.h">
       <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
+    <ClInclude Include="LivesComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -274,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>OwnFiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

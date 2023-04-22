@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "glm/vec3.hpp"
+#include "Subject.h"
 
 namespace dae
 {
@@ -25,6 +26,9 @@ namespace dae
 		void SetCurrentHealth(float amount);
 		float GetCurrentHealth() const { return m_CurrentHealth; }
 
+		template<typename... Args>
+		Subject<>* GetSubject() { return &m_HasDied; }
+
 		void Respawn();
 
 	private:
@@ -34,7 +38,6 @@ namespace dae
 
 		glm::vec3 m_StartPos{};
 
-
-		// Member functions
+		dae::Subject<> m_HasDied{};
 	};
 }

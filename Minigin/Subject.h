@@ -10,7 +10,13 @@ namespace dae
 	public:
 		// Rule of five
 		Subject() = default;
-		~Subject();	
+		~Subject()
+		{
+			for (auto& currentObersver : m_pObservers)
+			{
+				currentObersver->OnSubjectDestroy();
+			}
+		}
 
 		Subject(const Subject& other) = delete;
 		Subject(Subject&& other) = delete;
@@ -18,9 +24,21 @@ namespace dae
 		Subject& operator=(Subject&& other) = delete;
 
 		// Public functions
-		void AddObserver(Observer<Args...>* pObserver);
-		void RemoveObserver(Observer<Args...>* pObserver);
-		void Notify(Args... args);
+		void AddObserver(Observer<Args...>* pObserver)
+		{
+			m_pObservers.push_back(pObserver);
+		}
+		void RemoveObserver(Observer<Args...>* pObserver)
+		{
+			m_pObservers.erase(std::remove(m_pObservers.begin(), m_pObservers.end(), pObserver), m_pObservers.end());
+		}
+		void Notify(Args... args)
+		{
+			for (auto& currentObserver : m_pObservers)
+			{
+				currentObserver->HandleEvent(args...);
+			}
+		}
 
 	private:
 		// Member variables

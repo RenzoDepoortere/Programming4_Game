@@ -19,6 +19,9 @@ void dae::HealthComponent::SetCurrentHealth(float amount)
 	// Check if dead
 	if (m_CurrentHealth <= 0.f)
 	{
+		// Notify
+		m_HasDied.Notify();
+
 		// Respawn
 		Respawn();
 	}
