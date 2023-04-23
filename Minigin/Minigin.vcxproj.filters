@@ -169,7 +169,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
