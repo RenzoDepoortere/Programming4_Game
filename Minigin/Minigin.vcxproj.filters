@@ -164,6 +164,9 @@
     <ClInclude Include="LivesComponent.h">
       <Filter>OwnFiles\Components</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>OwnFiles\Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="LivesComponent.cpp">
       <Filter>OwnFiles\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>OwnFiles\Observers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

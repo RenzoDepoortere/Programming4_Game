@@ -430,8 +430,8 @@ void dae::GameObjectManager::SixthWeekObjects(Scene& scene)
 	std::unique_ptr<KillCommand> pKillCommand{ std::make_unique<KillCommand>(m_pMainCharacter) };
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, InputMapper::KeyState::Press, std::move(pKillCommand));
 
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_K, controllerInput);
+	controllerInput = std::make_pair(m_ControllerIdx, dae::InputManager::ControllerButton::ButtonY);
+	inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
 
 	pKillCommand = std::make_unique<KillCommand>(m_pSideCharacter);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, InputMapper::KeyState::Press, std::move(pKillCommand));

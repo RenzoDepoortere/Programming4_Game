@@ -22,7 +22,7 @@ void dae::LivesComponent::OnSubjectDestroy()
 	m_pToFollow = nullptr;
 }
 
-void dae::LivesComponent::HandleEvent()
+void dae::LivesComponent::HandleEvent(int)
 {
 	--m_NrLives;
 	if (m_NrLives < 0) m_NrLives = 0;

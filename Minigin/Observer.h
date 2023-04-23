@@ -16,7 +16,7 @@ namespace dae
 		Observer& operator=(Observer&& other) = delete;
 
 		// Public functions
-		virtual void HandleEvent(Args... args) = 0;
+		virtual void HandleEvent(int eventID, Args... args) = 0;
 		virtual void OnSubjectDestroy() = 0;
 	};
 }
