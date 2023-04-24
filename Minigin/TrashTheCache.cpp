@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "TrashTheCache.h"
-//#include "imgui_plot.h"
 #include "imgui.h"
 
 dae::TrashTheCache::TrashTheCache(dae::GameObject* pParentObject)

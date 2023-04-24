@@ -230,26 +230,17 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="KillCommand.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectCommand.h" />
-    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="InputMapper.h" />
-    <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="Minigin.h" />
-    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="PointCommand.h" />
-    <ClInclude Include="PointComponent.h" />
     <ClInclude Include="RemoveObjectCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderTextureComponent.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RotatingMovement.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCommand.h" />
     <ClInclude Include="SceneManager.h" />
@@ -258,7 +249,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -273,26 +263,17 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="KillCommand.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectCommand.cpp" />
-    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="InputMapper.cpp" />
-    <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Minigin.cpp" />
-    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="PointCommand.cpp" />
-    <ClCompile Include="PointComponent.cpp" />
     <ClCompile Include="RemoveObjectCommand.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderTextureComponent.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RotatingMovement.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCommand.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -300,7 +281,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) 
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="TrashTheCache.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

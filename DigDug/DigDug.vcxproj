@@ -86,7 +86,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)\3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,7 +155,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DigDug.cpp" />
+    <ClCompile Include="..\Minigin\FPSCounter.cpp" />
+    <ClCompile Include="..\Minigin\GameObjectManager.cpp" />
+    <ClCompile Include="..\Minigin\HealthComponent.cpp" />
+    <ClCompile Include="..\Minigin\KillCommand.cpp" />
+    <ClCompile Include="..\Minigin\LivesComponent.cpp" />
+    <ClCompile Include="..\Minigin\MoveCommand.cpp" />
+    <ClCompile Include="..\Minigin\PointCommand.cpp" />
+    <ClCompile Include="..\Minigin\PointComponent.cpp" />
+    <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
+    <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Minigin\FPSCounter.h" />
+    <ClInclude Include="..\Minigin\GameObjectManager.h" />
+    <ClInclude Include="..\Minigin\HealthComponent.h" />
+    <ClInclude Include="..\Minigin\KillCommand.h" />
+    <ClInclude Include="..\Minigin\LivesComponent.h" />
+    <ClInclude Include="..\Minigin\MoveCommand.h" />
+    <ClInclude Include="..\Minigin\PointCommand.h" />
+    <ClInclude Include="..\Minigin\PointComponent.h" />
+    <ClInclude Include="..\Minigin\RotatingMovement.h" />
+    <ClInclude Include="..\Minigin\TrashTheCache.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

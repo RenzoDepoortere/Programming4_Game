@@ -68,9 +68,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Framework\TypeClasses</Filter>
     </ClInclude>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>OwnFiles\Components</Filter>
     </ClInclude>
@@ -80,14 +77,8 @@
     <ClInclude Include="Utils.h">
       <Filter>OwnFiles</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectManager.h">
-      <Filter>OwnFiles\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>OwnFiles\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="RotatingMovement.h">
-      <Filter>OwnFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Framework\TypeClasses</Filter>
@@ -119,31 +110,16 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
       <Filter>Framework\ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>OwnFiles\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputMapper.h">
       <Filter>OwnFiles\Input</Filter>
     </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectCommand.h">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="KillCommand.h">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PointCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
     <ClInclude Include="SceneCommand.h">
@@ -152,17 +128,11 @@
     <ClInclude Include="RemoveObjectCommand.h">
       <Filter>OwnFiles\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="PointComponent.h">
-      <Filter>OwnFiles\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>OwnFiles\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesComponent.h">
-      <Filter>OwnFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>OwnFiles\Observers</Filter>
@@ -196,20 +166,11 @@
     <ClCompile Include="Component.cpp">
       <Filter>OwnFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>OwnFiles\Components</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>OwnFiles\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectManager.cpp">
-      <Filter>OwnFiles\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatingMovement.cpp">
-      <Filter>OwnFiles\Components</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Framework\TypeClasses</Filter>
@@ -238,31 +199,16 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
       <Filter>Framework\ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="TrashTheCache.cpp">
-      <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>OwnFiles\Input</Filter>
     </ClCompile>
     <ClCompile Include="InputMapper.cpp">
       <Filter>OwnFiles\Input</Filter>
     </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
     <ClCompile Include="GameObjectCommand.cpp">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="KillCommand.cpp">
-      <Filter>OwnFiles\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PointCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
     <ClCompile Include="SceneCommand.cpp">
@@ -271,17 +217,11 @@
     <ClCompile Include="RemoveObjectCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="PointComponent.cpp">
-      <Filter>OwnFiles\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>OwnFiles\Observers</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>OwnFiles\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesComponent.cpp">
-      <Filter>OwnFiles\Components</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>OwnFiles\Observers</Filter>
