@@ -16,6 +16,9 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{3023e718-7d65-4d4c-a931-e3cf3b977f25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{514c5a23-c635-4447-99f0-cb8f5426d51f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -47,6 +50,12 @@
     <ClCompile Include="..\Minigin\KillCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="FirstScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -76,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="..\Minigin\KillCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,11 +12,12 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObjectManager.h"
+#include "FirstScene.h"
 
 void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
-	dae::GameObjectManager::GetInstance().CreateGameObjects(scene);
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level_1");
+	FirstScene::GetInstance().CreateGameObjects(scene);
 }
 
 int main(int, char* [])
