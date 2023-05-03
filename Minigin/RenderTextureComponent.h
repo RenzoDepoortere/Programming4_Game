@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "glm/vec2.hpp"
 
 namespace dae
 {
@@ -12,6 +13,7 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
+		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
 
 		explicit RenderTextureComponent(dae::GameObject* pParentObject);
 		virtual ~RenderTextureComponent() override = default;
@@ -23,5 +25,7 @@ namespace dae
 
 	private:
 		std::shared_ptr<Texture2D> m_pTexture2D{ nullptr };
+		glm::ivec2 m_TextureSize{};
+		bool m_CenterTexture{ false };
 	};
 }

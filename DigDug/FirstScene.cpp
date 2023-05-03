@@ -41,6 +41,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	std::string textureString{ "MainCharacter_Sized_Smaller.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
 	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
+	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(pTexture);
 
 	// Add movement
