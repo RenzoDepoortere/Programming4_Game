@@ -1,4 +1,5 @@
 #include "GridComponent.h"
+#include "Renderer.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -9,7 +10,7 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
 	// Defaults
-	m_NrRows = 17;
+	m_NrRows = 12;
 	m_NrCols = 12;
 
 	m_CellWidth = 40;
@@ -68,6 +69,19 @@ Cell GridComponent::GetCell(const glm::vec3& worldPos) const
 
 void GridComponent::Render() const
 {
+	// Init rect
+	SDL_Rect rect{};
+	rect.w = m_CellWidth;
+	rect.h = m_CellHeight;
 
-	
+	// Draw rects
+	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
+	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255));
+	for (const auto& currentCell : m_Cells)
+	{
+		rect.x = static_cast<int>(static_cast<float>(currentCell.worldPosition.x));
+		rect.y = static_cast<int>(static_cast<float>(currentCell.worldPosition.y));
+
+		SDL_RenderDrawRect(pRenderer, &rect);
+	}
 }
