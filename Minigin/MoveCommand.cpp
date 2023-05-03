@@ -40,6 +40,41 @@ void dae::MoveCommand::Execute(float deltaTime)
 		// Set pos
 		actorPos = glm::vec3{ desiredCell.centerPosition, 0.f };
 		pActor->SetWorldPosition(actorPos);
+
+		//// Calculate Direction
+		//const float buffer{ 2.5f };
+		//const bool insideX{ desiredCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= desiredCell.centerPosition.x + buffer };
+		//const bool insideY{ desiredCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= desiredCell.centerPosition.y + buffer };
+
+		//glm::vec2 desiredDirection{ m_MovementDirection };
+		//if (insideX == false)
+		//{
+		//	desiredDirection.x = (desiredCell.centerPosition.x - currentCell.centerPosition.x) / currentCell.size.x;
+		//	desiredDirection.y = 0;
+
+		//	// Calculate movement
+		//	actorPos.x += (m_MovementSpeed * desiredDirection.x) * deltaTime;
+		//	actorPos.y += (m_MovementSpeed * desiredDirection.y) * deltaTime;
+
+		//	// Set pos
+		//	pActor->SetWorldPosition(actorPos);
+
+		//	return;
+		//}
+		//if (insideY == false)
+		//{
+		//	desiredDirection.x = 0;
+		//	desiredDirection.y = (desiredCell.centerPosition.y - currentCell.centerPosition.y) / currentCell.size.y;
+
+		//	// Calculate movement
+		//	actorPos.x += (m_MovementSpeed * desiredDirection.x) * deltaTime;
+		//	actorPos.y += (m_MovementSpeed * desiredDirection.y) * deltaTime;
+
+		//	// Set pos
+		//	pActor->SetWorldPosition(actorPos);
+
+		//	return;
+		//}
 	}
 	else
 	{
