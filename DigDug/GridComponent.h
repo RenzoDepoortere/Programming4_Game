@@ -17,6 +17,8 @@ namespace grid
 		glm::vec2 worldPosition{ 0, 0 };
 		glm::vec2 size{ 0, 0 };
 
+		glm::vec2 rowCol{ 0,0 };
+
 		bool containsRock{ false };
 		int depthLevel{ 0 };
 
@@ -25,6 +27,7 @@ namespace grid
 		{
 			if (worldPosition == rhs.worldPosition &&
 				size == rhs.size				   &&
+				rowCol == rhs.rowCol			   &&
 				containsRock == rhs.containsRock   &&
 				depthLevel == rhs.depthLevel)
 			{

@@ -34,15 +34,21 @@ void dae::MoveCommand::Execute(float deltaTime)
 		// If desired cell equals the default, then is an invalid cell and return
 		if (desiredCell == grid::Cell{}) return;
 
+		// Check which axis is more dominant
+		const bool yMoreDominant{ m_MovementDirection.x < m_MovementDirection.y };
+
 		const float buffer{ 2.5f };
+		const bool sameXAxis = desiredCell.worldPosition.x - buffer <= currentCell.worldPosition.x && desiredCell.worldPosition.x <= desiredCell.worldPosition.x + buffer;
+		const bool sameYAxis = desiredCell.worldPosition.y - buffer <= currentCell.worldPosition.y && desiredCell.worldPosition.y <= desiredCell.worldPosition.y + buffer;
+
 		// If on same x-axis
-		if (desiredCell.worldPosition.x - buffer <= currentCell.worldPosition.x && desiredCell.worldPosition.x <= desiredCell.worldPosition.x + buffer)
+		if (sameXAxis && yMoreDominant == false)
 		{
 			// Disable y-movement
 			actorPos.y = startActorPos.y;
 		}
 		// Else, if on same y-axis
-		else if (desiredCell.worldPosition.y - buffer <= currentCell.worldPosition.y && desiredCell.worldPosition.y <= desiredCell.worldPosition.y + buffer)
+		else if (sameYAxis && yMoreDominant)
 		{
 			// Disable x-movement
 			actorPos.x = startActorPos.x;
@@ -50,8 +56,7 @@ void dae::MoveCommand::Execute(float deltaTime)
 		// Else
 		else
 		{
-			// Check which axis is more dominant
-			//const bool yMoreDominant{ m_MovementDirection.x < m_MovementDirection.y };
+
 		}
 	
 	}
