@@ -15,6 +15,7 @@ namespace grid
 	{
 		// Variables
 		glm::vec2 worldPosition{ 0, 0 };
+		glm::vec2 centerPosition{ 0,0 };
 		glm::vec2 size{ 0, 0 };
 
 		glm::vec2 rowCol{ 0,0 };
@@ -25,10 +26,11 @@ namespace grid
 		// Functions
 		bool operator== (const Cell& rhs)
 		{
-			if (worldPosition == rhs.worldPosition &&
-				size == rhs.size				   &&
-				rowCol == rhs.rowCol			   &&
-				containsRock == rhs.containsRock   &&
+			if (worldPosition == rhs.worldPosition	 &&
+				centerPosition == rhs.centerPosition &&
+				size == rhs.size					 &&
+				rowCol == rhs.rowCol				 &&
+				containsRock == rhs.containsRock	 &&
 				depthLevel == rhs.depthLevel)
 			{
 				return true;

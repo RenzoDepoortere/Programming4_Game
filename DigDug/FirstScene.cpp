@@ -47,7 +47,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	// ------------
 	float movementSpeed{ 100.f };
 	glm::vec2 movementDirection{};
-	const auto keyState{ dae::InputMapper::KeyState::Hold };
+	const auto keyState{ dae::InputMapper::KeyState::Press };
 
 	// LEFT
 	auto controllerInput{ std::make_pair(0, dae::InputManager::ControllerButton::None) };

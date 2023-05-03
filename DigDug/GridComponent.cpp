@@ -24,6 +24,7 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 		{
 			gridCell.size = glm::vec2{ m_CellWidth, m_CellHeight };
 			gridCell.worldPosition = glm::vec2{ colIdx * m_CellWidth, rowIdx * m_CellHeight };
+			gridCell.centerPosition = gridCell.worldPosition + gridCell.size / 2.f;
 			gridCell.rowCol = glm::vec2{ rowIdx, colIdx };
 
 			if (rowIdx == 0)		gridCell.depthLevel = 0;

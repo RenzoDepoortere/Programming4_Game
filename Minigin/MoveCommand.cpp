@@ -1,7 +1,9 @@
 #include "MoveCommand.h"
 #include "GameObject.h"
 #include "../DigDug/GridComponent.h"
+
 #include <iostream>
+#include <math.h>
 
 // Move
 // ****
@@ -20,47 +22,32 @@ void dae::MoveCommand::Execute(float deltaTime)
 	const glm::vec3 startActorPos{ pActor->GetWorldPosition() };
 	glm::vec3 actorPos{ startActorPos };
 
-	// Calculate movement
-	actorPos.x += (m_MovementSpeed * m_MovementDirection.x) * deltaTime;
-	actorPos.y += (m_MovementSpeed * m_MovementDirection.y) * deltaTime;
-
 	// If is on grid
 	if (m_pGrid)
 	{
 		// Get cells
 		const grid::Cell currentCell{ m_pGrid->GetCell(startActorPos) };
-		const grid::Cell desiredCell{ m_pGrid->GetCell(actorPos) };
 
-		// If desired cell equals the default, then is an invalid cell and return
+		glm::vec3 desiredCellPos{};
+		desiredCellPos.x = startActorPos.x + m_MovementDirection.x * currentCell.size.x;
+		desiredCellPos.y = startActorPos.y + m_MovementDirection.y * currentCell.size.y;
+
+		const grid::Cell desiredCell{ m_pGrid->GetCell(desiredCellPos) };
+
+		// If desired cell is invalid, return
 		if (desiredCell == grid::Cell{}) return;
 
-		// Check which axis is more dominant
-		const bool yMoreDominant{ m_MovementDirection.x < m_MovementDirection.y };
-
-		const float buffer{ 2.5f };
-		const bool sameXAxis = desiredCell.worldPosition.x - buffer <= currentCell.worldPosition.x && desiredCell.worldPosition.x <= desiredCell.worldPosition.x + buffer;
-		const bool sameYAxis = desiredCell.worldPosition.y - buffer <= currentCell.worldPosition.y && desiredCell.worldPosition.y <= desiredCell.worldPosition.y + buffer;
-
-		// If on same x-axis
-		if (sameXAxis && yMoreDominant == false)
-		{
-			// Disable y-movement
-			actorPos.y = startActorPos.y;
-		}
-		// Else, if on same y-axis
-		else if (sameYAxis && yMoreDominant)
-		{
-			// Disable x-movement
-			actorPos.x = startActorPos.x;
-		}
-		// Else
-		else
-		{
-
-		}
-	
+		// Set pos
+		actorPos = glm::vec3{ desiredCell.centerPosition, 0.f };
+		pActor->SetWorldPosition(actorPos);
 	}
+	else
+	{
+		// Calculate movement
+		actorPos.x += (m_MovementSpeed * m_MovementDirection.x) * deltaTime;
+		actorPos.y += (m_MovementSpeed * m_MovementDirection.y) * deltaTime;
 
-	// Set pos
-	pActor->SetWorldPosition(actorPos);
+		// Set pos
+		pActor->SetWorldPosition(actorPos);
+	}
 }
