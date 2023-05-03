@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
 #include <vector>
 
 namespace dae
@@ -12,11 +13,28 @@ namespace grid
 {
 	struct Cell
 	{
+		// Variables
 		glm::vec2 worldPosition{ 0, 0 };
 		glm::vec2 size{ 0, 0 };
 
 		bool containsRock{ false };
 		int depthLevel{ 0 };
+
+		// Functions
+		bool operator== (const Cell& rhs)
+		{
+			if (worldPosition == rhs.worldPosition &&
+				size == rhs.size				   &&
+				containsRock == rhs.containsRock   &&
+				depthLevel == rhs.depthLevel)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	};
 
 	class GridComponent final : public Component
@@ -33,7 +51,9 @@ namespace grid
 
 		// Functionality
 		Cell GetCell(int index) const;
-		Cell GetCell(const glm::vec2& worldPos) const;
+		Cell GetCell(const glm::vec3& worldPos) const;
+
+		void Render() const override;
 
 		// Todo: Change grid accordingly
 		void SetNrRows(int nrRows) { m_NrRows = nrRows; }

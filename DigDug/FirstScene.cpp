@@ -9,6 +9,7 @@
 #include "InputMapper.h"
 
 #include "RenderTextureComponent.h"
+#include "GridComponent.h"
 
 #include "MoveCommand.h"
 
@@ -16,7 +17,17 @@
 
 void FirstScene::CreateGameObjects(dae::Scene& scene)
 {
+	Grid(scene);
 	MainCharacter(scene);
+}
+
+void FirstScene::Grid(dae::Scene& scene)
+{
+	std::shared_ptr<dae::GameObject> pGrid{ std::make_shared<dae::GameObject>() };
+	auto gridComponent{ pGrid->AddComponent<grid::GridComponent>() };
+
+	scene.Add(pGrid);
+	m_pGrid = gridComponent;
 }
 
 void FirstScene::MainCharacter(dae::Scene& scene)
@@ -27,7 +38,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	// Add texture
 	// -----------
-	std::string textureString{ "MainCharacter_Sized.png" };
+	std::string textureString{ "MainCharacter_Sized_Smaller.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
 	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
 	pObjectTexture->SetTexture(pTexture);
@@ -44,7 +55,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	movementDirection = glm::vec2{ -1, 0 };
 
-	std::unique_ptr<dae::MoveCommand> pMoveCommand{ std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed) };
+	std::unique_ptr<dae::MoveCommand> pMoveCommand{ std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid) };
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
 
 
@@ -54,7 +65,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	movementDirection = glm::vec2{ 1, 0 };
 
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed);
+	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
 
 
@@ -64,7 +75,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	movementDirection = glm::vec2{ 0, 1 };
 
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed);
+	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
 
 
@@ -74,7 +85,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	movementDirection = glm::vec2{ 0, -1 };
 
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed);
+	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
 
 	// Add to scene

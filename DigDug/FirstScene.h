@@ -7,6 +7,11 @@ namespace dae
 	class Scene;
 }
 
+namespace grid
+{
+	class GridComponent;
+}
+
 class FirstScene final : public dae::Singleton<FirstScene>
 {
 public:
@@ -27,10 +32,12 @@ private:
 
 	// Member Variables
 	// ----------------
+	grid::GridComponent* m_pGrid{ nullptr };
 	unsigned long m_ControllerIdx{};
 
 	// Member Functions
 	// ----------------
+	void Grid(dae::Scene& scene);
 	void MainCharacter(dae::Scene& scene);
 };
 

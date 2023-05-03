@@ -1,5 +1,8 @@
 #include "GridComponent.h"
+
 #include <iostream>
+#include <SDL.h>
+
 using namespace grid;
 
 GridComponent::GridComponent(dae::GameObject* pParentObject)
@@ -39,18 +42,18 @@ Cell GridComponent::GetCell(int index) const
 	}
 	else
 	{
-		std::cout << "Error: Tried to get cell with invalid index" << std::endl;
+		//std::cout << "Error: Tried to get cell with invalid index" << std::endl;
 		return {};
 	}
 }
-Cell GridComponent::GetCell(const glm::vec2& worldPos) const
+Cell GridComponent::GetCell(const glm::vec3& worldPos) const
 {
 	const int gridWidth{ m_NrCols * m_CellWidth };
 	const int gridHeight{ m_NrRows * m_CellHeight };
 
 	if (gridWidth < worldPos.x || gridHeight < worldPos.y)
 	{
-		std::cout << "Error: Tried to get cell with invalid worldPos" << std::endl;
+		//std::cout << "Error: Tried to get cell with invalid worldPos" << std::endl;
 		return {};
 	}
 	else
@@ -61,4 +64,10 @@ Cell GridComponent::GetCell(const glm::vec2& worldPos) const
 		const int cellIdx{ rowIdx * m_NrCols + colIdx };
 		return GetCell(cellIdx);
 	}
+}
+
+void GridComponent::Render() const
+{
+
+	
 }

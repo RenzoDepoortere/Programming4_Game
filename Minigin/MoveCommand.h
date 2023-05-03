@@ -2,13 +2,18 @@
 #include "GameObjectCommand.h"
 #include <glm/vec2.hpp>
 
+namespace grid
+{
+	class GridComponent;
+}
+
 namespace dae
 {
 	class MoveCommand final : public GameObjectCommand
 	{
 	public:
 		// Rule of five
-		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed);
+		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid = nullptr);
 		virtual ~MoveCommand() = default;
 
 		MoveCommand(const MoveCommand& other) = delete;
@@ -27,5 +32,7 @@ namespace dae
 		// ----------------
 		const glm::vec2 m_MovementDirection{};
 		float m_MovementSpeed{};
+
+		grid::GridComponent* m_pGrid{ nullptr };
 	};
 }
