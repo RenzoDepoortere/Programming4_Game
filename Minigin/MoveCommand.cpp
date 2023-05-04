@@ -46,33 +46,86 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	desiredDirection = {};
 
 	// Get cells
+	// ---------
 	const grid::Cell currentCell{ m_pGrid->GetCell(startActorPos) };
 
 	glm::vec3 desiredCellPos{};
-	desiredCellPos.x = startActorPos.x + m_MovementDirection.x * currentCell.size.x;
-	desiredCellPos.y = startActorPos.y + m_MovementDirection.y * currentCell.size.y;
+	desiredCellPos.x = currentCell.centerPosition.x + m_MovementDirection.x * currentCell.size.x;
+	desiredCellPos.y = currentCell.centerPosition.y + m_MovementDirection.y * currentCell.size.y;
 	const grid::Cell desiredCell{ m_pGrid->GetCell(desiredCellPos) };
 
-	// If desired cell is invalid, return
-	if (desiredCell == grid::Cell{}) return;
+	bool insideX{};
+	bool insideY{};
+	const float buffer{ 2.5f };
+
+	// If desiredCell is invalid
+	if (desiredCell == grid::Cell{})
+	{
+		// If current cell is border cell
+		// ------------------------------
+		const bool isLeftBorderX{ currentCell.rowCol.y == 0 };
+		const bool isRightBorderX{ currentCell.rowCol.y == m_pGrid->GetNrCols() - 1 };
+		const bool isTopBorderY{ currentCell.rowCol.x == 0 };
+		const bool isBotBorderY{ currentCell.rowCol.x == m_pGrid->GetNrRows() - 1 };
+
+		if (isLeftBorderX || isRightBorderX || isTopBorderY || isBotBorderY)
+		{
+			// Check if in center
+			insideX = currentCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= currentCell.centerPosition.x + buffer;
+			insideY = currentCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= currentCell.centerPosition.y + buffer;
+
+			// If inside x-range
+			if (insideX)
+			{
+				// On left border and trying to go left
+				if (isLeftBorderX && desiredDirection.x < 0)
+				{
+					desiredDirection.x = 0;
+				}
+				// On right border and trying to go right
+				if (isRightBorderX && 0 < desiredDirection.x)
+				{
+					desiredDirection.x = 0;
+				}
+			}
+
+			// If inside y-range
+			if (insideY)
+			{
+				// On top border and trying to go top
+				if (isTopBorderY && desiredDirection.y < 0)
+				{
+					desiredDirection.y = 0;
+				}
+				// On bot border and trying to go bot
+				if (isBotBorderY && 0 < desiredDirection.y)
+				{
+					desiredDirection.y = 0;
+				}
+			}
+		}
+
+		return;
+	}
 
 	// Check if is free to move
-	const float buffer{ 2.5f };
-	const bool insideX{ desiredCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= desiredCell.centerPosition.x + buffer };
-	const bool insideY{ desiredCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= desiredCell.centerPosition.y + buffer };
+	// ------------------------
+	const bool moveXDirection{ abs(m_MovementDirection.x) > abs(m_MovementDirection.y) };
+
+	insideX = desiredCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= desiredCell.centerPosition.x + buffer;
+	insideY = desiredCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= desiredCell.centerPosition.y + buffer;
 
 	// If moving in x-direction
-	const bool moveXDirection{ abs(m_MovementDirection.x) > abs(m_MovementDirection.y) };
 	if (moveXDirection)
 	{
 		// And not in the same y-range
 		if (insideY == false)
 		{
 			// Adjust direction
-			if (currentCell.rowCol.y < desiredCell.rowCol.y) desiredDirection.y = 1;
-			else											 desiredDirection.y = -1;
+			if (startActorPos.y < desiredCell.centerPosition.y) desiredDirection.y = 1;
+			else												desiredDirection.y = -1;
 		}
-		else 												 desiredDirection = m_MovementDirection;
+		else 													desiredDirection = m_MovementDirection;
 	}
 	// Else if moving in y-direction
 	else
@@ -81,9 +134,9 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 		if (insideX == false)
 		{
 			// Adjust
-			if (currentCell.rowCol.x < desiredCell.rowCol.x) desiredDirection.x = 1;
-			else											 desiredDirection.x = -1;
+			if (startActorPos.x < desiredCell.centerPosition.x) desiredDirection.x = 1;
+			else												desiredDirection.x = -1;
 		}
-		else												 desiredDirection = m_MovementDirection;
+		else													desiredDirection = m_MovementDirection;
 	}
 }

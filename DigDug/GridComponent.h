@@ -67,6 +67,11 @@ namespace grid
 		void SetCellWidth(int width) { m_CellWidth = width; }
 		void SetCellHeight(int height) { m_CellHeight = height; }
 
+		int GetNrRows() const { return m_NrRows; }
+		int GetNrCols() const { return m_NrCols; }
+		int GetCellWidth() const { return m_CellWidth; }
+		int GetCellHeight() const { return m_CellHeight; }
+
 	private:
 		// Member variables
 		// ---------------
