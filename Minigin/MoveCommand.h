@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObjectCommand.h"
 #include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 namespace grid
 {
@@ -21,7 +22,7 @@ namespace dae
 		MoveCommand& operator=(const MoveCommand& other) = delete;
 		MoveCommand& operator=(MoveCommand&& other) = delete;
 
-		// Public functions
+		// Functionality
 		virtual void Execute(float deltaTime) override;
 
 		void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
@@ -34,5 +35,9 @@ namespace dae
 		float m_MovementSpeed{};
 
 		grid::GridComponent* m_pGrid{ nullptr };
+
+		// Member functions
+		// ----------------
+		void GridMovement(glm::vec2& desiredDirection, const glm::vec3& startActorPos);
 	};
 }

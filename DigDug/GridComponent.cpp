@@ -51,18 +51,22 @@ Cell GridComponent::GetCell(int index) const
 }
 Cell GridComponent::GetCell(const glm::vec3& worldPos) const
 {
+	return GetCell(worldPos.x, worldPos.y, worldPos.z);
+}
+Cell GridComponent::GetCell(float x, float y, float) const
+{
 	const int gridWidth{ m_NrCols * m_CellWidth };
 	const int gridHeight{ m_NrRows * m_CellHeight };
 
-	if (gridWidth < worldPos.x || gridHeight < worldPos.y)
+	if (gridWidth < x || gridHeight < y)
 	{
 		//std::cout << "Error: Tried to get cell with invalid worldPos" << std::endl;
 		return {};
 	}
 	else
 	{
-		const int colIdx{ static_cast<int>(worldPos.x / m_CellWidth) };
-		const int rowIdx{ static_cast<int>(worldPos.y / m_CellHeight) };
+		const int colIdx{ static_cast<int>(x / m_CellWidth) };
+		const int rowIdx{ static_cast<int>(y / m_CellHeight) };
 
 		const int cellIdx{ rowIdx * m_NrCols + colIdx };
 		return GetCell(cellIdx);

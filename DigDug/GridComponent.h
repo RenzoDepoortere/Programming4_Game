@@ -57,6 +57,7 @@ namespace grid
 		// Functionality
 		Cell GetCell(int index) const;
 		Cell GetCell(const glm::vec3& worldPos) const;
+		Cell GetCell(float x, float y, float z) const;
 
 		void Render() const override;
 
