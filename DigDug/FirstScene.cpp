@@ -38,7 +38,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	// Add texture
 	// -----------
-	std::string textureString{ "MainCharacter_Sized_Smaller.png" };
+	std::string textureString{ "Sprites/MC.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
 	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
 	pObjectTexture->CenterTexture(true);

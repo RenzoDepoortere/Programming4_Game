@@ -23,6 +23,8 @@ namespace grid
 		bool containsRock{ false };
 		int depthLevel{ 0 };
 
+		unsigned int textureID{ 0 };
+
 		// Functions
 		bool operator== (const Cell& rhs)
 		{
@@ -31,7 +33,8 @@ namespace grid
 				size == rhs.size					 &&
 				rowCol == rhs.rowCol				 &&
 				containsRock == rhs.containsRock	 &&
-				depthLevel == rhs.depthLevel)
+				depthLevel == rhs.depthLevel		 &&
+				textureID == rhs.textureID)
 			{
 				return true;
 			}
@@ -85,5 +88,11 @@ namespace grid
 
 		int m_CellWidth{};
 		int m_CellHeight{};
+
+		// Member functions
+		// ----------------
+		void InitGridCells();
+		void InitGridTextures();
+		void RenderDebugGrid() const;
 	};
 }
