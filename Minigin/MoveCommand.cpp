@@ -58,54 +58,49 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	bool insideY{};
 	const float buffer{ 2.5f };
 
-	// If desiredCell is invalid
-	if (desiredCell == grid::Cell{})
+	// If current cell is border cell
+	// ------------------------------
+	const bool isLeftBorderX{ currentCell.rowCol.y == 0 };
+	const bool isRightBorderX{ currentCell.rowCol.y == m_pGrid->GetNrCols() - 1 };
+	const bool isTopBorderY{ currentCell.rowCol.x == 0 };
+	const bool isBotBorderY{ currentCell.rowCol.x == m_pGrid->GetNrRows() - 1 };
+
+	if (isLeftBorderX)
 	{
-		// If current cell is border cell
-		// ------------------------------
-		const bool isLeftBorderX{ currentCell.rowCol.y == 0 };
-		const bool isRightBorderX{ currentCell.rowCol.y == m_pGrid->GetNrCols() - 1 };
-		const bool isTopBorderY{ currentCell.rowCol.x == 0 };
-		const bool isBotBorderY{ currentCell.rowCol.x == m_pGrid->GetNrRows() - 1 };
-
-		if (isLeftBorderX || isRightBorderX || isTopBorderY || isBotBorderY)
+		// If currentPos is too close to left
+		if (startActorPos.x < currentCell.centerPosition.x)
 		{
-			// Check if in center
-			insideX = currentCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= currentCell.centerPosition.x + buffer;
-			insideY = currentCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= currentCell.centerPosition.y + buffer;
-
-			// If inside x-range
-			if (insideX)
-			{
-				// On left border and trying to go left
-				if (isLeftBorderX && desiredDirection.x < 0)
-				{
-					desiredDirection.x = 0;
-				}
-				// On right border and trying to go right
-				if (isRightBorderX && 0 < desiredDirection.x)
-				{
-					desiredDirection.x = 0;
-				}
-			}
-
-			// If inside y-range
-			if (insideY)
-			{
-				// On top border and trying to go top
-				if (isTopBorderY && desiredDirection.y < 0)
-				{
-					desiredDirection.y = 0;
-				}
-				// On bot border and trying to go bot
-				if (isBotBorderY && 0 < desiredDirection.y)
-				{
-					desiredDirection.y = 0;
-				}
-			}
+			// And wants to go left, return
+			if (m_MovementDirection.x < 0) return;
 		}
+	}
+	if (isRightBorderX)
+	{
+		// If currentPos is too close to right
+		if (currentCell.centerPosition.x < startActorPos.x)
+		{
+			// And wants to go right, return
+			if (0 < m_MovementDirection.x) return;
+		}
+	}
 
-		return;
+	if (isTopBorderY)
+	{
+		// If currentPos is too close to top
+		if (startActorPos.y < currentCell.centerPosition.y)
+		{
+			// And wants to go top, return
+			if (m_MovementDirection.y < 0) return;
+		}
+	}
+	if (isBotBorderY)
+	{
+		// If currentPos is too close to bot
+		if (currentCell.centerPosition.y < startActorPos.y)
+		{
+			// And wants to go bot, return
+			if (0 < m_MovementDirection.y) return;
+		}
 	}
 
 	// Check if is free to move
@@ -115,11 +110,13 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	insideX = desiredCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= desiredCell.centerPosition.x + buffer;
 	insideY = desiredCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= desiredCell.centerPosition.y + buffer;
 
+	const bool desiredCellInvalid{ desiredCell == grid::Cell{} };
+
 	// If moving in x-direction
 	if (moveXDirection)
 	{
-		// And not in the same y-range
-		if (insideY == false)
+		// Not in the same y-range and desiredCell is not invalid
+		if (insideY == false && desiredCellInvalid == false)
 		{
 			// Adjust direction
 			if (startActorPos.y < desiredCell.centerPosition.y) desiredDirection.y = 1;
@@ -130,8 +127,8 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	// Else if moving in y-direction
 	else
 	{
-		// And not in the same x-range
-		if (insideX == false)
+		// Not in the same x-range and desiredCell is not invalid
+		if (insideX == false && desiredCellInvalid == false)
 		{
 			// Adjust
 			if (startActorPos.x < desiredCell.centerPosition.x) desiredDirection.x = 1;
