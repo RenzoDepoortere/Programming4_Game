@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "RenderTextureComponent.h"
+#include "rapidjson.h"
 
 #include <iostream>
 #include <SDL.h>
