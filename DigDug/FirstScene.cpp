@@ -36,7 +36,6 @@ void FirstScene::Map(dae::Scene& scene)
 	std::string textureString{ "Tiles/TileSet_Sheet.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
 	dae::RenderTextureComponent* pObjectTexture{ pGrid->AddComponent<dae::RenderTextureComponent>() };
-	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(pTexture);
 	pObjectTexture->SetManualRender(true);
 

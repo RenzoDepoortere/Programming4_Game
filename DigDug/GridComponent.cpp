@@ -2,6 +2,11 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "RenderTextureComponent.h"
+#include "ResourceManager.h"
+
+#include "rapidjson.h"
+#include "istreamwrapper.h"
+#include "document.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -65,14 +70,11 @@ Cell GridComponent::GetCell(float x, float y, float) const
 void GridComponent::Render() const
 {
 	RenderGrid();
-	RenderDebugGrid();
+	//RenderDebugGrid();
 }
 
-void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
+void GridComponent::SetLevelFile(const std::string& levelFile)
 {
-<<<<<<< Updated upstream
-
-=======
 	// Get file and open
 	// -----------------
 	auto jsonFile{ dae::ResourceManager::GetInstance().LoadFile(levelFile) };
@@ -83,6 +85,8 @@ void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
 
 	// Wraps around ifstream, used for the Parsing
 	rapidjson::IStreamWrapper streamWrapper{ *jsonFile };
+
+	// Parse File
 	rapidjson::Document jsonDoc{};
 	jsonDoc.ParseStream(streamWrapper);
 
@@ -121,7 +125,6 @@ void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
 	// Close File
 	// ----------
 	jsonFile->close();
->>>>>>> Stashed changes
 }
 void GridComponent::SetRockTexture(const std::string& rockTexture)
 {
@@ -141,6 +144,8 @@ void GridComponent::InitGridCells()
 	{
 		for (int colIdx{}; colIdx < m_NrCols; ++colIdx)
 		{
+			const int gridIdx{ rowIdx * m_NrCols + colIdx };
+
 			gridCell.size = glm::vec2{ m_CellWidth, m_CellHeight };
 			gridCell.worldPosition = glm::vec2{ colIdx * m_CellWidth, rowIdx * m_CellHeight };
 			gridCell.centerPosition = gridCell.worldPosition + gridCell.size / 2.f;
@@ -151,7 +156,6 @@ void GridComponent::InitGridCells()
 			else if (rowIdx < 8)	gridCell.depthLevel = 2;
 			else					gridCell.depthLevel = 3;
 
-			const int gridIdx{ rowIdx * m_NrCols + colIdx };
 			m_Cells[gridIdx] = gridCell;
 		}
 	}
@@ -181,7 +185,21 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 
 void GridComponent::RenderGrid() const
 {
+	if (m_pRenderer == nullptr) return;
 
+	// Draw corresponding texture of each cell
+	float srcLeft{};
+	float srcTop{};
+	const float srcWidth{ static_cast<float>(m_CellWidth) }, srcHeight{ static_cast<float>(m_CellHeight) };
+	for (const auto& currentCell : m_Cells)
+	{
+		// If textureID is valid
+		if (currentCell.textureID != 0)
+		{
+			srcLeft = (currentCell.textureID - 1) * srcWidth;
+			m_pRenderer->RenderManually(currentCell.worldPosition.x, currentCell.worldPosition.y, srcLeft, srcTop, srcWidth, srcHeight);
+		}
+	}
 }
 void GridComponent::RenderDebugGrid() const
 {
