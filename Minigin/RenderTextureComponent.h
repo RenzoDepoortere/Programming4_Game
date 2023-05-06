@@ -11,8 +11,8 @@ namespace dae
 	{
 	public:
 		virtual void Render() const override;
-		// Use this function instead when you want to be able to control how much of the image you show
-		void RenderManually(float srcLeft, float srcTop, float srcWidth, float srcHeight) const;
+		// Use this function when you want to have more control of the image
+		void RenderManually(float posX, float posY, float srcLeft, float srcTop, float srcWidth, float srcHeight) const;
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }

@@ -70,7 +70,7 @@ Cell GridComponent::GetCell(float x, float y, float) const
 void GridComponent::Render() const
 {
 	RenderGrid();
-	RenderDebugGrid();
+	//RenderDebugGrid();
 }
 
 void GridComponent::SetLevelFile(const std::string& levelFile)
@@ -139,7 +139,21 @@ void GridComponent::InitGridCells()
 
 void GridComponent::RenderGrid() const
 {
+	if (m_pRenderer == nullptr) return;
 
+	// Draw corresponding texture of each cell
+	float srcLeft{};
+	float srcTop{};
+	const float srcWidth{ static_cast<float>(m_CellWidth) }, srcHeight{ static_cast<float>(m_CellHeight) };
+	for (const auto& currentCell : m_Cells)
+	{
+		// If textureID is valid
+		if (currentCell.textureID != 0)
+		{
+			srcLeft = (currentCell.textureID - 1) * srcWidth;
+			m_pRenderer->RenderManually(currentCell.worldPosition.x, currentCell.worldPosition.y, srcLeft, srcTop, srcWidth, srcHeight);
+		}
+	}
 }
 void GridComponent::RenderDebugGrid() const
 {
