@@ -40,6 +40,7 @@ void dae::MoveCommand::Execute(float deltaTime)
 	pActor->SetWorldPosition(actorPos);
 }
 
+// Todo: clean up function, is too big
 void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3& startActorPos)
 {
 	// Reset direction

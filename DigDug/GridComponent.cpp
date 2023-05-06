@@ -1,5 +1,7 @@
 #include "GridComponent.h"
 #include "Renderer.h"
+#include "GameObject.h"
+#include "RenderTextureComponent.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -18,7 +20,10 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 
 	// Init grid
 	InitGridCells();
-	InitGridTextures();
+
+	// Get components
+	m_pRenderer = pParentObject->GetComponent<dae::RenderTextureComponent>();
+	if (m_pRenderer == nullptr) std::cout << "Warning: the grid component needs a renderTextureComponent!" << std::endl;
 }
 
 Cell GridComponent::GetCell(int index) const
@@ -59,7 +64,13 @@ Cell GridComponent::GetCell(float x, float y, float) const
 
 void GridComponent::Render() const
 {
+	RenderGrid();
 	RenderDebugGrid();
+}
+
+void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
+{
+
 }
 
 
@@ -68,6 +79,9 @@ void GridComponent::Render() const
 
 void GridComponent::InitGridCells()
 {
+	m_Cells.clear();
+	m_Cells.resize(m_NrRows * m_NrCols);
+
 	Cell gridCell{};
 	for (int rowIdx{}; rowIdx < m_NrRows; ++rowIdx)
 	{
@@ -83,15 +97,16 @@ void GridComponent::InitGridCells()
 			else if (rowIdx < 8)	gridCell.depthLevel = 2;
 			else					gridCell.depthLevel = 3;
 
-			m_Cells.push_back(gridCell);
+			const int gridIdx{ rowIdx * m_NrCols + colIdx };
+			m_Cells[gridIdx] = gridCell;
 		}
 	}
 }
-void GridComponent::InitGridTextures()
+
+void GridComponent::RenderGrid() const
 {
 
 }
-
 void GridComponent::RenderDebugGrid() const
 {
 	// Init rect

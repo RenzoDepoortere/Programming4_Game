@@ -2,11 +2,14 @@
 #include "Component.h"
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
+
 #include <vector>
+#include <string>
 
 namespace dae
 {
 	class GameObject;
+	class RenderTextureComponent;
 }
 
 namespace grid
@@ -64,11 +67,7 @@ namespace grid
 
 		void Render() const override;
 
-		// Todo: Change grid accordingly
-		void SetNrRows(int nrRows) { m_NrRows = nrRows; }
-		void SetNrCols(int nrCols) { m_NrCols = nrCols; }
-		void SetCellWidth(int width) { m_CellWidth = width; }
-		void SetCellHeight(int height) { m_CellHeight = height; }
+		void SetLevelFile(const std::string& levelFile);
 
 		int GetNrRows() const { return m_NrRows; }
 		int GetNrCols() const { return m_NrCols; }
@@ -89,10 +88,14 @@ namespace grid
 		int m_CellWidth{};
 		int m_CellHeight{};
 
+		// Renderer
+		dae::RenderTextureComponent* m_pRenderer{ nullptr };
+
 		// Member functions
 		// ----------------
 		void InitGridCells();
-		void InitGridTextures();
+
+		void RenderGrid() const;
 		void RenderDebugGrid() const;
 	};
 }

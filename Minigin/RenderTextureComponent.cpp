@@ -11,6 +11,7 @@ dae::RenderTextureComponent::RenderTextureComponent(dae::GameObject* pParentObje
 void dae::RenderTextureComponent::Render() const
 {
 	if (m_pTexture2D == nullptr) return;
+	if (m_ManualRender) return;
 
 	glm::vec3 pos = GetGameObject()->GetWorldPosition();
 	if (m_CenterTexture)
@@ -20,6 +21,20 @@ void dae::RenderTextureComponent::Render() const
 	}
 
 	Renderer::GetInstance().RenderTexture(*m_pTexture2D, pos.x, pos.y);
+}
+void dae::RenderTextureComponent::RenderManually(float srcLeft, float srcTop, float srcWidth, float srcHeight) const
+{
+	if (m_pTexture2D == nullptr) return;
+	if (m_ManualRender == false) return;
+
+	glm::vec3 pos = GetGameObject()->GetWorldPosition();
+	if (m_CenterTexture)
+	{
+		pos.x -= m_TextureSize.x / 2.f;
+		pos.y -= m_TextureSize.y / 2.f;
+	}
+
+	Renderer::GetInstance().RenderTexture(*m_pTexture2D, pos.x, pos.y, srcLeft, srcTop, srcWidth, srcHeight);
 }
 
 void dae::RenderTextureComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)

@@ -11,9 +11,13 @@ namespace dae
 	{
 	public:
 		virtual void Render() const override;
+		// Use this function instead when you want to be able to control how much of the image you show
+		void RenderManually(float srcLeft, float srcTop, float srcWidth, float srcHeight) const;
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
+
+		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }
 
 		explicit RenderTextureComponent(dae::GameObject* pParentObject);
 		virtual ~RenderTextureComponent() override = default;
@@ -27,5 +31,7 @@ namespace dae
 		std::shared_ptr<Texture2D> m_pTexture2D{ nullptr };
 		glm::ivec2 m_TextureSize{};
 		bool m_CenterTexture{ false };
+
+		bool m_ManualRender{ false };
 	};
 }

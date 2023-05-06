@@ -23,11 +23,28 @@ void FirstScene::CreateGameObjects(dae::Scene& scene)
 
 void FirstScene::Grid(dae::Scene& scene)
 {
+	// Create gameObject
 	std::shared_ptr<dae::GameObject> pGrid{ std::make_shared<dae::GameObject>() };
-	auto gridComponent{ pGrid->AddComponent<grid::GridComponent>() };
+	
+	// Add components
+	// --------------
 
+	// Textures
+	std::string textureString{ "Tiles/TileSet_Sheet.png" };
+	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
+	dae::RenderTextureComponent* pObjectTexture{ pGrid->AddComponent<dae::RenderTextureComponent>() };
+	pObjectTexture->CenterTexture(true);
+	pObjectTexture->SetTexture(pTexture);
+	pObjectTexture->SetManualRender(true);
+
+	// Grid
+	auto pGridComponent{ pGrid->AddComponent<grid::GridComponent>() };
+	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
+
+	// Add to scene
+	// ------------
 	scene.Add(pGrid);
-	m_pGrid = gridComponent;
+	m_pGrid = pGridComponent;
 }
 
 void FirstScene::MainCharacter(dae::Scene& scene)
