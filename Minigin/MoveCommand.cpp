@@ -41,6 +41,7 @@ void dae::MoveCommand::Execute(float deltaTime)
 }
 
 // Todo: clean up function, is too big
+// and is probably done in a "dumb" way
 void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3& startActorPos)
 {
 	// Reset direction
@@ -103,6 +104,22 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 			if (0 < m_MovementDirection.y) return;
 		}
 	}
+
+	// If desired cell contains rock
+	// -----------------------------
+	if (desiredCell.containsRock)
+	{
+		const bool leftOfCell{ currentCell.centerPosition.x < startActorPos.x && startActorPos.x < desiredCell.centerPosition.x };
+		const bool rightOfCell{ desiredCell.centerPosition.x < startActorPos.x && startActorPos.x < currentCell.centerPosition.x };
+		const bool topOfCell{ currentCell.centerPosition.y < startActorPos.y && startActorPos.y < desiredCell.centerPosition.y };
+		const bool botOfCell{ desiredCell.centerPosition.y < startActorPos.y && startActorPos.y < currentCell.centerPosition.y };
+
+		if (leftOfCell && 0 < m_MovementDirection.x) return;
+		if (rightOfCell && m_MovementDirection.x < 0) return;
+		if (topOfCell && 0 < m_MovementDirection.y) return;
+		if (botOfCell && m_MovementDirection.y < 0) return;
+	}
+
 
 	// Check if is free to move
 	// ------------------------
