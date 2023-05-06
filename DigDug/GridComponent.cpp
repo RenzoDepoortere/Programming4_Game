@@ -2,7 +2,11 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "RenderTextureComponent.h"
+#include "ResourceManager.h"
+
 #include "rapidjson.h"
+#include "istreamwrapper.h"
+#include "document.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -69,9 +73,37 @@ void GridComponent::Render() const
 	RenderDebugGrid();
 }
 
-void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
+void GridComponent::SetLevelFile(const std::string& levelFile)
 {
+	// Get file and open
+	auto jsonFile{ dae::ResourceManager::GetInstance().LoadFile(levelFile) };
+	assert(jsonFile->is_open() && "Error: failed to open levelFile");
 
+	// Wraps around ifstream, used for the Parsing
+	rapidjson::IStreamWrapper streamWrapper{ *jsonFile };
+
+	// Parse File
+	rapidjson::Document jsonDoc{};
+	jsonDoc.ParseStream(streamWrapper);
+
+	// Access data
+	m_NrRows = jsonDoc["height"].GetInt();
+	m_NrCols = jsonDoc["width"].GetInt();
+
+	m_CellWidth = jsonDoc["tilewidth"].GetInt();
+	m_CellHeight = jsonDoc["tileheight"].GetInt();
+
+	auto textureIdArray{ jsonDoc["layers"].GetArray()[0]["data"].GetArray() };
+
+	// Init grid
+	InitGridCells();
+	for (size_t idx{}; idx < m_Cells.size(); ++idx)
+	{
+		m_Cells[idx].textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+	}
+
+	// Close File
+	jsonFile->close();
 }
 
 
@@ -88,6 +120,8 @@ void GridComponent::InitGridCells()
 	{
 		for (int colIdx{}; colIdx < m_NrCols; ++colIdx)
 		{
+			const int gridIdx{ rowIdx * m_NrCols + colIdx };
+
 			gridCell.size = glm::vec2{ m_CellWidth, m_CellHeight };
 			gridCell.worldPosition = glm::vec2{ colIdx * m_CellWidth, rowIdx * m_CellHeight };
 			gridCell.centerPosition = gridCell.worldPosition + gridCell.size / 2.f;
@@ -98,7 +132,6 @@ void GridComponent::InitGridCells()
 			else if (rowIdx < 8)	gridCell.depthLevel = 2;
 			else					gridCell.depthLevel = 3;
 
-			const int gridIdx{ rowIdx * m_NrCols + colIdx };
 			m_Cells[gridIdx] = gridCell;
 		}
 	}
