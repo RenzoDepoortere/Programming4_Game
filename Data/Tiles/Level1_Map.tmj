@@ -18,7 +18,31 @@
             24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24],
          "height":13,
          "id":1,
-         "name":"Tilelaag 1",
+         "name":"Ground",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":13,
+         "id":2,
+         "name":"Rocks",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -26,7 +50,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":2,
+ "nextlayerid":3,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"left-down",
@@ -35,7 +59,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"Level_1.tsx"
+         "source":"Ground_Tiles.tsx"
+        }, 
+        {
+         "firstgid":25,
+         "source":"Rock_Tiles.tsx"
         }],
  "tilewidth":40,
  "type":"map",

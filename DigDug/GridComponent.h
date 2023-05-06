@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
+#include "Texture2D.h"
 
 #include <vector>
 #include <string>
@@ -68,6 +69,7 @@ namespace grid
 		void Render() const override;
 
 		void SetLevelFile(const std::string& levelFile);
+		void SetRockTexture(const std::string& rockTexture);
 
 		int GetNrRows() const { return m_NrRows; }
 		int GetNrCols() const { return m_NrCols; }
@@ -91,9 +93,13 @@ namespace grid
 		// Renderer
 		dae::RenderTextureComponent* m_pRenderer{ nullptr };
 
+		// Rocks
+		std::shared_ptr<dae::Texture2D> m_pRockTexture{ nullptr };
+
 		// Member functions
 		// ----------------
 		void InitGridCells();
+		void CreateRock(const glm::vec3& rockPosition);
 
 		void RenderGrid() const;
 		void RenderDebugGrid() const;

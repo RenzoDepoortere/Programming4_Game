@@ -70,9 +70,63 @@ void GridComponent::Render() const
 
 void GridComponent::SetLevelFile(const std::string& /*levelFile*/)
 {
+<<<<<<< Updated upstream
 
+=======
+	// Get file and open
+	// -----------------
+	auto jsonFile{ dae::ResourceManager::GetInstance().LoadFile(levelFile) };
+	assert(jsonFile->is_open() && "Error: failed to open levelFile");
+
+	// Parse File
+	// ----------
+
+	// Wraps around ifstream, used for the Parsing
+	rapidjson::IStreamWrapper streamWrapper{ *jsonFile };
+	rapidjson::Document jsonDoc{};
+	jsonDoc.ParseStream(streamWrapper);
+
+	// Access data
+	// -----------
+	m_NrRows = jsonDoc["height"].GetInt();
+	m_NrCols = jsonDoc["width"].GetInt();
+
+	m_CellWidth = jsonDoc["tilewidth"].GetInt();
+	m_CellHeight = jsonDoc["tileheight"].GetInt();
+
+	auto textureIdArray{ jsonDoc["layers"].GetArray()[0]["data"].GetArray() };
+	auto rockArray{ jsonDoc["layers"].GetArray()[1]["data"].GetArray()};
+
+	// Init grid
+	// ---------
+	InitGridCells();
+
+	glm::vec3 rockPosition{};
+	for (size_t idx{}; idx < m_Cells.size(); ++idx)
+	{
+		// Texture
+		m_Cells[idx].textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		
+		// Rocks
+		if (rockArray[static_cast<rapidjson::SizeType>(idx)].GetInt() != 0)
+		{
+			m_Cells[idx].containsRock = true;
+
+			rockPosition.x = m_Cells[idx].centerPosition.x;
+			rockPosition.y = m_Cells[idx].centerPosition.y;
+			CreateRock(rockPosition);
+		}
+	}
+
+	// Close File
+	// ----------
+	jsonFile->close();
+>>>>>>> Stashed changes
 }
-
+void GridComponent::SetRockTexture(const std::string& rockTexture)
+{
+	m_pRockTexture = dae::ResourceManager::GetInstance().LoadTexture(rockTexture);
+}
 
 // Member Functions
 // ****************
@@ -101,6 +155,28 @@ void GridComponent::InitGridCells()
 			m_Cells[gridIdx] = gridCell;
 		}
 	}
+}
+void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
+{
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pRock{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	// --------------
+
+	// Textures
+	if (m_pRockTexture)
+	{
+		dae::RenderTextureComponent* pObjectTexture{ pRock->AddComponent<dae::RenderTextureComponent>() };
+		pObjectTexture->SetTexture(m_pRockTexture);
+		pObjectTexture->CenterTexture(true);
+	}
+
+	// Rock
+
+	// Add as child
+	pRock->SetWorldPosition(rockPosition);
+	pRock->SetParent(GetGameObject(), true);
 }
 
 void GridComponent::RenderGrid() const

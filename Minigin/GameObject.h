@@ -37,7 +37,7 @@ namespace dae
 		// Ownership
 		void SetParent(GameObject* pParent, bool keepWorldPos);
 		GameObject* GetParent() const;
-		std::pair<std::list<std::shared_ptr<GameObject>>::const_iterator, std::list<std::shared_ptr<GameObject>>::const_iterator> GetChildren() const;
+		const std::list<std::shared_ptr<GameObject>>& GetChildren() const;
 		bool RemoveChildFromScene(std::shared_ptr<GameObject> pChild);
 
 		// Positions

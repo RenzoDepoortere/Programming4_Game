@@ -37,7 +37,7 @@ private:
 
 	// Member Functions
 	// ----------------
-	void Grid(dae::Scene& scene);
+	void Map(dae::Scene& scene);
 	void MainCharacter(dae::Scene& scene);
 };
 

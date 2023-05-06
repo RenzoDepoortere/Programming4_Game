@@ -17,12 +17,15 @@
 
 void FirstScene::CreateGameObjects(dae::Scene& scene)
 {
-	Grid(scene);
+	Map(scene);
 	MainCharacter(scene);
 }
 
-void FirstScene::Grid(dae::Scene& scene)
+void FirstScene::Map(dae::Scene& scene)
 {
+	// Grid
+	// ****
+
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pGrid{ std::make_shared<dae::GameObject>() };
 	
@@ -39,6 +42,7 @@ void FirstScene::Grid(dae::Scene& scene)
 
 	// Grid
 	auto pGridComponent{ pGrid->AddComponent<grid::GridComponent>() };
+	pGridComponent->SetRockTexture("Sprites/Single_Rock.png");
 	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
 
 	// Add to scene

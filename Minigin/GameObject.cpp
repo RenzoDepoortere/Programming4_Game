@@ -111,9 +111,9 @@ dae::GameObject* dae::GameObject::GetParent() const
 {
 	return m_pParent;
 }
-std::pair<std::list<std::shared_ptr<dae::GameObject>>::const_iterator, std::list<std::shared_ptr<dae::GameObject>>::const_iterator> dae::GameObject::GetChildren() const
+const std::list<std::shared_ptr<dae::GameObject>>& dae::GameObject::GetChildren() const
 {
-	return std::make_pair(m_pChildren.begin(), m_pChildren.end());
+	return m_pChildren;
 }
 bool dae::GameObject::RemoveChildFromScene(std::shared_ptr<dae::GameObject> pChild)
 {
