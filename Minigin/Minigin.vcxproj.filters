@@ -39,6 +39,9 @@
     <Filter Include="OwnFiles\Observers">
       <UniqueIdentifier>{2798b335-deba-44be-975a-c1c5a79b3571}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OwnFiles\ServiceLocator">
+      <UniqueIdentifier>{2d515f9e-3e3a-4920-99c1-b7cc12fe7e04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minigin.h">
@@ -137,6 +140,15 @@
     <ClInclude Include="EventManager.h">
       <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>OwnFiles\ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>OwnFiles\ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingSoundSystem.h">
+      <Filter>OwnFiles\ServiceLocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minigin.cpp">
@@ -223,8 +235,11 @@
     <ClCompile Include="Subject.cpp">
       <Filter>OwnFiles\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>OwnFiles\Observers</Filter>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>OwnFiles\ServiceLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingSoundSystem.cpp">
+      <Filter>OwnFiles\ServiceLocator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
