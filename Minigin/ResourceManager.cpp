@@ -1,11 +1,13 @@
 #include <stdexcept>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "AudioFile.h"
 
 void dae::ResourceManager::Init(const std::string& dataPath)
 {
@@ -38,3 +40,18 @@ std::shared_ptr<std::ifstream> dae::ResourceManager::LoadFile(const std::string&
 {
 	return std::make_shared<std::ifstream>(m_dataPath + file);
 }
+
+std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::string& file) const
+{
+	const auto fullPath = m_dataPath + file;
+	Mix_Chunk* pChunk{ Mix_LoadWAV(fullPath.c_str()) };
+	if (pChunk == nullptr)
+	{
+		throw std::runtime_error(std::string("Failed to load audio: ") + SDL_GetError());
+	}
+
+	//return std::make_shared<dae::AudioFile>(pChunk);
+
+	return nullptr;
+}
+

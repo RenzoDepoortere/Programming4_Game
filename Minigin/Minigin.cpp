@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <chrono>
 
 #include "Minigin.h"
@@ -44,13 +45,32 @@ void PrintSDLVersion()
 
 dae::Minigin::Minigin(const std::string &dataPath)
 {
+	// Init SDL
+	// --------
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
+	if (SDL_Init(SDL_INIT_AUDIO) != 0)
+	{
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
 
+	//// SDL Mixer
+	//Mix_Init(MIX_INIT_MP3);
+
+	//const int frequency{ 44'100 };
+	//const int channels{ 2 };
+	//const int chunkSize{ 2048 };
+	//if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) != 0)
+	//{
+	//	throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	//}
+
+	// Create window
+	// -------------
 	g_window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
@@ -64,16 +84,24 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	// Init singletons
+	// ---------------
 	Renderer::GetInstance().Init(g_window);
-
 	ResourceManager::GetInstance().Init(dataPath);
 }
 
 dae::Minigin::~Minigin()
 {
+	// Destroy singletons
 	Renderer::GetInstance().Destroy();
+	
+	// Destroy window
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
+	
+	// Quit SDL
+	//Mix_CloseAudio();
+	//Mix_Quit();
 	SDL_Quit();
 }
 

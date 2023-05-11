@@ -42,6 +42,9 @@
     <Filter Include="OwnFiles\ServiceLocator">
       <UniqueIdentifier>{2d515f9e-3e3a-4920-99c1-b7cc12fe7e04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OwnFiles\ServiceLocator\Sounds">
+      <UniqueIdentifier>{1859de60-5823-4ef3-aeb1-d17382be5b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minigin.h">
@@ -140,14 +143,20 @@
     <ClInclude Include="EventManager.h">
       <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>OwnFiles\ServiceLocator</Filter>
-    </ClInclude>
     <ClInclude Include="ServiceLocator.h">
       <Filter>OwnFiles\ServiceLocator</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSoundSystem.h">
-      <Filter>OwnFiles\ServiceLocator</Filter>
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLSoundSytem.h">
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioFile.h">
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,7 +248,13 @@
       <Filter>OwnFiles\ServiceLocator</Filter>
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
-      <Filter>OwnFiles\ServiceLocator</Filter>
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLSoundSytem.cpp">
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioFile.cpp">
+      <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
