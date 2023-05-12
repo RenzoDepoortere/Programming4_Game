@@ -7,8 +7,8 @@ namespace dae
 	{
 	public:
 		// Rule of five
-	/*	explicit AudioFile(Mix_Chunk* pChunk);
-		~AudioFile();*/
+		explicit AudioFile(Mix_Chunk* pChunk);
+		~AudioFile();
 
 		AudioFile(const AudioFile& rhs) = delete;
 		AudioFile(AudioFile&& rhs) = delete;

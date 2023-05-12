@@ -50,8 +50,6 @@ std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::strin
 		throw std::runtime_error(std::string("Failed to load audio: ") + SDL_GetError());
 	}
 
-	//return std::make_shared<dae::AudioFile>(pChunk);
-
-	return nullptr;
+	return std::make_shared<dae::AudioFile>(pChunk);
 }
 

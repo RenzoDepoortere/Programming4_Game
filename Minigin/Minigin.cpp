@@ -58,16 +58,16 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	//// SDL Mixer
-	//Mix_Init(MIX_INIT_MP3);
+	// SDL Mixer
+	Mix_Init(MIX_INIT_MP3);
 
-	//const int frequency{ 44'100 };
-	//const int channels{ 2 };
-	//const int chunkSize{ 2048 };
-	//if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) != 0)
-	//{
-	//	throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
-	//}
+	const int frequency{ 44'100 };
+	const int channels{ 2 };
+	const int chunkSize{ 2048 };
+	if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunkSize) != 0)
+	{
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
 
 	// Create window
 	// -------------
@@ -100,8 +100,8 @@ dae::Minigin::~Minigin()
 	g_window = nullptr;
 	
 	// Quit SDL
-	//Mix_CloseAudio();
-	//Mix_Quit();
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 }
 
