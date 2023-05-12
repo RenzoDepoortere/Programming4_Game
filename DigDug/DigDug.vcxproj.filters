@@ -59,6 +59,12 @@
     <ClCompile Include="PauseCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RockComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -97,6 +103,12 @@
     </ClInclude>
     <ClInclude Include="PauseCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RockComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

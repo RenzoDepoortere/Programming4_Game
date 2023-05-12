@@ -12,6 +12,7 @@
 #include "TextComponent.h"
 #include "RenderTextureComponent.h"
 #include "GridComponent.h"
+#include "CharacterComponent.h"
 
 #include "PauseCommand.h"
 #include "MoveCommand.h"
@@ -124,6 +125,11 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
 	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(pTexture);
+
+	// Add characterComponent
+	// ----------------------
+	CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
+	pCharacterComponent->SetGrid(m_pGrid);
 
 	// Add movement
 	// ------------

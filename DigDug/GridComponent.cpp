@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "RenderTextureComponent.h"
 #include "ResourceManager.h"
+#include "RockComponent.h"
 
 #include "rapidjson.h"
 #include "istreamwrapper.h"
@@ -31,23 +32,23 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 	if (m_pRenderer == nullptr) std::cout << "Warning: the grid component needs a renderTextureComponent!" << std::endl;
 }
 
-Cell GridComponent::GetCell(int index) const
+Cell* GridComponent::GetCell(int index) const
 {
 	if (0 <= index && index < m_Cells.size())
 	{
-		return m_Cells[index];
+		return m_Cells[index].get();
 	}
 	else
 	{
 		//std::cout << "Error: Tried to get cell with invalid index" << std::endl;
-		return {};
+		return nullptr;
 	}
 }
-Cell GridComponent::GetCell(const glm::vec3& worldPos) const
+Cell* GridComponent::GetCell(const glm::vec3& worldPos) const
 {
 	return GetCell(worldPos.x, worldPos.y, worldPos.z);
 }
-Cell GridComponent::GetCell(float x, float y, float) const
+Cell* GridComponent::GetCell(float x, float y, float) const
 {
 	const int gridWidth{ m_NrCols * m_CellWidth };
 	const int gridHeight{ m_NrRows * m_CellHeight };
@@ -109,15 +110,15 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 	for (size_t idx{}; idx < m_Cells.size(); ++idx)
 	{
 		// Texture
-		m_Cells[idx].textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		m_Cells[idx]->textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
 		
 		// Rocks
 		if (rockArray[static_cast<rapidjson::SizeType>(idx)].GetInt() != 0)
 		{
-			m_Cells[idx].containsRock = true;
+			m_Cells[idx]->containsRock = true;
 
-			rockPosition.x = m_Cells[idx].centerPosition.x;
-			rockPosition.y = m_Cells[idx].centerPosition.y;
+			rockPosition.x = m_Cells[idx]->centerPosition.x;
+			rockPosition.y = m_Cells[idx]->centerPosition.y;
 			CreateRock(rockPosition);
 		}
 	}
@@ -156,7 +157,7 @@ void GridComponent::InitGridCells()
 			else if (rowIdx < 8)	gridCell.depthLevel = 2;
 			else					gridCell.depthLevel = 3;
 
-			m_Cells[gridIdx] = gridCell;
+			m_Cells[gridIdx] = std::make_unique<Cell>(gridCell);
 		}
 	}
 }
@@ -177,6 +178,8 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 	}
 
 	// Rock
+	RockComponent* pRockComponent{ pRock->AddComponent<RockComponent>() };
+	pRockComponent->SetGrid(this);
 
 	// Add as child
 	pRock->SetWorldPosition(rockPosition);
@@ -194,10 +197,10 @@ void GridComponent::RenderGrid() const
 	for (const auto& currentCell : m_Cells)
 	{
 		// If textureID is valid
-		if (currentCell.textureID != 0)
+		if (currentCell->textureID != 0)
 		{
-			srcLeft = (currentCell.textureID - 1) * srcWidth;
-			m_pRenderer->RenderManually(currentCell.worldPosition.x, currentCell.worldPosition.y, srcLeft, srcTop, srcWidth, srcHeight);
+			srcLeft = (currentCell->textureID - 1) * srcWidth;
+			m_pRenderer->RenderManually(currentCell->worldPosition.x, currentCell->worldPosition.y, srcLeft, srcTop, srcWidth, srcHeight);
 		}
 	}
 }
@@ -213,8 +216,8 @@ void GridComponent::RenderDebugGrid() const
 	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255));
 	for (const auto& currentCell : m_Cells)
 	{
-		rect.x = static_cast<int>(static_cast<float>(currentCell.worldPosition.x));
-		rect.y = static_cast<int>(static_cast<float>(currentCell.worldPosition.y));
+		rect.x = static_cast<int>(static_cast<float>(currentCell->worldPosition.x));
+		rect.y = static_cast<int>(static_cast<float>(currentCell->worldPosition.y));
 
 		SDL_RenderDrawRect(pRenderer, &rect);
 	}

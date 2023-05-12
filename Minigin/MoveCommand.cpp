@@ -16,7 +16,7 @@ dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, f
 	// Set in first cell
 	if (pGrid)
 	{
-		const glm::vec2 firstCellPos{ pGrid->GetCell(0, 0, 0).centerPosition };
+		const glm::vec2 firstCellPos{ pGrid->GetCell(0, 0, 0)->centerPosition };
 		pActor->SetWorldPosition(firstCellPos.x, firstCellPos.y, 0.f);
 	}
 }
@@ -49,12 +49,12 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 
 	// Get cells
 	// ---------
-	const grid::Cell currentCell{ m_pGrid->GetCell(startActorPos) };
+	const grid::Cell* pCurrentCell{ m_pGrid->GetCell(startActorPos) };
 
 	glm::vec3 desiredCellPos{};
-	desiredCellPos.x = currentCell.centerPosition.x + m_MovementDirection.x * currentCell.size.x;
-	desiredCellPos.y = currentCell.centerPosition.y + m_MovementDirection.y * currentCell.size.y;
-	const grid::Cell desiredCell{ m_pGrid->GetCell(desiredCellPos) };
+	desiredCellPos.x = pCurrentCell->centerPosition.x + m_MovementDirection.x * pCurrentCell->size.x;
+	desiredCellPos.y = pCurrentCell->centerPosition.y + m_MovementDirection.y * pCurrentCell->size.y;
+	const grid::Cell* pDesiredCell{ m_pGrid->GetCell(desiredCellPos) };
 
 	bool insideX{};
 	bool insideY{};
@@ -62,15 +62,15 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 
 	// If current cell is border cell
 	// ------------------------------
-	const bool isLeftBorderX{ currentCell.rowCol.y == 0 };
-	const bool isRightBorderX{ currentCell.rowCol.y == m_pGrid->GetNrCols() - 1 };
-	const bool isTopBorderY{ currentCell.rowCol.x == 0 };
-	const bool isBotBorderY{ currentCell.rowCol.x == m_pGrid->GetNrRows() - 1 };
+	const bool isLeftBorderX{ pCurrentCell->rowCol.y == 0 };
+	const bool isRightBorderX{ pCurrentCell->rowCol.y == m_pGrid->GetNrCols() - 1 };
+	const bool isTopBorderY{ pCurrentCell->rowCol.x == 0 };
+	const bool isBotBorderY{ pCurrentCell->rowCol.x == m_pGrid->GetNrRows() - 1 };
 
 	if (isLeftBorderX)
 	{
 		// If currentPos is too close to left
-		if (startActorPos.x < currentCell.centerPosition.x)
+		if (startActorPos.x < pCurrentCell->centerPosition.x)
 		{
 			// And wants to go left, return
 			if (m_MovementDirection.x < 0) return;
@@ -79,7 +79,7 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	if (isRightBorderX)
 	{
 		// If currentPos is too close to right
-		if (currentCell.centerPosition.x < startActorPos.x)
+		if (pCurrentCell->centerPosition.x < startActorPos.x)
 		{
 			// And wants to go right, return
 			if (0 < m_MovementDirection.x) return;
@@ -89,7 +89,7 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	if (isTopBorderY)
 	{
 		// If currentPos is too close to top
-		if (startActorPos.y < currentCell.centerPosition.y)
+		if (startActorPos.y < pCurrentCell->centerPosition.y)
 		{
 			// And wants to go top, return
 			if (m_MovementDirection.y < 0) return;
@@ -98,60 +98,65 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	if (isBotBorderY)
 	{
 		// If currentPos is too close to bot
-		if (currentCell.centerPosition.y < startActorPos.y)
+		if (pCurrentCell->centerPosition.y < startActorPos.y)
 		{
 			// And wants to go bot, return
 			if (0 < m_MovementDirection.y) return;
 		}
 	}
 
-	// If desired cell contains rock
-	// -----------------------------
-	if (desiredCell.containsRock)
+	if (pDesiredCell)
 	{
-		const bool leftOfCell{ currentCell.centerPosition.x < startActorPos.x && startActorPos.x < desiredCell.centerPosition.x };
-		const bool rightOfCell{ desiredCell.centerPosition.x < startActorPos.x && startActorPos.x < currentCell.centerPosition.x };
-		const bool topOfCell{ currentCell.centerPosition.y < startActorPos.y && startActorPos.y < desiredCell.centerPosition.y };
-		const bool botOfCell{ desiredCell.centerPosition.y < startActorPos.y && startActorPos.y < currentCell.centerPosition.y };
-
-		if (leftOfCell && 0 < m_MovementDirection.x) return;
-		if (rightOfCell && m_MovementDirection.x < 0) return;
-		if (topOfCell && 0 < m_MovementDirection.y) return;
-		if (botOfCell && m_MovementDirection.y < 0) return;
-	}
-
-
-	// Check if is free to move
-	// ------------------------
-	const bool moveXDirection{ abs(m_MovementDirection.x) > abs(m_MovementDirection.y) };
-
-	insideX = desiredCell.centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= desiredCell.centerPosition.x + buffer;
-	insideY = desiredCell.centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= desiredCell.centerPosition.y + buffer;
-
-	const bool desiredCellInvalid{ desiredCell == grid::Cell{} };
-
-	// If moving in x-direction
-	if (moveXDirection)
-	{
-		// Not in the same y-range and desiredCell is not invalid
-		if (insideY == false && desiredCellInvalid == false)
+		// If desired cell contains rock
+		// -----------------------------
+		if (pDesiredCell->containsRock)
 		{
-			// Adjust direction
-			if (startActorPos.y < desiredCell.centerPosition.y) desiredDirection.y = 1;
-			else												desiredDirection.y = -1;
+			const bool leftOfCell{ pCurrentCell->centerPosition.x < startActorPos.x&& startActorPos.x < pDesiredCell->centerPosition.x };
+			const bool rightOfCell{ pDesiredCell->centerPosition.x < startActorPos.x&& startActorPos.x < pCurrentCell->centerPosition.x };
+			const bool topOfCell{ pCurrentCell->centerPosition.y < startActorPos.y&& startActorPos.y < pDesiredCell->centerPosition.y };
+			const bool botOfCell{ pDesiredCell->centerPosition.y < startActorPos.y&& startActorPos.y < pCurrentCell->centerPosition.y };
+
+			if (leftOfCell && 0 < m_MovementDirection.x) return;
+			if (rightOfCell && m_MovementDirection.x < 0) return;
+			if (topOfCell && 0 < m_MovementDirection.y) return;
+			if (botOfCell && m_MovementDirection.y < 0) return;
 		}
-		else 													desiredDirection = m_MovementDirection;
+
+
+		// Check if is free to move
+		// ------------------------
+		const bool moveXDirection{ abs(m_MovementDirection.x) > abs(m_MovementDirection.y) };
+
+		insideX = pDesiredCell->centerPosition.x - buffer <= startActorPos.x && startActorPos.x <= pDesiredCell->centerPosition.x + buffer;
+		insideY = pDesiredCell->centerPosition.y - buffer <= startActorPos.y && startActorPos.y <= pDesiredCell->centerPosition.y + buffer;
+
+		// If moving in x-direction
+		if (moveXDirection)
+		{
+			// Not in the same y-range and desiredCell is not invalid
+			if (insideY == false)
+			{
+				// Adjust direction
+				if (startActorPos.y < pDesiredCell->centerPosition.y) desiredDirection.y = 1;
+				else												  desiredDirection.y = -1;
+			}
+			else													  desiredDirection = m_MovementDirection;
+		}
+		// Else if moving in y-direction
+		else
+		{
+			// Not in the same x-range and desiredCell is not invalid
+			if (insideX == false)
+			{
+				// Adjust
+				if (startActorPos.x < pDesiredCell->centerPosition.x) desiredDirection.x = 1;
+				else												  desiredDirection.x = -1;
+			}
+			else													  desiredDirection = m_MovementDirection;
+		}
 	}
-	// Else if moving in y-direction
 	else
 	{
-		// Not in the same x-range and desiredCell is not invalid
-		if (insideX == false && desiredCellInvalid == false)
-		{
-			// Adjust
-			if (startActorPos.x < desiredCell.centerPosition.x) desiredDirection.x = 1;
-			else												desiredDirection.x = -1;
-		}
-		else													desiredDirection = m_MovementDirection;
+		desiredDirection = m_MovementDirection;
 	}
 }

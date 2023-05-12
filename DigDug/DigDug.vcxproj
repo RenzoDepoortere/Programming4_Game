@@ -201,10 +201,12 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="..\Minigin\PointComponent.cpp" />
     <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
     <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
+    <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="FirstScene.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PauseCommand.cpp" />
+    <ClCompile Include="RockComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\FPSCounter.h" />
@@ -217,9 +219,11 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="..\Minigin\PointComponent.h" />
     <ClInclude Include="..\Minigin\RotatingMovement.h" />
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
+    <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="FirstScene.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="PauseCommand.h" />
+    <ClInclude Include="RockComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace dae
 {
@@ -17,7 +18,6 @@ namespace grid
 {
 	struct Cell
 	{
-		// Variables
 		glm::vec2 worldPosition{ 0, 0 };
 		glm::vec2 centerPosition{ 0,0 };
 		glm::vec2 size{ 0, 0 };
@@ -28,25 +28,6 @@ namespace grid
 		int depthLevel{ 0 };
 
 		unsigned int textureID{ 0 };
-
-		// Functions
-		bool operator== (const Cell& rhs)
-		{
-			if (worldPosition == rhs.worldPosition	 &&
-				centerPosition == rhs.centerPosition &&
-				size == rhs.size					 &&
-				rowCol == rhs.rowCol				 &&
-				containsRock == rhs.containsRock	 &&
-				depthLevel == rhs.depthLevel		 &&
-				textureID == rhs.textureID)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 	};
 
 	class GridComponent final : public Component
@@ -62,9 +43,9 @@ namespace grid
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 		// Functionality
-		Cell GetCell(int index) const;
-		Cell GetCell(const glm::vec3& worldPos) const;
-		Cell GetCell(float x, float y, float z) const;
+		Cell* GetCell(int index) const;
+		Cell* GetCell(const glm::vec3& worldPos) const;
+		Cell* GetCell(float x, float y, float z) const;
 
 		void Render() const override;
 
@@ -81,7 +62,7 @@ namespace grid
 		// ---------------
 
 		// Array
-		std::vector<Cell> m_Cells{};
+		std::vector<std::unique_ptr<Cell>> m_Cells{};
 
 		// Cell
 		int m_NrRows{};
