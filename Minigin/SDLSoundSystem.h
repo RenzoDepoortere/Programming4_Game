@@ -8,10 +8,11 @@ namespace dae
 {
 	class AudioFile;
 
-	class SDLSoundSystem final : SoundSystem
+	class SDLSoundSystem final : public SoundSystem
 	{
 	public:
 		// Rule of five
+		SDLSoundSystem() = default;
 		~SDLSoundSystem() = default;
 
 		SDLSoundSystem(const SDLSoundSystem& rhs) = delete;

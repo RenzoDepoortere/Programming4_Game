@@ -11,14 +11,45 @@
 #include "RenderTextureComponent.h"
 #include "GridComponent.h"
 
+#include "PauseCommand.h"
 #include "MoveCommand.h"
+
+#include "ServiceLocator.h"
+#include "SDLSoundSystem.h"
 
 #include <iostream>
 
+FirstScene::~FirstScene()
+{
+	// Todo: you probably don't want to initialize/destroy this for every scene
+	dae::ServiceLocator::Shutdown();
+}
+
 void FirstScene::CreateGameObjects(dae::Scene& scene)
 {
+	BaseObjects(scene);
 	Map(scene);
 	MainCharacter(scene);
+}
+
+void FirstScene::BaseObjects(dae::Scene&)
+{
+	// Service Locator
+	// ***************
+
+	dae::SDLSoundSystem* pSoundSystem{ new dae::SDLSoundSystem{} };
+	dae::ServiceLocator::RegisterSoundSystem(pSoundSystem);
+
+	// Pause Button
+	// ************
+
+	// Command
+	const auto keyState{ dae::InputMapper::KeyState::Press };
+	auto controllerInput{ std::make_pair(0, dae::InputManager::ControllerButton::None) };
+	auto inputKeys{ std::make_pair(SDL_SCANCODE_RETURN, controllerInput) };
+
+	std::unique_ptr<PauseCommand> pPauseCommand{ std::make_unique<PauseCommand>() };
+	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pPauseCommand));
 }
 
 void FirstScene::Map(dae::Scene& scene)

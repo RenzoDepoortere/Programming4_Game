@@ -16,7 +16,7 @@ class FirstScene final : public dae::Singleton<FirstScene>
 {
 public:
 	// Destructor and rule of five
-	~FirstScene() = default;
+	~FirstScene();
 
 	FirstScene(const FirstScene& other) = delete;
 	FirstScene(FirstScene&& other) = delete;
@@ -32,11 +32,14 @@ private:
 
 	// Member Variables
 	// ----------------
+	
 	grid::GridComponent* m_pGrid{ nullptr };
+
 	unsigned long m_ControllerIdx{};
 
 	// Member Functions
 	// ----------------
+	void BaseObjects(dae::Scene& scene);
 	void Map(dae::Scene& scene);
 	void MainCharacter(dae::Scene& scene);
 };

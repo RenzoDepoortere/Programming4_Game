@@ -7,13 +7,11 @@ namespace dae
 	{
 	public:
 		// Destructor
-		static void Initialize();
 		static void Shutdown();
 		
 		// Sound
 		static SoundSystem& GetSoundSystem() { return *m_pSoundSystem; }
-		static void RegisterSoundSystem(SoundSystem* pSoundSystem) 
-		{ m_pSoundSystem = (pSoundSystem == nullptr) ? &m_DefaultSoundSystem : m_pSoundSystem; }
+		static void RegisterSoundSystem(SoundSystem* pSoundSystem);
 
 	private:
 		// Member variables

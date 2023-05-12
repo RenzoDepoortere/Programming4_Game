@@ -33,9 +33,9 @@ namespace dae
 		~nullSoundSystem() override = default;
 
 		void Play(unsigned int, int, int) override {};
-		bool IsPlaying(unsigned int) override {};
+		bool IsPlaying(unsigned int) override { return false; };
 		void Pause(unsigned int) override {};
-		bool IsPaused(unsigned int) override {};
+		bool IsPaused(unsigned int) override {return false; };
 		void Resume(unsigned int) override {};
 		void SetVolume(unsigned int, int) override {};
 	};
