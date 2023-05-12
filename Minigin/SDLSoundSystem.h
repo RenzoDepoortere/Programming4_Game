@@ -3,6 +3,9 @@
 #include <memory>
 #include <map>
 #include <string>
+#include <mutex>
+#include <condition_variable>
+#include <thread>
 
 namespace dae
 {
@@ -13,7 +16,7 @@ namespace dae
 	public:
 		// Rule of five
 		SDLSoundSystem();
-		~SDLSoundSystem() = default;
+		~SDLSoundSystem();
 
 		SDLSoundSystem(const SDLSoundSystem& rhs) = delete;
 		SDLSoundSystem(SDLSoundSystem&& rhs) = delete;
@@ -35,14 +38,32 @@ namespace dae
 
 	private:
 		// Member variables
+		// ----------------
 		std::map<unsigned int, std::shared_ptr<AudioFile>> m_AudioFiles{};
 
 		// Todo: fix, this could probably be done in a better way
 		unsigned int m_NextFreeID{ 0 };
 		std::map<unsigned int, std::string> m_IDs{};
 
+		struct audioInfo
+		{
+			unsigned int soundID{};
+			int volume{};
+			int loops{};
+		};
+		audioInfo m_AudioInfo{};
+
+		std::condition_variable m_ConditionVariable{};
+		std::mutex m_Mutex{};
+		std::jthread m_AudioThread;
+
+		bool m_IsBeingDestroyed{ false };
+
 		// Member functions
+		// ----------------
 		bool IsValid(unsigned int ID, bool checkIsInIDs = false, bool printError = true);
 		std::string GetResourceName(unsigned int ID) { return m_IDs[ID]; }
+
+		void AudioThread();
 	};
 }

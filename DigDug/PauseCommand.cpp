@@ -14,10 +14,9 @@ PauseCommand::PauseCommand()
 
 void PauseCommand::Execute(float)
 {
-	// Sent playEvent
 	const int volume{ 100 };
 	const int loops{ 0 };
 
+	// Sent playEvent
 	dae::EventManager<unsigned int, int, int>::GetInstance().SendEvent(event::PauseMenu, m_PauseID, volume, loops);
-	//dae::ServiceLocator::GetSoundSystem().Play(m_PauseID, volume, loops);
 }
