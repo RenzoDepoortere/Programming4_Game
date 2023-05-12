@@ -1,5 +1,7 @@
 #include "PauseCommand.h"
 #include "ServiceLocator.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
 
 #include <iostream>
 
@@ -12,8 +14,10 @@ PauseCommand::PauseCommand()
 
 void PauseCommand::Execute(float)
 {
-	// Play sound
+	// Sent playEvent
 	const int volume{ 100 };
 	const int loops{ 0 };
-	dae::ServiceLocator::GetSoundSystem().Play(m_PauseID, volume, loops);
+
+	dae::EventManager<unsigned int, int, int>::GetInstance().SendEvent(event::PauseMenu, m_PauseID, volume, loops);
+	//dae::ServiceLocator::GetSoundSystem().Play(m_PauseID, volume, loops);
 }

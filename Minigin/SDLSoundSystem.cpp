@@ -1,9 +1,18 @@
 #include "SDLSoundSystem.h"
 #include "SDL_mixer.h"
 #include "AudioFile.h"
+#include "../DigDug/EventsEnum.h"
+
 #include "ResourceManager.h"
+#include "EventManager.h"
 
 #include <iostream>
+
+dae::SDLSoundSystem::SDLSoundSystem()
+{
+	// Subcsribe to event
+	dae::EventManager<unsigned int, int, int>::GetInstance().Subscribe(event::PauseMenu, this);
+}
 
 void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops)
 {
@@ -66,7 +75,7 @@ bool dae::SDLSoundSystem::IsValid(unsigned int ID, bool checkIsInIDs, bool print
 	else return true;
 }
 
-void dae::SDLSoundSystem::HandleEvent(int /*eventID*/, unsigned int /*soundID*/, int /*volume*/, int /*loops = 1*/)
+void dae::SDLSoundSystem::HandleEvent(int /*eventID*/, unsigned int soundID, int volume, int loops)
 {
-
+	Play(soundID, volume, loops);
 }

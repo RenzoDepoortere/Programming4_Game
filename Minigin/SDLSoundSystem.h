@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 		// Rule of five
-		SDLSoundSystem() = default;
+		SDLSoundSystem();
 		~SDLSoundSystem() = default;
 
 		SDLSoundSystem(const SDLSoundSystem& rhs) = delete;
