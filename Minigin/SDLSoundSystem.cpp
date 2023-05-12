@@ -10,8 +10,10 @@
 
 dae::SDLSoundSystem::SDLSoundSystem()
 {
+#ifndef _DEBUG
 	// Subcsribe to event
 	dae::EventManager<unsigned int, int, int>::GetInstance().Subscribe(event::PauseMenu, this);
+#endif // _DEBUG
 
 	// Start thread
 	m_AudioThread = std::jthread{&dae::SDLSoundSystem::AudioThread, this };

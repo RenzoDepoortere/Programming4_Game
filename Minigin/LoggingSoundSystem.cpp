@@ -1,9 +1,17 @@
 #include "LoggingSoundSystem.h"
+
+#include "../DigDug/EventsEnum.h"
+#include "EventManager.h"
+
 #include <iostream>
 
 dae::LoggingSoundSystem::LoggingSoundSystem(dae::SoundSystem* pRealSystem)
 	: m_pRealSystem{ pRealSystem }
 {
+#ifdef _DEBUG
+	// Subcsribe to event
+	dae::EventManager<unsigned int, int, int>::GetInstance().Subscribe(event::PauseMenu, this);
+#endif // _DEBUG
 }
 
 dae::LoggingSoundSystem::~LoggingSoundSystem()
@@ -12,6 +20,7 @@ dae::LoggingSoundSystem::~LoggingSoundSystem()
 	m_pRealSystem = nullptr;
 }
 
+#pragma region AudioFunctionality
 void dae::LoggingSoundSystem::Play(unsigned int ID, int volume, int loops)
 {
 	m_pRealSystem->Play(ID, volume, loops);
@@ -46,6 +55,7 @@ void dae::LoggingSoundSystem::SetVolume(unsigned int ID, int volume)
 	m_pRealSystem->SetVolume(ID, volume);
 	std::cout << "Sound ID: " << ID << " set Sound Volume to: " << volume << std::endl;
 }
+#pragma endregion
 
 unsigned int dae::LoggingSoundSystem::SetID(const std::string& resourceName)
 {
