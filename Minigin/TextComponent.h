@@ -4,6 +4,7 @@
 
 #include "SDL.h"
 #include "Component.h"
+#include "glm/vec2.hpp"
 
 namespace dae
 {
@@ -21,6 +22,7 @@ namespace dae
 		void SetFont(std::shared_ptr<Font> font);
 		void SetColor(const SDL_Color& color);
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
+		glm::ivec2 GetTextureSize() const;
 
 		explicit TextComponent(dae::GameObject* pParentObject);
 		virtual ~TextComponent() override = default;

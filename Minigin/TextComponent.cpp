@@ -14,13 +14,14 @@ dae::TextComponent::TextComponent(dae::GameObject* pParentObject)
 {
 	// Default variables
 	m_Text = "Hello";
-	m_Font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	m_TextColor = SDL_Color{ 255,255,255 };
+	m_pTexture2D = std::make_shared<dae::Texture2D>(nullptr);
 }
 
 void dae::TextComponent::Update(float)
 {
 	if (m_pTexture2D == nullptr) return;
+	if (m_Font == nullptr) return;
 
 	if (m_NeedsUpdate)
 	{
@@ -45,6 +46,7 @@ void dae::TextComponent::Update(float)
 void dae::TextComponent::Render() const
 {
 	if (m_pTexture2D == nullptr) return;
+	if (m_Font == nullptr) return;
 
 	const auto& pos = GetGameObject()->GetWorldPosition();
 	Renderer::GetInstance().RenderTexture(*m_pTexture2D, pos.x, pos.y);
@@ -70,4 +72,15 @@ void dae::TextComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)
 {
 	m_pTexture2D = pTexture;
 	m_NeedsUpdate = true;
+}
+glm::ivec2 dae::TextComponent::GetTextureSize() const
+{
+	if (m_pTexture2D)
+	{
+		return m_pTexture2D->GetSize();
+	}
+	else
+	{
+		return {};
+	}
 }

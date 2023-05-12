@@ -1,5 +1,6 @@
 #include "FirstScene.h"
 
+#include "Font.h"
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "Scene.h"
@@ -8,6 +9,7 @@
 #include "InputManager.h"
 #include "InputMapper.h"
 
+#include "TextComponent.h"
 #include "RenderTextureComponent.h"
 #include "GridComponent.h"
 
@@ -33,7 +35,7 @@ void FirstScene::CreateGameObjects(dae::Scene& scene)
 	MainCharacter(scene);
 }
 
-void FirstScene::BaseObjects(dae::Scene&)
+void FirstScene::BaseObjects(dae::Scene& /*scene*/)
 {
 	// Service Locator
 	// ***************
@@ -45,8 +47,31 @@ void FirstScene::BaseObjects(dae::Scene&)
 #endif // DEBUG
 
 
-	// Pause Button
-	// ************
+	//// Pause Button
+	//// ************
+
+	//// Create gameObject
+	//std::shared_ptr<dae::GameObject> pPauseObject{ std::make_shared<dae::GameObject>() };
+
+	//// Add components
+	//// --------------
+
+	//// Add text
+	//auto pFont{ dae::ResourceManager::GetInstance().LoadFont("Other/Lingua.otf", 36) };
+	//dae::TextComponent* pTextComponent{ pPauseObject->AddComponent<dae::TextComponent>() };
+	//pTextComponent->SetText("PAUSED");
+	//pTextComponent->SetFont(pFont);
+
+	//// Flicker component
+
+
+	//// Set position
+	//const float xPos{ 694 - 36 * 5.f };
+	//const float yPos{ 520 / 2.f };
+	//pPauseObject->SetWorldPosition(xPos, yPos, 0.f);
+
+	//// Add to scene
+	//scene.Add(pPauseObject);
 
 	// Command
 	const auto keyState{ dae::InputMapper::KeyState::Press };
