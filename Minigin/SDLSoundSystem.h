@@ -28,7 +28,7 @@ namespace dae
 		void Resume(unsigned int ID) override;
 		void SetVolume(unsigned int ID, int volume) override;
 
-		unsigned int SetID(const std::string& resourceName);
+		unsigned int SetID(const std::string& resourceName) override;
 
 	private:
 		// Member variables

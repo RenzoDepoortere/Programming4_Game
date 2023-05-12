@@ -15,5 +15,9 @@ public:
 
 	// Functionality
 	virtual void Execute(float deltaTime) override;
+
+private:
+	// Member variables
+	unsigned int m_PauseID{};
 };
 

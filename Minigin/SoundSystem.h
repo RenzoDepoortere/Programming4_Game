@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace dae
 {
@@ -23,6 +24,8 @@ namespace dae
 		virtual bool IsPaused(unsigned int ID) = 0;
 		virtual void Resume(unsigned int ID) = 0;
 		virtual void SetVolume(unsigned int ID, int volume) = 0;
+
+		virtual unsigned int SetID(const std::string& resourceName) = 0;
 	};
 
 	// Default implementation
@@ -38,5 +41,7 @@ namespace dae
 		bool IsPaused(unsigned int) override {return false; };
 		void Resume(unsigned int) override {};
 		void SetVolume(unsigned int, int) override {};
+
+		unsigned int SetID(const std::string&) override { return {}; };
 	};
 }

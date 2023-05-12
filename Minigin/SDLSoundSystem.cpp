@@ -12,7 +12,7 @@ void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops)
 	{
 		m_AudioFiles[ID] = ResourceManager::GetInstance().LoadSound(GetResourceName(ID));
 	}
-	else
+	else if(m_IDs.contains(ID) == false)
 	{
 		std::cout << "Error: tried to load non-existent soundID" << std::endl;
 		return;
