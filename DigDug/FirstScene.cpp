@@ -16,6 +16,7 @@
 
 #include "ServiceLocator.h"
 #include "SDLSoundSystem.h"
+#include "LoggingSoundSystem.h"
 
 #include <iostream>
 
@@ -37,8 +38,12 @@ void FirstScene::BaseObjects(dae::Scene&)
 	// Service Locator
 	// ***************
 
-	dae::SDLSoundSystem* pSoundSystem{ new dae::SDLSoundSystem{} };
-	dae::ServiceLocator::RegisterSoundSystem(pSoundSystem);
+#ifdef _DEBUG
+	dae::ServiceLocator::RegisterSoundSystem(new dae::LoggingSoundSystem{ new dae::SDLSoundSystem{} });
+#else
+	dae::ServiceLocator::RegisterSoundSystem(new dae::SDLSoundSystem{});
+#endif // DEBUG
+
 
 	// Pause Button
 	// ************

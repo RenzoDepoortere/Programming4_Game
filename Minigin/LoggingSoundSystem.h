@@ -7,6 +7,7 @@ namespace dae
 	{
 	public:
 		// Destructor
+		explicit LoggingSoundSystem(SoundSystem* pRealSystem);
 		~LoggingSoundSystem();
 
 		// Functionality
@@ -16,6 +17,11 @@ namespace dae
 		bool IsPaused(unsigned int ID) override;
 		void Resume(unsigned int ID) override;
 		void SetVolume(unsigned int ID, int volume) override;
+
+		unsigned int SetID(const std::string&) override;
+
+		void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) override;
+		void OnSubjectDestroy() override;
 
 	private:
 		// Member variables

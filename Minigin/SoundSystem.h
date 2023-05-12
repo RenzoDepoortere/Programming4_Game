@@ -1,11 +1,12 @@
 #pragma once
+#include "Observer.h"
 #include <string>
 
 namespace dae
 {
 	// Actual class
 	// ************
-	class SoundSystem
+	class SoundSystem : public Observer<unsigned int, int, int>
 	{
 	public:
 		// Rule of five
@@ -26,6 +27,9 @@ namespace dae
 		virtual void SetVolume(unsigned int ID, int volume) = 0;
 
 		virtual unsigned int SetID(const std::string& resourceName) = 0;
+
+		virtual void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) = 0;
+		virtual void OnSubjectDestroy() = 0;
 	};
 
 	// Default implementation
@@ -43,5 +47,8 @@ namespace dae
 		void SetVolume(unsigned int, int) override {};
 
 		unsigned int SetID(const std::string&) override { return {}; };
+
+		void HandleEvent(int, unsigned int, int, int) override {};
+		void OnSubjectDestroy() override {};
 	};
 }

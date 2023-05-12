@@ -30,6 +30,9 @@ namespace dae
 
 		unsigned int SetID(const std::string& resourceName) override;
 
+		void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) override;
+		void OnSubjectDestroy() override {};
+
 	private:
 		// Member variables
 		std::map<unsigned int, std::shared_ptr<AudioFile>> m_AudioFiles{};

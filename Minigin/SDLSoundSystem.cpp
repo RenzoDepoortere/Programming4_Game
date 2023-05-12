@@ -65,3 +65,8 @@ bool dae::SDLSoundSystem::IsValid(unsigned int ID, bool checkIsInIDs, bool print
 	}
 	else return true;
 }
+
+void dae::SDLSoundSystem::HandleEvent(int /*eventID*/, unsigned int /*soundID*/, int /*volume*/, int /*loops = 1*/)
+{
+
+}
