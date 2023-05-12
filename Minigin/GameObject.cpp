@@ -1,6 +1,7 @@
 #include <string>
 #include "GameObject.h"
 
+#pragma region GameLoop
 void dae::GameObject::Update(float deltaTime)
 {
 	// Delete marked components
@@ -60,7 +61,9 @@ void dae::GameObject::RenderImGUI()
 		currentChild->RenderImGUI();
 	}
 }
+#pragma endregion
 
+#pragma region ParentShip
 void dae::GameObject::SetParent(GameObject* pParent, bool keepWorldPos)
 {
 	// If no new parent
@@ -89,7 +92,7 @@ void dae::GameObject::SetParent(GameObject* pParent, bool keepWorldPos)
 			SetLocalPosition(0, 0, 0);
 		}
 
-		SetPositionDirty();
+		SetDirty();
 	}
 
 	// If had parent, remove from parent
@@ -138,7 +141,9 @@ bool dae::GameObject::RemoveChildFromScene(std::shared_ptr<dae::GameObject> pChi
 	// Else, return false
 	return false;
 }
+#pragma endregion
 
+#pragma region Position
 void dae::GameObject::SetWorldPosition(float x, float y, float z)
 {
 	m_WorldTransform.SetPosition(x, y, z);
@@ -152,7 +157,7 @@ void dae::GameObject::SetWorldPosition(float x, float y, float z)
 		m_LocalTransform.SetPosition(glm::vec3{ x, y, z } - m_pParent->GetWorldPosition());
 	}
 
-	SetPositionDirty();
+	SetDirty();
 }
 void dae::GameObject::SetWorldPosition(const glm::vec3& position)
 {
@@ -160,9 +165,9 @@ void dae::GameObject::SetWorldPosition(const glm::vec3& position)
 }
 const glm::vec3& dae::GameObject::GetWorldPosition()
 {
-	if (m_PositionIsDirty)
+	if (m_IsDirty)
 	{
-		UpdateWorldPosition();
+		UpdateWorldTransform();
 	}
 
 	return m_WorldTransform.GetPosition();
@@ -171,7 +176,7 @@ const glm::vec3& dae::GameObject::GetWorldPosition()
 void dae::GameObject::SetLocalPosition(float x, float y, float z)
 {
 	m_LocalTransform.SetPosition(x, y, z);
-	SetPositionDirty();
+	SetDirty();
 }
 void dae::GameObject::SetLocalPosition(const glm::vec3 position)
 {
@@ -182,9 +187,9 @@ const glm::vec3& dae::GameObject::GetLocalPosition()
 	return m_LocalTransform.GetPosition();
 }
 
-void dae::GameObject::UpdateWorldPosition()
+void dae::GameObject::UpdateWorldTransform()
 {
-	if (m_PositionIsDirty)
+	if (m_IsDirty)
 	{
 		if (m_pParent == nullptr)
 		{
@@ -196,29 +201,45 @@ void dae::GameObject::UpdateWorldPosition()
 		}
 	}
 
-	//m_Transform.SetPosition(m_WorldPosition.x, m_WorldPosition.y, m_WorldPosition.z);
-	m_PositionIsDirty = false;
+	m_IsDirty = false;
 }
-void dae::GameObject::SetPositionDirty()
-{
-	// Set own position dirty
-	m_PositionIsDirty = true;
+#pragma endregion
 
-	// Set children position dirty
+void dae::GameObject::SetRotation(float degrees)
+{
+	m_LocalTransform.SetRotation(degrees);
+	SetDirty();
+}
+float dae::GameObject::GetRotation()
+{
+	if (m_IsDirty)
+	{
+		UpdateWorldTransform();
+	}
+
+	return m_LocalTransform.GetRotation();
+}
+
+void dae::GameObject::SetDirty()
+{
+	// Set own dirty
+	m_IsDirty = true;
+
+	// Set children dirty
 	for (const auto& currentChild : m_pChildren)
 	{
-		currentChild->SetPositionDirty();
+		currentChild->SetDirty();
 	}
 }
 
 void dae::GameObject::AddChildToList(std::shared_ptr<dae::GameObject> pChild)
 {
-	pChild->SetPositionDirty();
+	pChild->SetDirty();
 	m_pChildren.push_back(pChild);
 }
-void dae::GameObject::RemoveChildFromList(std::shared_ptr<dae::GameObject> pChild, bool setPositionDirty)
+void dae::GameObject::RemoveChildFromList(std::shared_ptr<dae::GameObject> pChild, bool setDirty)
 {
-	if (setPositionDirty) pChild->SetPositionDirty();
+	if (setDirty) pChild->SetDirty();
 	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), pChild), m_pChildren.end());
 }
 

@@ -49,6 +49,10 @@ namespace dae
 		void SetLocalPosition(const glm::vec3 position);
 		const glm::vec3& GetLocalPosition();
 
+		// Rotation
+		void SetRotation(float degrees);
+		float GetRotation();
+
 	private:
 		// Member Variables
 		// ----------------
@@ -57,11 +61,11 @@ namespace dae
 		GameObject* m_pParent{ nullptr };
 		std::list<std::shared_ptr<GameObject>> m_pChildren{};
 
-		// Position
+		// Transform
 		Transform m_WorldTransform{};
 		Transform m_LocalTransform{};
 
-		bool m_PositionIsDirty{ false };
+		bool m_IsDirty{ false };
 
 		// Component
 		std::unordered_map<std::type_index,std::shared_ptr<Component>> m_pComponents{};
@@ -69,11 +73,11 @@ namespace dae
 
 		// Member Functions
 		// ----------------
-		void UpdateWorldPosition();
-		void SetPositionDirty();
+		void UpdateWorldTransform();
+		void SetDirty();
 
 		void AddChildToList(std::shared_ptr<GameObject> pChild);
-		void RemoveChildFromList(std::shared_ptr<GameObject> pChild, bool setPositionDirty = true);
+		void RemoveChildFromList(std::shared_ptr<GameObject> pChild, bool setDirty = true);
 
 		void DeleteMarkedComponents();
 	};
