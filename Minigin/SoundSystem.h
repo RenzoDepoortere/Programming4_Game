@@ -17,7 +17,12 @@ namespace dae
 		SoundSystem& operator=(SoundSystem&& rhs) = delete;
 
 		// Funtionality
-		virtual void Play(unsigned int ID, float volume) = 0;
+		virtual void Play(unsigned int ID, int volume, int loops = -1) = 0;
+		virtual bool IsPlaying(unsigned int ID) = 0;
+		virtual void Pause(unsigned int ID) = 0;
+		virtual bool IsPaused(unsigned int ID) = 0;
+		virtual void Resume(unsigned int ID) = 0;
+		virtual void SetVolume(unsigned int ID, int volume) = 0;
 	};
 
 	// Default implementation
@@ -26,6 +31,12 @@ namespace dae
 	{
 	public:
 		~nullSoundSystem() override = default;
-		void Play(unsigned int, float) override {};
+
+		void Play(unsigned int, int, int) override {};
+		bool IsPlaying(unsigned int) override {};
+		void Pause(unsigned int) override {};
+		bool IsPaused(unsigned int) override {};
+		void Resume(unsigned int) override {};
+		void SetVolume(unsigned int, int) override {};
 	};
 }

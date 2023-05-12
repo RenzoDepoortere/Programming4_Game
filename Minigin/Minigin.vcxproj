@@ -253,7 +253,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCommand.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SDLSoundSytem.h" />
+    <ClInclude Include="SDLSoundSystem.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="AudioFile.h" />
@@ -289,7 +289,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCommand.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SDLSoundSytem.cpp" />
+    <ClCompile Include="SDLSoundSystem.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="AudioFile.cpp" />

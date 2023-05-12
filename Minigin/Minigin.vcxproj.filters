@@ -152,7 +152,7 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClInclude>
-    <ClInclude Include="SDLSoundSytem.h">
+    <ClInclude Include="SDLSoundSystem.h">
       <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClInclude>
     <ClInclude Include="AudioFile.h">
@@ -250,7 +250,7 @@
     <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClCompile>
-    <ClCompile Include="SDLSoundSytem.cpp">
+    <ClCompile Include="SDLSoundSystem.cpp">
       <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
     </ClCompile>
     <ClCompile Include="AudioFile.cpp">

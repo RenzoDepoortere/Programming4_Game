@@ -16,7 +16,12 @@ namespace dae
 		AudioFile& operator= (AudioFile&& rhs) = delete;
 
 		// Functionality
-
+		void Play(int loops = -1);
+		bool IsPlaying();
+		void Pause();
+		bool IsPaused();
+		void Resume();
+		void SetVolume(int volume);
 
 	private:
 		// Member variables

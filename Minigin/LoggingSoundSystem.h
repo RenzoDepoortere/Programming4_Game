@@ -10,7 +10,12 @@ namespace dae
 		~LoggingSoundSystem();
 
 		// Functionality
-		virtual void Play(unsigned int ID, float volume) override;
+		void Play(unsigned int ID, int volume, int loops = -1) override;
+		bool IsPlaying(unsigned int ID) override;
+		void Pause(unsigned int ID) override;
+		bool IsPaused(unsigned int ID) override;
+		void Resume(unsigned int ID) override;
+		void SetVolume(unsigned int ID, int volume) override;
 
 	private:
 		// Member variables
