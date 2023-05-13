@@ -170,9 +170,10 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 	// --------------
 
 	// Textures
+	dae::RenderTextureComponent* pObjectTexture{ nullptr };
 	if (m_pRockTexture)
 	{
-		dae::RenderTextureComponent* pObjectTexture{ pRock->AddComponent<dae::RenderTextureComponent>() };
+		pObjectTexture = pRock->AddComponent<dae::RenderTextureComponent>();
 		pObjectTexture->SetTexture(m_pRockTexture);
 		pObjectTexture->CenterTexture(true);
 	}
@@ -180,6 +181,7 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 	// Rock
 	RockComponent* pRockComponent{ pRock->AddComponent<RockComponent>() };
 	pRockComponent->SetGrid(this);
+	pRockComponent->SetRenderTextureComponent(pObjectTexture);
 
 	// Add as child
 	pRock->SetWorldPosition(rockPosition);

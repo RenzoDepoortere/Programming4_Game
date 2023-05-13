@@ -2,12 +2,10 @@
 #include "Component.h"
 #include "glm/vec2.hpp"
 #include "Utils.h"
+#include "Texture2D.h"
 
 namespace dae
 {
-	class Texture2D;
-
-
 	class RenderTextureComponent final : public Component
 	{
 	public:
@@ -17,6 +15,7 @@ namespace dae
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
+		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }	// Todo: return half if this is centered
 
 		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }
 
