@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "glm/vec2.hpp"
+#include "Utils.h"
 
 namespace dae
 {
@@ -11,8 +12,8 @@ namespace dae
 	{
 	public:
 		virtual void Render() const override;
-		// Use this function when you want to have more control of the image
-		void RenderManually(float posX, float posY, float srcLeft, float srcTop, float srcWidth, float srcHeight) const;
+		// Use this function when you want to have more control of the image, be sure to call it inside the render though
+		void RenderManually(const utils::Rect& destRect, const utils::Rect& srcRect, float angle) const;
 
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }

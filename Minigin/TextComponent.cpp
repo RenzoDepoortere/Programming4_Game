@@ -49,7 +49,11 @@ void dae::TextComponent::Render() const
 	if (m_Font == nullptr) return;
 
 	const auto& pos = GetGameObject()->GetWorldPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture2D, pos.x, pos.y);
+	utils::Rect destRect{};
+	destRect.x = pos.x;
+	destRect.y = pos.y;
+
+	Renderer::GetInstance().RenderTexture(*m_pTexture2D, destRect);
 }
 
 // This implementation uses the "dirty flag" pattern

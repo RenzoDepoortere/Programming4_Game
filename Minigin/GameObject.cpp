@@ -194,10 +194,12 @@ void dae::GameObject::UpdateWorldTransform()
 		if (m_pParent == nullptr)
 		{
 			m_WorldTransform.SetPosition(m_LocalTransform.GetPosition());
+			m_WorldTransform.SetRotation(m_LocalTransform.GetRotation());
 		}
 		else
 		{
 			m_WorldTransform.SetPosition(m_pParent->GetWorldPosition() + m_LocalTransform.GetPosition());
+			m_WorldTransform.SetRotation(m_pParent->GetRotation() + m_LocalTransform.GetRotation());
 		}
 	}
 

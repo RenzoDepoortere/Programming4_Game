@@ -35,7 +35,14 @@ void RockComponent::BottomCellGone()
 		m_CurrentRockState = Unstable;
 	}
 }
-void RockComponent::Rumble(float /*deltaTime*/)
+void RockComponent::Rumble(float deltaTime)
 {
 	if (m_CurrentRockState != Passive) return;
+	
+	const float rotationSpeed{ 50.0f };
+	const float currentRotation{ GetGameObject()->GetRotation() };
+
+	const float newRotation{ currentRotation + rotationSpeed * deltaTime };
+
+	GetGameObject()->SetRotation(newRotation);
 }

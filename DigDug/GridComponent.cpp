@@ -191,16 +191,20 @@ void GridComponent::RenderGrid() const
 	if (m_pRenderer == nullptr) return;
 
 	// Draw corresponding texture of each cell
-	float srcLeft{};
-	float srcTop{};
-	const float srcWidth{ static_cast<float>(m_CellWidth) }, srcHeight{ static_cast<float>(m_CellHeight) };
+	utils::Rect destRect{};
+	utils::Rect srcRect{};
+	srcRect.width = static_cast<float>(m_CellWidth);
+	srcRect.height = static_cast<float>(m_CellHeight);
+
 	for (const auto& currentCell : m_Cells)
 	{
 		// If textureID is valid
 		if (currentCell->textureID != 0)
 		{
-			srcLeft = (currentCell->textureID - 1) * srcWidth;
-			m_pRenderer->RenderManually(currentCell->worldPosition.x, currentCell->worldPosition.y, srcLeft, srcTop, srcWidth, srcHeight);
+			destRect.x = currentCell->worldPosition.x;
+			destRect.y = currentCell->worldPosition.y;
+			srcRect.x = (currentCell->textureID - 1) * srcRect.width;
+			m_pRenderer->RenderManually(destRect, srcRect, 0.f);
 		}
 	}
 }
