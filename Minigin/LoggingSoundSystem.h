@@ -11,17 +11,14 @@ namespace dae
 		~LoggingSoundSystem();
 
 		// Functionality
-		void Play(unsigned int ID, int volume, int loops = -1) override;
-		bool IsPlaying(unsigned int ID) override;
-		void Pause(unsigned int ID) override;
-		bool IsPaused(unsigned int ID) override;
-		void Resume(unsigned int ID) override;
-		void SetVolume(unsigned int ID, int volume) override;
+		void PlayAudio(unsigned int ID, int volume, int loops = -1) override;
+		bool IsPlayingAudio(unsigned int ID) override;
+		void PauseAudio(unsigned int ID) override;
+		bool IsPausedAudio(unsigned int ID) override;
+		void ResumeAudio(unsigned int ID) override;
+		void SetVolumeAudio(unsigned int ID, int volume) override;
 
 		void SetID(unsigned int ID, const std::string& resourceName) override;
-
-		void HandleEvent(unsigned int ID, int volume, int loops = 1) override;
-		void OnSubjectDestroy() override;
 
 	private:
 		// Member variables

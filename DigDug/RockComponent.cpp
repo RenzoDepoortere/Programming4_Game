@@ -134,7 +134,7 @@ void RockComponent::Fall(float deltaTime)
 		const int volume{ 100 };
 		const int loops{ 0 };
 
-		dae::EventManager<int, int>::GetInstance().SendEvent(event::RockBreak, volume, loops);
+		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
 	}
 }
 void RockComponent::Destroy(float deltaTime)
