@@ -18,9 +18,9 @@ namespace dae
 		void Resume(unsigned int ID) override;
 		void SetVolume(unsigned int ID, int volume) override;
 
-		unsigned int SetID(const std::string&) override;
+		void SetID(unsigned int ID, const std::string& resourceName) override;
 
-		void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) override;
+		void HandleEvent(unsigned int ID, int volume, int loops = 1) override;
 		void OnSubjectDestroy() override;
 
 	private:

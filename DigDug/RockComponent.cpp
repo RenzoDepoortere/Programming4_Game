@@ -2,15 +2,23 @@
 #include "GameObject.h"
 #include "GridComponent.h"
 #include "RenderTextureComponent.h"
+#include "ServiceLocator.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
 
 RockComponent::RockComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
-	// Create move
+	// Create move command
 	const glm::vec2 downDirection{ 0, 1 };
 	const float movementDirection{ 150.f };
 
 	pMoveCommand = std::make_unique<dae::MoveCommand>(GetGameObject(), downDirection, movementDirection);
+
+	// Get SFX ID
+	const std::string fileName{ "Sound/FallenRock_SFX.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
+	dae::ServiceLocator::GetSoundSystem().SetVolume(event::RockBreak, 0);
 }
 
 void RockComponent::Update(float deltaTime)
@@ -132,6 +140,12 @@ void RockComponent::Destroy(float deltaTime)
 	m_CurrentDestroyTime -= deltaTime;
 	if (m_CurrentDestroyTime < 0)
 	{
+		// Play SFX
+		const int volume{ 100 };
+		const int loops{ 0 };
+
+		dae::EventManager<int, int>::GetInstance().SendEvent(event::RockBreak, volume, loops);
+
 		// Destroy object
 		GetGameObject()->RemoveObject();
 	}

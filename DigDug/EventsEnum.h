@@ -4,6 +4,7 @@ namespace event
 {
 	enum eventID
 	{
-		PauseMenu
+		PauseMenu,
+		RockBreak
 	};
 }

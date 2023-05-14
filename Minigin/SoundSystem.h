@@ -6,7 +6,7 @@ namespace dae
 {
 	// Actual class
 	// ************
-	class SoundSystem : public Observer<unsigned int, int, int>
+	class SoundSystem : public Observer<int, int>
 	{
 	public:
 		// Rule of five
@@ -26,9 +26,9 @@ namespace dae
 		virtual void Resume(unsigned int ID) = 0;
 		virtual void SetVolume(unsigned int ID, int volume) = 0;
 
-		virtual unsigned int SetID(const std::string& resourceName) = 0;
+		virtual void SetID(unsigned int ID, const std::string& resourceName) = 0;
 
-		virtual void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) = 0;
+		virtual void HandleEvent(unsigned int ID, int volume, int loops = 1) = 0;
 		virtual void OnSubjectDestroy() = 0;
 	};
 
@@ -46,9 +46,9 @@ namespace dae
 		void Resume(unsigned int) override {};
 		void SetVolume(unsigned int, int) override {};
 
-		unsigned int SetID(const std::string&) override { return {}; };
+		void SetID(unsigned int, const std::string&) override {};
 
-		void HandleEvent(int, unsigned int, int, int) override {};
+		void HandleEvent(unsigned int, int, int) override {};
 		void OnSubjectDestroy() override {};
 	};
 }

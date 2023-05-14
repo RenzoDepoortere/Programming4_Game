@@ -10,11 +10,6 @@
 
 dae::SDLSoundSystem::SDLSoundSystem()
 {
-#ifndef _DEBUG
-	// Subcsribe to event
-	dae::EventManager<unsigned int, int, int>::GetInstance().Subscribe(event::PauseMenu, this);
-#endif // _DEBUG
-
 	// Start thread
 	m_AudioThread = std::jthread{&dae::SDLSoundSystem::AudioThread, this };
 }
@@ -27,17 +22,8 @@ dae::SDLSoundSystem::~SDLSoundSystem()
 #pragma region AudioFunctionality
 void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops)
 {
-	// Get audioClip, load if didn't load yet
-	if (IsValid(ID, false, false) == false && m_IDs.contains(ID))
-	{
-		m_AudioFiles[ID] = ResourceManager::GetInstance().LoadSound(GetResourceName(ID));
-	}
-	else if(m_IDs.contains(ID) == false)
-	{
-		std::cout << "Error: tried to load non-existent soundID" << std::endl;
-		return;
-	}
-
+	// Check validity
+	if (IsValid(ID) == false) return;
 
 	// Set volume and play
 	m_AudioFiles[ID]->SetVolume(volume);
@@ -67,40 +53,59 @@ void dae::SDLSoundSystem::SetVolume(unsigned int ID, int volume)
 }
 #pragma endregion
 
-unsigned int dae::SDLSoundSystem::SetID(const std::string& resourceName)
-{
-	m_IDs[m_NextFreeID] = resourceName;
-	return m_NextFreeID++;
-}
-
-void dae::SDLSoundSystem::HandleEvent(int /*eventID*/, unsigned int soundID, int volume, int loops)
+void dae::SDLSoundSystem::SetID(unsigned int ID, const std::string& resourceName)
 {
 	// Lock mutex
 	{
 		std::lock_guard<std::mutex> lockGuard{ m_Mutex };
 
 		// Store info
-		m_AudioInfo.soundID = soundID;
-		m_AudioInfo.volume = volume;
-		m_AudioInfo.loops = loops;
+		AudioInfo info{};
+		info.soundID = ID;
+		info.resourceName = resourceName;
+		info.threadInstruction = LoadSFX;
+
+		m_AudioQueue.push(info);
 	}
 
 	// Notify
 	m_ConditionVariable.notify_all();
 }
 
-bool dae::SDLSoundSystem::IsValid(unsigned int ID, bool checkIsInIDs, bool printError)
+void dae::SDLSoundSystem::HandleEvent(unsigned int ID, int volume, int loops)
 {
-	auto iterator{ m_AudioFiles.find(ID) };
-	bool inIDs{ true };
-	if (checkIsInIDs) inIDs = m_IDs.contains(ID);
+	// Lock mutex
+	{
+		std::lock_guard<std::mutex> lockGuard{ m_Mutex };
 
-	if (iterator == m_AudioFiles.end() && inIDs)
+		// Store info
+		AudioInfo info{};
+		info.soundID = ID;
+		info.volume = volume;
+		info.loops = loops;
+		info.threadInstruction = PlaySFX;
+
+		m_AudioQueue.push(info);
+	}
+
+	// Notify
+	m_ConditionVariable.notify_all();
+}
+
+bool dae::SDLSoundSystem::IsValid(unsigned int ID, bool printError)
+{
+	if (m_AudioFiles.find(ID) == m_AudioFiles.end())
 	{
 		if (printError) std::cout << "Error: tried to load non-existent soundID" << std::endl;
 		return false;
 	}
 	else return true;
+}
+
+void dae::SDLSoundSystem::Load(unsigned int ID, const std::string& resourceName)
+{
+	m_AudioFiles[ID] = ResourceManager::GetInstance().LoadSound(resourceName);
+	dae::EventManager<int, int>::GetInstance().Subscribe(ID, this);
 }
 
 void dae::SDLSoundSystem::AudioThread()
@@ -117,8 +122,27 @@ void dae::SDLSoundSystem::AudioThread()
 		// If is not being destroyed
 		if (m_IsBeingDestroyed == false)
 		{
-			// Use info to play audio
-			Play(m_AudioInfo.soundID, m_AudioInfo.volume, m_AudioInfo.loops);
+			// While queue is not empty
+			while (m_AudioQueue.empty() == false)
+			{
+				// Get first file
+				const AudioInfo currentAudioFile{ m_AudioQueue.front() };
+
+				// Check instruction
+				switch (currentAudioFile.threadInstruction)
+				{
+				case dae::SDLSoundSystem::LoadSFX:
+					Load(currentAudioFile.soundID, currentAudioFile.resourceName);
+					break;
+			
+				case dae::SDLSoundSystem::PlaySFX:
+					Play(currentAudioFile.soundID, currentAudioFile.volume, currentAudioFile.loops);
+					break;
+				}
+
+				// Pop file
+				m_AudioQueue.pop();
+			}
 		}
 	}
 }

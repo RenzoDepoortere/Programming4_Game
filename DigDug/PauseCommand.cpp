@@ -9,7 +9,7 @@ PauseCommand::PauseCommand()
 {
 	// Get SFX ID
 	const std::string fileName{ "Sound/Pause_SFX.wav" };
-	m_PauseID = dae::ServiceLocator::GetSoundSystem().SetID(fileName);
+	dae::ServiceLocator::GetSoundSystem().SetID(event::PauseMenu, fileName);
 }
 
 void PauseCommand::Execute(float)
@@ -18,5 +18,5 @@ void PauseCommand::Execute(float)
 	const int loops{ 0 };
 
 	// Sent playEvent
-	dae::EventManager<unsigned int, int, int>::GetInstance().SendEvent(event::PauseMenu, m_PauseID, volume, loops);
+	dae::EventManager<int, int>::GetInstance().SendEvent(event::PauseMenu, volume, loops);
 }

@@ -36,7 +36,7 @@ namespace dae
 		{
 			for (auto& currentObserver : m_pObservers)
 			{
-				currentObserver->HandleEvent(-1, args...);
+				currentObserver->HandleEvent(0, args...);
 			}
 		}
 

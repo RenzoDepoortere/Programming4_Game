@@ -8,10 +8,6 @@
 dae::LoggingSoundSystem::LoggingSoundSystem(dae::SoundSystem* pRealSystem)
 	: m_pRealSystem{ pRealSystem }
 {
-#ifdef _DEBUG
-	// Subcsribe to event
-	dae::EventManager<unsigned int, int, int>::GetInstance().Subscribe(event::PauseMenu, this);
-#endif // _DEBUG
 }
 
 dae::LoggingSoundSystem::~LoggingSoundSystem()
@@ -57,18 +53,16 @@ void dae::LoggingSoundSystem::SetVolume(unsigned int ID, int volume)
 }
 #pragma endregion
 
-unsigned int dae::LoggingSoundSystem::SetID(const std::string& resourceName)
+void dae::LoggingSoundSystem::SetID(unsigned int ID, const std::string& resourceName)
 {
-	const unsigned int soundID{ m_pRealSystem->SetID(resourceName) };
-	std::cout << "Set Sound ID: " << soundID << " to ResourceName: " << resourceName << std::endl;
-
-	return soundID;
+	m_pRealSystem->SetID(ID, resourceName);
+	std::cout << "Set Sound ID: " << ID << " to ResourceName: " << resourceName << std::endl;
 }
 
-void dae::LoggingSoundSystem::HandleEvent(int eventID, unsigned int soundID, int volume, int loops)
+void dae::LoggingSoundSystem::HandleEvent(unsigned int ID, int volume, int loops)
 {
-	m_pRealSystem->HandleEvent(eventID, soundID, volume, loops);
-	std::cout << "Sound ID: " << soundID << " handled by EventID: " << eventID << std::endl;
+	m_pRealSystem->HandleEvent(ID, volume, loops);
+	std::cout << "Sound played by event: " << ID << std::endl;
 }
 
 void dae::LoggingSoundSystem::OnSubjectDestroy()

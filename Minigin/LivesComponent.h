@@ -22,7 +22,7 @@ namespace dae
 		LivesComponent& operator=(LivesComponent&& other) = delete;
 
 		// Public functions
-		virtual void HandleEvent(int eventID) override;
+		virtual void HandleEvent(unsigned int eventID) override;
 		virtual void OnSubjectDestroy() override;
 
 		void SetComponentToFollow(HealthComponent* pToFollow);

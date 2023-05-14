@@ -6,6 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <queue>
 
 namespace dae
 {
@@ -31,9 +32,9 @@ namespace dae
 		void Resume(unsigned int ID) override;
 		void SetVolume(unsigned int ID, int volume) override;
 
-		unsigned int SetID(const std::string& resourceName) override;
+		void SetID(unsigned int ID, const std::string& resourceName) override;
 
-		void HandleEvent(int eventID, unsigned int soundID, int volume, int loops = 1) override;
+		void HandleEvent(unsigned int ID, int volume, int loops = 1) override;
 		void OnSubjectDestroy() override {};
 
 	private:
@@ -41,17 +42,21 @@ namespace dae
 		// ----------------
 		std::map<unsigned int, std::shared_ptr<AudioFile>> m_AudioFiles{};
 
-		// Todo: fix, this could probably be done in a better way
-		unsigned int m_NextFreeID{ 0 };
-		std::map<unsigned int, std::string> m_IDs{};
+		enum ThreadInstruction
+		{
+			LoadSFX, PlaySFX
+		};
 
-		struct audioInfo
+		struct AudioInfo
 		{
 			unsigned int soundID{};
+			std::string resourceName{};
+			ThreadInstruction threadInstruction{};
+
 			int volume{};
 			int loops{};
 		};
-		audioInfo m_AudioInfo{};
+		std::queue<AudioInfo> m_AudioQueue{};
 
 		std::condition_variable m_ConditionVariable{};
 		std::mutex m_Mutex{};
@@ -61,9 +66,8 @@ namespace dae
 
 		// Member functions
 		// ----------------
-		bool IsValid(unsigned int ID, bool checkIsInIDs = false, bool printError = true);
-		std::string GetResourceName(unsigned int ID) { return m_IDs[ID]; }
-
+		bool IsValid(unsigned int ID, bool printError = true);
+		void Load(unsigned int ID, const std::string& resourceName);
 		void AudioThread();
 	};
 }

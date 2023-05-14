@@ -11,19 +11,19 @@ namespace dae
 	class EventManager final : public Singleton<EventManager<Args...>>
 	{
 	public:
-		void Subscribe(int eventID, Observer<Args...>* pObserver)
+		void Subscribe(unsigned int eventID, Observer<Args...>* pObserver)
 		{
 			// Add to list
 			m_pSubscribers[eventID].push_back(pObserver);
 		}
-		void Unsubscribe(int eventID, Observer<Args...>* pObserver)
+		void Unsubscribe(unsigned int eventID, Observer<Args...>* pObserver)
 		{
 			// Remove from list
 			auto& subscribers{ m_pSubscribers[eventID] };
 			subscribers.remove(pObserver);
 		}
 
-		void SendEvent(int eventID, Args... args)
+		void SendEvent(unsigned int eventID, Args... args)
 		{
 			// If are subscribers
 			auto listIt{ m_pSubscribers.find(eventID) };
@@ -39,6 +39,6 @@ namespace dae
 
 	private:
 		// Member variables
-		std::map<int, std::list<Observer<Args...>*>> m_pSubscribers{};
+		std::map<unsigned int, std::list<Observer<Args...>*>> m_pSubscribers{};
 	};
 }
