@@ -10,6 +10,8 @@
 
 namespace dae
 {
+	class Scene;
+
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
@@ -35,10 +37,12 @@ namespace dae
 		template <typename T> bool HasComponent() const;
 
 		// Ownership
+		void SetScene(Scene* pScene) { m_pScene = pScene; }
 		void SetParent(GameObject* pParent, bool keepWorldPos);
 		GameObject* GetParent() const;
 		const std::list<std::shared_ptr<GameObject>>& GetChildren() const;
 		bool RemoveChildFromScene(std::shared_ptr<GameObject> pChild);
+		void RemoveObject();
 
 		// Positions
 		void SetWorldPosition(float x, float y, float z);
@@ -58,6 +62,7 @@ namespace dae
 		// ----------------
 
 		// Ownership
+		Scene* m_pScene{ nullptr };
 		GameObject* m_pParent{ nullptr };
 		std::list<std::shared_ptr<GameObject>> m_pChildren{};
 
@@ -80,6 +85,7 @@ namespace dae
 		void RemoveChildFromList(std::shared_ptr<GameObject> pChild, bool setDirty = true);
 
 		void DeleteMarkedComponents();
+		void DeleteMarkedChildren();
 	};
 
 	// TEMPLATED FUNCTIONS

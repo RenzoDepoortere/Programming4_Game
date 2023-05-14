@@ -60,6 +60,6 @@ private:
 	void Fall(float deltaTime);
 	void Destroy(float deltaTime);
 
-	grid::Cell* GetCellBelow(grid::Cell* pOutputCurrentCell = nullptr) const;
+	grid::Cell* GetCellBelow() const;
 };
 

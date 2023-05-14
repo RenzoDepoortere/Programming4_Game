@@ -1,5 +1,6 @@
 #include <string>
 #include "GameObject.h"
+#include "Scene.h"
 
 #pragma region GameLoop
 void dae::GameObject::Update(float deltaTime)
@@ -140,6 +141,19 @@ bool dae::GameObject::RemoveChildFromScene(std::shared_ptr<dae::GameObject> pChi
 	
 	// Else, return false
 	return false;
+}
+void dae::GameObject::RemoveObject()
+{
+	// If scene is parent
+	if (m_pParent == nullptr)
+	{
+		m_pScene->Remove(this);
+	}
+	// If gameObject is parent
+	else
+	{
+		m_pParent->RemoveChildFromScene(shared_from_this());
+	}
 }
 #pragma endregion
 

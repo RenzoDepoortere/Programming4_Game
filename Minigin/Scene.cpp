@@ -15,6 +15,7 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 {
 	// Add gameObject
 	assert(object->GetParent() == nullptr && "You can only add an object without a parent to the scene");
+	object->SetScene(this);
 	m_Objects.emplace_back(std::move(object));
 }
 void Scene::Remove(GameObject* pObject)

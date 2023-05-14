@@ -90,17 +90,31 @@ void RockComponent::Fall(float deltaTime)
 
 	// Check if cell below is blocked
 	// ------------------------------
+	const glm::ivec2 textureSize{ m_pRenderTextureComponent->GetTextureSize() };
+	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
+
+	grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
 	grid::Cell* pCellBelow{ GetCellBelow() };
-	if (pCellBelow->textureID == 0) return;	// This crashes when is nullptr, just check if the pos + size is outside of the currentCell
+
+	const float bottomY{ currentPos.y + textureSize.y / 2.f };
+	bool canTransitionState{ false };
 
 	// Check if is colliding
 	// ---------------------
 	// Todo: this could get converted into a collision system
-	const glm::ivec2 textureSize{ m_pRenderTextureComponent->GetTextureSize() };
-	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
+	if (pCellBelow)
+	{
+		if (pCellBelow->textureID == 0) return;
+		canTransitionState = pCellBelow->worldPosition.y <= bottomY && bottomY <= pCellBelow->worldPosition.y + pCellBelow->size.y;
+	}
+	else
+	{
+		canTransitionState = pCurrentCell->worldPosition.y + pCurrentCell->size.y < bottomY;
+	}
 
-	const float bottomY{ currentPos.y + textureSize.y / 2.f };
-	if (pCellBelow->worldPosition.y <= bottomY && bottomY <= pCellBelow->worldPosition.y + pCellBelow->size.y)
+	// Change state
+	// ------------
+	if (canTransitionState)
 	{
 		// Current state is destroyed
 		m_CurrentRockState = Destroyed;
@@ -112,21 +126,22 @@ void RockComponent::Fall(float deltaTime)
 }
 void RockComponent::Destroy(float deltaTime)
 {
+	// Animation
+
 	// Countdown
 	m_CurrentDestroyTime -= deltaTime;
 	if (m_CurrentDestroyTime < 0)
 	{
 		// Destroy object
-		
+		GetGameObject()->RemoveObject();
 	}
 }
 
-grid::Cell* RockComponent::GetCellBelow(grid::Cell* pOutputCurrentCell) const
+grid::Cell* RockComponent::GetCellBelow() const
 {
 	// Get currentCell
 	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
-	pOutputCurrentCell = pCurrentCell;
 
 	// Get cellBelow
 	glm::vec3 bottomCellPos{ currentPos };

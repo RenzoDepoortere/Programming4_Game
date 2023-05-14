@@ -1,5 +1,6 @@
 #pragma once
 
+// SDL.h didn't get included here, so is this pimpled away?
 struct Mix_Chunk;
 namespace dae
 {
