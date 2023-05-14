@@ -5,9 +5,6 @@
 #pragma region GameLoop
 void dae::GameObject::Update(float deltaTime)
 {
-	// Delete marked components
-	DeleteMarkedComponents();
-
 	// Update Components
 	for (const auto& currentComponent : m_pComponents)
 	{
@@ -19,6 +16,10 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		currentChild->Update(deltaTime);
 	}
+
+	// Delete marked objects
+	DeleteMarkedComponents();
+	DeleteMarkedChildren();
 }
 void dae::GameObject::FixedUpdate(float deltaTime)
 {
@@ -256,7 +257,9 @@ void dae::GameObject::AddChildToList(std::shared_ptr<dae::GameObject> pChild)
 void dae::GameObject::RemoveChildFromList(std::shared_ptr<dae::GameObject> pChild, bool setDirty)
 {
 	if (setDirty) pChild->SetDirty();
-	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), pChild), m_pChildren.end());
+
+	// Add to children to delete
+	m_ChildrenToDelete.push_back(pChild);
 }
 
 void dae::GameObject::DeleteMarkedComponents()
@@ -264,7 +267,28 @@ void dae::GameObject::DeleteMarkedComponents()
 	// If there are components to delete
 	if (m_ComponentsToDelete.size() > 0)
 	{
+		for (size_t idx{}; idx < m_ComponentsToDelete.size(); ++idx)
+		{
+			// Delete from normal vector
+			m_pComponents.erase(m_ComponentsToDelete[idx]);
+		}
+
 		// Clear vector
 		m_ComponentsToDelete.clear();
+	}
+}
+void dae::GameObject::DeleteMarkedChildren()
+{
+	// If there are children to delete
+	if (m_ChildrenToDelete.size() > 0)
+	{
+		for (size_t idx{}; idx < m_ChildrenToDelete.size(); ++idx)
+		{
+			// Delete from normal vector
+			m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), m_ChildrenToDelete[idx]), m_pChildren.end());
+		}		
+
+		// Clear vector
+		m_ChildrenToDelete.clear();
 	}
 }

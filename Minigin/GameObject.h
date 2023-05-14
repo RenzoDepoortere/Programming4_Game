@@ -65,6 +65,7 @@ namespace dae
 		Scene* m_pScene{ nullptr };
 		GameObject* m_pParent{ nullptr };
 		std::list<std::shared_ptr<GameObject>> m_pChildren{};
+		std::vector<std::shared_ptr<GameObject>> m_ChildrenToDelete{};
 
 		// Transform
 		Transform m_WorldTransform{};
@@ -134,9 +135,6 @@ namespace dae
 		{
 			// Add to components to delete
 			m_ComponentsToDelete.push_back(std::type_index(typeid(T)));
-
-			// Delete from normal vector
-			m_pComponents.erase(std::type_index(typeid(T)));
 		}
 		// Else report not found
 		else

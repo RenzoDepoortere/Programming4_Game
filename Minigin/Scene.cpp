@@ -36,29 +36,23 @@ void Scene::Remove(GameObject* pObject)
 
 	// Add to objects to delete
 	m_ObjectsToDelete.push_back(*sharedObjectIt);
-
-	// Delete from normal vector
-	m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), *sharedObjectIt), m_Objects.end());
 }
 void Scene::RemoveAll()
 {
 	// Add to objects to delete
 	m_ObjectsToDelete = m_Objects;
-
-	// Clear normal vector
-	m_Objects.clear();
 }
 
 void Scene::Update(float deltaTime)
 {
-	// Delete marked objects
-	DeleteMarkedObjects();
-
 	// Update objects
 	for(auto& object : m_Objects)
 	{
 		object->Update(deltaTime);
 	}
+
+	// Delete marked objects
+	DeleteMarkedObjects();
 }
 void Scene::FixedUpdate(float deltaTime)
 {
@@ -90,6 +84,12 @@ void Scene::DeleteMarkedObjects()
 	// If there are objects to delete
 	if (m_ObjectsToDelete.size() > 0)
 	{
+		for (size_t idx{}; idx < m_ObjectsToDelete.size(); ++idx)
+		{
+			// Delete from normal vector
+			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), m_ObjectsToDelete[idx]), m_Objects.end());
+		}
+
 		// Clear vector
 		m_ObjectsToDelete.clear();
 	}

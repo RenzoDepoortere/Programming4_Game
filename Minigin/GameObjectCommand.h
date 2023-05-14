@@ -5,6 +5,7 @@ namespace dae
 {
 	class GameObject;
 
+	// Todo: whenever the gameObject gets deleted and you try to execute, this crashes (Solution: make this an observer of the gameObject?)
 	class GameObjectCommand : public Command
 	{
 	public:
