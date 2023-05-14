@@ -18,7 +18,6 @@ RockComponent::RockComponent(dae::GameObject* pParentObject)
 	// Get SFX ID
 	const std::string fileName{ "Sound/FallenRock_SFX.wav" };
 	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
-	dae::ServiceLocator::GetSoundSystem().SetVolume(event::RockBreak, 0);
 }
 
 void RockComponent::Update(float deltaTime)
@@ -130,6 +129,12 @@ void RockComponent::Fall(float deltaTime)
 		// Set destroyTime
 		const float destroyTime{ 1.f };
 		m_CurrentDestroyTime = destroyTime;
+
+		// Play SFX
+		const int volume{ 100 };
+		const int loops{ 0 };
+
+		dae::EventManager<int, int>::GetInstance().SendEvent(event::RockBreak, volume, loops);
 	}
 }
 void RockComponent::Destroy(float deltaTime)
@@ -140,12 +145,6 @@ void RockComponent::Destroy(float deltaTime)
 	m_CurrentDestroyTime -= deltaTime;
 	if (m_CurrentDestroyTime < 0)
 	{
-		// Play SFX
-		const int volume{ 100 };
-		const int loops{ 0 };
-
-		dae::EventManager<int, int>::GetInstance().SendEvent(event::RockBreak, volume, loops);
-
 		// Destroy object
 		GetGameObject()->RemoveObject();
 	}

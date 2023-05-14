@@ -19,6 +19,7 @@ dae::SDLSoundSystem::~SDLSoundSystem()
 	m_ConditionVariable.notify_all();
 }
 
+// Todo: put necessary info in audioInfo and push to queue
 #pragma region AudioFunctionality
 void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops)
 {
