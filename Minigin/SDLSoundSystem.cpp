@@ -168,47 +168,44 @@ void dae::SDLSoundSystem::SetVolume(unsigned int ID, int volume)
 
 void dae::SDLSoundSystem::AudioThread()
 {
-	// Unique lock mutex
-	std::unique_lock<std::mutex> uniqueLock{ m_Mutex };
-
 	// Keep looping, till end of program
 	while (m_IsBeingDestroyed == false)
 	{
+		// Unique lock mutex
+		std::unique_lock<std::mutex> uniqueLock{ m_Mutex };
+
 		// Wait for notification
-		m_ConditionVariable.wait(uniqueLock);
+		m_ConditionVariable.wait(uniqueLock, [&]() {return m_AudioQueue.size() > 0 || m_IsBeingDestroyed; });
 		m_IsHandlingAudio = true;
 
 		// If is not being destroyed
 		if (m_IsBeingDestroyed == false)
 		{
-			// While queue is not empty
-			while (m_AudioQueue.empty() == false)
+			// Get first file and pop
+			const AudioInfo currentAudioFile{ m_AudioQueue.front() };
+			m_AudioQueue.pop();
+
+			// Unlock
+			uniqueLock.unlock();
+
+			// Check instruction
+			switch (currentAudioFile.threadInstruction)
 			{
-				// Get first file
-				const AudioInfo currentAudioFile{ m_AudioQueue.front() };
-
-				// Check instruction
-				switch (currentAudioFile.threadInstruction)
-				{
-				case dae::SDLSoundSystem::LoadSFX:
-					Load(currentAudioFile.soundID, currentAudioFile.resourceName);
-					break;
+			case dae::SDLSoundSystem::LoadSFX:
+				Load(currentAudioFile.soundID, currentAudioFile.resourceName);
+				break;
 			
-				case dae::SDLSoundSystem::PlaySFX:
-					Play(currentAudioFile.soundID, currentAudioFile.volume, currentAudioFile.loops);
-					break;
+			case dae::SDLSoundSystem::PlaySFX:
+				Play(currentAudioFile.soundID, currentAudioFile.volume, currentAudioFile.loops);
+				break;
 
-				case dae::SDLSoundSystem::PauseSFX:
-					Pause(currentAudioFile.soundID);
-					break;
+			case dae::SDLSoundSystem::PauseSFX:
+				Pause(currentAudioFile.soundID);
+				break;
 
-				case dae::SDLSoundSystem::ResumeSFX:
-					Resume(currentAudioFile.soundID);
-					break;
-				}
-
-				// Pop file
-				m_AudioQueue.pop();
+			case dae::SDLSoundSystem::ResumeSFX:
+				Resume(currentAudioFile.soundID);
+				break;
 			}
 		}
 

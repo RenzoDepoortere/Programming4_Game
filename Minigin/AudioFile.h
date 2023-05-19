@@ -1,14 +1,12 @@
 #pragma once
 
-// SDL.h didn't get included here, so is this pimpled away?
-struct Mix_Chunk;
 namespace dae
 {
 	class AudioFile final
 	{
 	public:
 		// Rule of five
-		explicit AudioFile(Mix_Chunk* pChunk);
+		explicit AudioFile(void* pChunk);
 		~AudioFile();
 
 		AudioFile(const AudioFile& rhs) = delete;
@@ -26,6 +24,6 @@ namespace dae
 
 	private:
 		// Member variables
-		Mix_Chunk* m_pChunk{ nullptr };
+		void* m_pChunk{ nullptr };
 	};
 }

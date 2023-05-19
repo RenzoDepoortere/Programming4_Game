@@ -1,21 +1,21 @@
 #include "AudioFile.h"
 #include "SDL_mixer.h"
 
-dae::AudioFile::AudioFile(Mix_Chunk* pChunk)
+dae::AudioFile::AudioFile(void* pChunk)
 	: m_pChunk{ pChunk }
 {
 }
 
 dae::AudioFile::~AudioFile()
 {
-	Mix_FreeChunk(m_pChunk);
+	Mix_FreeChunk(static_cast<Mix_Chunk*>(m_pChunk));
 }
 
 // Note: give each chunk their own channel if necessary (max 8 channels in mixer)
 
 void dae::AudioFile::Play(int loops)
 {
-	Mix_PlayChannel(0, m_pChunk, loops);
+	Mix_PlayChannel(0, static_cast<Mix_Chunk*>(m_pChunk), loops);
 }
 bool dae::AudioFile::IsPlaying()
 {
@@ -37,5 +37,5 @@ void dae::AudioFile::Resume()
 }
 void dae::AudioFile::SetVolume(int volume)
 {
-	Mix_VolumeChunk(m_pChunk, volume);
+	Mix_VolumeChunk(static_cast<Mix_Chunk*>(m_pChunk), volume);
 }
