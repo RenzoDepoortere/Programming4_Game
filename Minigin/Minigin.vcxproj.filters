@@ -241,9 +241,6 @@
     <ClCompile Include="RemoveObjectCommand.cpp">
       <Filter>OwnFiles\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>OwnFiles\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>OwnFiles\Observers</Filter>
     </ClCompile>

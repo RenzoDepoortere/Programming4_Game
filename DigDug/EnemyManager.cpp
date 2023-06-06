@@ -50,7 +50,6 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetGrid(m_pGrid);
-	pEnemyComponent->CreateMovementCommand();
 
 	// Add as child
 	// ------------

@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
-
 #include "MoveCommand.h"
+#include "EnemyState.h"
+
+#include <array>
 
 namespace Enemy
 {
@@ -14,6 +16,12 @@ namespace Enemy
 
 		float attackCooldown{};
 		//std::function attackFunction{};
+	};
+
+	enum EnemyStates
+	{
+		Roaming,
+		NR_STATES
 	};
 }
 
@@ -38,9 +46,9 @@ public:
 	// Functionality
 	virtual void Update(float deltaTime) override;
 
-	void CreateMovementCommand();
-
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
+	grid::GridComponent* GetGrid() const { return m_pGrid; }
+
 	void SetBehaviorData(const Enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
 	Enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
@@ -48,15 +56,13 @@ private:
 	// Member variables
 	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
+	bool m_InitializedStates{ false };
 
 	Enemy::BehaviorData m_EnemyBehavior{};
-
-	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
-	grid::Cell* m_pPreviousCell{ nullptr };
-	grid::Cell* m_pNextCell{ nullptr };
+	Enemy::EnemyState* m_pCurrentState{};
+	std::array<std::unique_ptr<Enemy::EnemyState>, Enemy::NR_STATES> m_pEnemyStates{};
 
 	// Member functions
-	// ----------------
-	void TempPathing(float deltaTime);
-	void FindNextCell(grid::Cell* pCurrentCell);
+	// ----------------	
+	void InitStates();
 };

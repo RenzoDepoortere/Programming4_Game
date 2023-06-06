@@ -23,7 +23,6 @@ public:
 	virtual void Render() const;
 	virtual void RenderImGUI();
 
-protected:
 	dae::GameObject* GetGameObject() const;
 
 private:
