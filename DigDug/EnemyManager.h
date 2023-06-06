@@ -24,9 +24,9 @@ public:
 	EnemyManager& operator=(EnemyManager&& other) = delete;
 
 	// Functionality
-	
-	//This will spawn the enemies with the given data as well
-	void SetGrid(grid::GridComponent* pGrid);
+	void SpawnEnemies();
+
+	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
 
 private:
@@ -41,8 +41,6 @@ private:
 
 	// Member functions
 	// ----------------
-	void SpawnEnemies();
-
 	void SpawnPooka(const glm::vec3& position);
 	void SpawnFygar(const glm::vec3& position);
 };

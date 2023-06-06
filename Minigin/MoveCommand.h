@@ -14,7 +14,7 @@ namespace dae
 	{
 	public:
 		// Rule of five
-		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid = nullptr);
+		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid = nullptr, bool setInFirstCell = true);
 		virtual ~MoveCommand() = default;
 
 		MoveCommand(const MoveCommand& other) = delete;
@@ -27,11 +27,13 @@ namespace dae
 
 		void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
 		float GetMovementSpeed() const { return m_MovementSpeed; }
+		void SetMovementDirection(glm::vec2 movementDirection) { m_MovementDirection = movementDirection; }
+		glm::vec2 GetMovementDirection() const { return m_MovementDirection; }
 
 	private:
 		// Member variables
 		// ----------------
-		const glm::vec2 m_MovementDirection{};
+		glm::vec2 m_MovementDirection{};
 		float m_MovementSpeed{};
 
 		grid::GridComponent* m_pGrid{ nullptr };

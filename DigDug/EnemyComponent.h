@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#include "MoveCommand.h"
+
 namespace Enemy
 {
 	struct BehaviorData
@@ -33,7 +35,9 @@ public:
 	EnemyComponent& operator=(EnemyComponent&& other) = delete;
 
 	// Functionality
+	virtual void Update(float deltaTime) override;
 
+	void CreateMovementCommand();
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetBehaviorData(const Enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
@@ -45,4 +49,10 @@ private:
 	grid::GridComponent* m_pGrid{ nullptr };
 
 	Enemy::BehaviorData m_EnemyBehavior{};
+
+	std::unique_ptr<dae::MoveCommand> pMoveCommand{ nullptr };
+
+	// Member functions
+	// ----------------
+	void TempPathing(float deltaTime);
 };

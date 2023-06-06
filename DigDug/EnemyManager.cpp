@@ -16,12 +16,6 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	m_pFygarTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Fygar.png");
 }
 
-void EnemyManager::SetGrid(grid::GridComponent* pGrid)
-{
-	m_pGrid = pGrid;
-	SpawnEnemies();
-}
-
 void EnemyManager::SpawnEnemies()
 {
 	// Loop through data
@@ -56,6 +50,7 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetGrid(m_pGrid);
+	pEnemyComponent->CreateMovementCommand();
 
 	// Add as child
 	// ------------

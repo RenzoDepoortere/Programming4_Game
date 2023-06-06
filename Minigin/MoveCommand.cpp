@@ -7,14 +7,14 @@
 
 // Move
 // ****
-dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid)
+dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid, bool setInFirstCell)
 	: GameObjectCommand{ pActor }
 	, m_MovementDirection{ movementDirection }
 	, m_MovementSpeed{ movementSpeed }
 	, m_pGrid{ pGrid }
 {
 	// Set in first cell
-	if (pGrid)
+	if (pGrid && setInFirstCell)
 	{
 		const glm::vec2 firstCellPos{ pGrid->GetCell(0, 0, 0)->centerPosition };
 		pActor->SetWorldPosition(firstCellPos.x, firstCellPos.y, 0.f);

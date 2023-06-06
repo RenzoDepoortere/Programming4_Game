@@ -168,6 +168,7 @@ void FirstScene::Enemies(dae::Scene& scene)
 	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
 	pEnemyManager->SetGrid(m_pGrid);
 	pEnemyManager->SetCharacters(m_pCharacters);
+	pEnemyManager->SpawnEnemies();
 
 	// Add to scene
 	// ------------
