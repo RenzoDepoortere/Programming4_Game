@@ -19,28 +19,22 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{514c5a23-c635-4447-99f0-cb8f5426d51f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Character">
+      <UniqueIdentifier>{5f88a283-d74a-48f4-97b0-c84e9be60117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Grid">
+      <UniqueIdentifier>{216eb208-3fd0-4549-b7d2-6868a9adcbdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Other">
+      <UniqueIdentifier>{bceb1020-47a9-4678-a2a7-d5ccb3c7b7fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Enemies">
+      <UniqueIdentifier>{213b51ab-d8a5-45b9-8ff6-90e757fe5b95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="..\Minigin\GameObjectManager.cpp" />
-    <ClCompile Include="..\Minigin\PointComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\LivesComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\FPSCounter.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\RotatingMovement.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\TrashTheCache.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\Minigin\PointCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -53,39 +47,42 @@
     <ClCompile Include="FirstScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GridComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="PauseCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="CharacterComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\HealthComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\LivesComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PointComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Components\Grid</Filter>
     </ClCompile>
     <ClCompile Include="RockComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\FPSCounter.cpp">
+      <Filter>Components\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\RotatingMovement.cpp">
+      <Filter>Components\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\TrashTheCache.cpp">
+      <Filter>Components\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Components\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
-    <ClInclude Include="..\Minigin\PointComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\LivesComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\FPSCounter.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\RotatingMovement.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\TrashTheCache.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Minigin\PointCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
@@ -98,17 +95,38 @@
     <ClInclude Include="FirstScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GridComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="PauseCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="CharacterComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\HealthComponent.h">
+      <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\LivesComponent.h">
+      <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PointComponent.h">
+      <Filter>Components\Character</Filter>
     </ClInclude>
     <ClInclude Include="RockComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Components\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\TrashTheCache.h">
+      <Filter>Components\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\FPSCounter.h">
+      <Filter>Components\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\RotatingMovement.h">
+      <Filter>Components\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Components\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

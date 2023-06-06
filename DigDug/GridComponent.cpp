@@ -101,14 +101,24 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 
 	auto textureIdArray{ jsonDoc["layers"].GetArray()[0]["data"].GetArray() };
 	auto rockArray{ jsonDoc["layers"].GetArray()[1]["data"].GetArray()};
+	auto enemiesArray{ jsonDoc["layers"].GetArray()[2]["data"].GetArray() };
+
+	const unsigned int enemyID_Offset{ 26 };
 
 	// Init grid
 	// ---------
 	InitGridCells();
 
-	glm::vec3 rockPosition{};
+	glm::vec3 cellPosition{};
+	int arrayID{};
+	std::pair<glm::vec3, unsigned int> enemySpawnInfo{};
+
 	for (size_t idx{}; idx < m_Cells.size(); ++idx)
 	{
+		// Data
+		cellPosition.x = m_Cells[idx]->centerPosition.x;
+		cellPosition.y = m_Cells[idx]->centerPosition.y;
+
 		// Texture
 		m_Cells[idx]->textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
 		
@@ -116,10 +126,15 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 		if (rockArray[static_cast<rapidjson::SizeType>(idx)].GetInt() != 0)
 		{
 			m_Cells[idx]->containsRock = true;
+			CreateRock(cellPosition);
+		}
 
-			rockPosition.x = m_Cells[idx]->centerPosition.x;
-			rockPosition.y = m_Cells[idx]->centerPosition.y;
-			CreateRock(rockPosition);
+		// Enemies
+		arrayID = enemiesArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		if (arrayID != 0)
+		{
+			enemySpawnInfo = std::make_pair(cellPosition, arrayID - enemyID_Offset);
+			m_EnemySpawnData.emplace_back(enemySpawnInfo);
 		}
 	}
 

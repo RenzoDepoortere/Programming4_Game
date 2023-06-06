@@ -202,6 +202,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
     <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FirstScene.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -220,6 +221,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="..\Minigin\RotatingMovement.h" />
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="CharacterComponent.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="FirstScene.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="PauseCommand.h" />

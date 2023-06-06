@@ -11,6 +11,7 @@
 
 #include "TextComponent.h"
 #include "RenderTextureComponent.h"
+#include "EnemyManager.h"
 #include "GridComponent.h"
 #include "CharacterComponent.h"
 
@@ -32,7 +33,7 @@ FirstScene::~FirstScene()
 void FirstScene::CreateGameObjects(dae::Scene& scene)
 {
 	BaseObjects(scene);
-	Map(scene);
+	MapReading(scene);
 	MainCharacter(scene);
 }
 
@@ -48,10 +49,28 @@ void FirstScene::BaseObjects(dae::Scene& /*scene*/)
 #endif // DEBUG
 }
 
-void FirstScene::Map(dae::Scene& scene)
+void FirstScene::MapReading(dae::Scene& scene)
 {
-	// Grid
-	// ****
+	// -------- Enemies --------
+	// Enemies spawnData by Grid
+	// *************************
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pEnemies{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	// --------------
+
+	// Enemy Manager
+	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
+
+	// Add to scene
+	// ------------
+	scene.Add(pEnemies);
+
+	// ---- Grid -----
+	// Contains: Rocks
+	// ***************
 
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pGrid{ std::make_shared<dae::GameObject>() };
@@ -68,8 +87,14 @@ void FirstScene::Map(dae::Scene& scene)
 
 	// Grid
 	auto pGridComponent{ pGrid->AddComponent<grid::GridComponent>() };
-	pGridComponent->SetRockTexture("Sprites/Single_Rock.png");
+	pGridComponent->SetRockTexture("Sprites/Other/Single_Rock.png");
 	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
+
+	// Give Data
+	// ---------
+
+	// Enemy spawn positions
+	pEnemyManager->SpawnEnemiesAtPositions(pGridComponent->GetEnemySpawnData());
 
 	// Add to scene
 	// ------------
@@ -85,7 +110,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	// Add texture
 	// -----------
-	std::string textureString{ "Sprites/MC.png" };
+	std::string textureString{ "Sprites/Characters/MainCharacter/MC.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
 	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
 	pObjectTexture->CenterTexture(true);

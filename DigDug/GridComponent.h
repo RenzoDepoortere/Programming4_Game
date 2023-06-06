@@ -57,6 +57,8 @@ namespace grid
 		int GetCellWidth() const { return m_CellWidth; }
 		int GetCellHeight() const { return m_CellHeight; }
 
+		const std::vector<std::pair<glm::vec3, unsigned int>>& GetEnemySpawnData() const { return m_EnemySpawnData; }
+
 	private:
 		// Member variables
 		// ---------------
@@ -74,8 +76,9 @@ namespace grid
 		// Renderer
 		dae::RenderTextureComponent* m_pRenderer{ nullptr };
 
-		// Rocks
+		// Others
 		std::shared_ptr<dae::Texture2D> m_pRockTexture{ nullptr };
+		std::vector<std::pair<glm::vec3, unsigned int>> m_EnemySpawnData{};
 
 		// Member functions
 		// ----------------
