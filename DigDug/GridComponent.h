@@ -50,6 +50,9 @@ namespace grid
 
 		void Render() const override;
 
+		void AddConnections(Cell* pCell);
+		void RemoveConnections(Cell* pCell);
+
 		void SetLevelFile(const std::string& levelFile);
 		void SetRockTexture(const std::string& rockTexture);
 

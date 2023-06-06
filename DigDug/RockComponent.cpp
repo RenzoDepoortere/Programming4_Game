@@ -86,7 +86,8 @@ void RockComponent::Rumble(float deltaTime)
 
 		// Free currentCell
 		const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
-		m_pGrid->GetCell(currentPos)->containsRock = false;
+		grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
+		pCurrentCell->containsRock = false;
 	}
 }
 void RockComponent::Fall(float deltaTime)

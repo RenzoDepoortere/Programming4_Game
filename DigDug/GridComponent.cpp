@@ -74,6 +74,40 @@ void GridComponent::Render() const
 	RenderDebugGrid();
 }
 
+void GridComponent::AddConnections(Cell* pCell)
+{
+	const int row{ static_cast<int>(pCell->rowCol.x) };
+	const int col{ static_cast<int>(pCell->rowCol.y) };
+
+	// Left cell
+	int gridIdx = row * m_NrCols + (col - 1);
+	CheckNeighborCell(pCell, gridIdx, true);
+
+	// Right cell
+	gridIdx = row * m_NrCols + (col + 1);
+	CheckNeighborCell(pCell, gridIdx, true);
+
+	// Below cell
+	gridIdx = (row + 1) * m_NrCols + col;
+	CheckNeighborCell(pCell, gridIdx, false);
+
+	// Above cell
+	gridIdx = (row - 1) * m_NrCols + col;
+	CheckNeighborCell(pCell, gridIdx, false);
+}
+void GridComponent::RemoveConnections(Cell* pCell)
+{
+	// Remove cell connection's connections
+	for (const auto& currentConnection : pCell->pConnectedCells)
+	{
+		auto& connectionConnections{ currentConnection->pConnectedCells };
+		connectionConnections.erase(std::remove(connectionConnections.begin(), connectionConnections.end(), pCell), connectionConnections.end());
+	}
+
+	// Clear connections
+	pCell->pConnectedCells.clear();
+}
+
 void GridComponent::SetLevelFile(const std::string& levelFile)
 {
 	// Get file and open
@@ -228,7 +262,7 @@ void GridComponent::InitCellConnections()
 		{
 			// Get currentCell
 			pCurrentCell = m_pCells[rowIdx * m_NrCols + colIdx].get();
-			bool isValidCell = pCurrentCell->textureID != 0 && pCurrentCell->containsRock == false;
+			bool isValidCell = pCurrentCell->textureID == 0 && pCurrentCell->containsRock == false;
 			if (isValidCell == false) continue;
 
 			// Left cell
@@ -255,7 +289,7 @@ void GridComponent::CheckNeighborCell(Cell* pCurrentCell, int cellIdx, bool chec
 	Cell* pNeighbourCell{ GetCell(cellIdx) };
 
 	// Check conditions
-	const bool isValidCell{ pNeighbourCell != nullptr && pNeighbourCell->textureID != 0 && pNeighbourCell->containsRock == false };
+	const bool isValidCell{ pNeighbourCell != nullptr && pNeighbourCell->textureID == 0 && pNeighbourCell->containsRock == false };
 	if (isValidCell == false) return;
 	
 	if (checkIfSameRow && pNeighbourCell->rowCol.x != pCurrentCell->rowCol.x) return;

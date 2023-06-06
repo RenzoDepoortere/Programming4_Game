@@ -21,6 +21,7 @@ void CharacterComponent::RemoveDirt()
 	const glm::vec3 objectPos{ GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ m_pGrid->GetCell(objectPos) };
 
-	// Remove texture
+	// Remove texture and add connection
 	pCurrentCell->textureID = 0;
+	m_pGrid->AddConnections(pCurrentCell);
 }
