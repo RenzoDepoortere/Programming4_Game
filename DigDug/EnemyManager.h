@@ -9,6 +9,7 @@ namespace grid
 {
 	class GridComponent;
 }
+class CharacterComponent;
 
 class EnemyManager final : public Component
 {
@@ -26,13 +27,15 @@ public:
 	
 	//This will spawn the enemies with the given data as well
 	void SetGrid(grid::GridComponent* pGrid);
+	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
 
 private:
 	// Member variables
 	// ----------------
 	
 	grid::GridComponent* m_pGrid{ nullptr };
-	
+	std::vector<CharacterComponent*> m_pCharacters{};
+
 	std::shared_ptr<dae::Texture2D> m_pPookaTexture{ nullptr };
 	std::shared_ptr<dae::Texture2D> m_pFygarTexture{ nullptr };
 

@@ -1,16 +1,18 @@
 #pragma once
 #include <Singleton.h>
+#include <vector>
 
 namespace dae
 {
 	class GameObject;
 	class Scene;
 }
-
 namespace grid
 {
 	class GridComponent;
 }
+
+class CharacterComponent;
 
 class FirstScene final : public dae::Singleton<FirstScene>
 {
@@ -34,6 +36,7 @@ private:
 	// ----------------
 	
 	grid::GridComponent* m_pGrid{ nullptr };
+	std::vector<CharacterComponent*> m_pCharacters{};
 
 	unsigned long m_ControllerIdx{};
 
@@ -41,7 +44,8 @@ private:
 	// ----------------
 	void BaseObjects(dae::Scene& scene);
 	void Map(dae::Scene& scene);
-	void Enemies(dae::Scene& scene);
+
 	void MainCharacter(dae::Scene& scene);
+	void Enemies(dae::Scene& scene);
 };
 

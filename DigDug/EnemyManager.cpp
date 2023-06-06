@@ -4,6 +4,7 @@
 
 #include "GridComponent.h"
 #include "RenderTextureComponent.h"
+#include "EnemyComponent.h"
 
 #include "ResourceManager.h"
 
@@ -48,8 +49,13 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	pObjectTexture->SetTexture(m_pPookaTexture);
 
 	// Add enemyComponent
-	//CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
-	//pCharacterComponent->SetGrid(m_pGrid);
+	EnemyComponent* pEnemyComponent{ pPooka->AddComponent<EnemyComponent>() };
+	
+	Enemy::BehaviorData behaviorData{};
+	behaviorData.movementSpeed = 100.f;
+
+	pEnemyComponent->SetBehaviorData(behaviorData);
+	pEnemyComponent->SetGrid(m_pGrid);
 
 	// Add as child
 	// ------------

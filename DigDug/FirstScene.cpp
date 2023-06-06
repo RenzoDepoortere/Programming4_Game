@@ -36,8 +36,8 @@ void FirstScene::CreateGameObjects(dae::Scene& scene)
 
 	Map(scene);
 
-	Enemies(scene);
 	MainCharacter(scene);
+	Enemies(scene);
 }
 
 void FirstScene::BaseObjects(dae::Scene& /*scene*/)
@@ -80,27 +80,6 @@ void FirstScene::Map(dae::Scene& scene)
 	// ------------
 	scene.Add(pGrid);
 	m_pGrid = pGridComponent;
-}
-
-void FirstScene::Enemies(dae::Scene& scene)
-{
-	// -------- Enemies --------
-	// Enemies spawnData by Grid
-	// *************************
-
-	// Create gameObject
-	std::shared_ptr<dae::GameObject> pEnemies{ std::make_shared<dae::GameObject>() };
-
-	// Add components
-	// --------------
-
-	// Enemy Manager
-	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
-	pEnemyManager->SetGrid(m_pGrid);
-
-	// Add to scene
-	// ------------
-	scene.Add(pEnemies);
 }
 
 void FirstScene::MainCharacter(dae::Scene& scene)
@@ -169,5 +148,28 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	// Add to scene
 	// ------------
+	m_pCharacters.emplace_back(pCharacterComponent);
 	scene.Add(pMainCharacter);
+}
+
+void FirstScene::Enemies(dae::Scene& scene)
+{
+	// -------- Enemies --------
+	// Enemies spawnData by Grid
+	// *************************
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pEnemies{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	// --------------
+
+	// Enemy Manager
+	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
+	pEnemyManager->SetGrid(m_pGrid);
+	pEnemyManager->SetCharacters(m_pCharacters);
+
+	// Add to scene
+	// ------------
+	scene.Add(pEnemies);
 }

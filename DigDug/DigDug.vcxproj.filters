@@ -80,6 +80,9 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Components\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -126,6 +129,9 @@
       <Filter>Components\Other</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
+      <Filter>Components\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
       <Filter>Components\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
