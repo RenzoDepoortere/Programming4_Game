@@ -34,9 +34,9 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 
 Cell* GridComponent::GetCell(int index) const
 {
-	if (0 <= index && index < m_Cells.size())
+	if (0 <= index && index < m_pCells.size())
 	{
-		return m_Cells[index].get();
+		return m_pCells[index].get();
 	}
 	else
 	{
@@ -71,7 +71,7 @@ Cell* GridComponent::GetCell(float x, float y, float) const
 void GridComponent::Render() const
 {
 	RenderGrid();
-	//RenderDebugGrid();
+	RenderDebugGrid();
 }
 
 void GridComponent::SetLevelFile(const std::string& levelFile)
@@ -113,19 +113,19 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 	int arrayID{};
 	std::pair<glm::vec3, unsigned int> enemySpawnInfo{};
 
-	for (size_t idx{}; idx < m_Cells.size(); ++idx)
+	for (size_t idx{}; idx < m_pCells.size(); ++idx)
 	{
 		// Data
-		cellPosition.x = m_Cells[idx]->centerPosition.x;
-		cellPosition.y = m_Cells[idx]->centerPosition.y;
+		cellPosition.x = m_pCells[idx]->centerPosition.x;
+		cellPosition.y = m_pCells[idx]->centerPosition.y;
 
 		// Texture
-		m_Cells[idx]->textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		m_pCells[idx]->textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
 		
 		// Rocks
 		if (rockArray[static_cast<rapidjson::SizeType>(idx)].GetInt() != 0)
 		{
-			m_Cells[idx]->containsRock = true;
+			m_pCells[idx]->containsRock = true;
 			CreateRock(cellPosition);
 		}
 
@@ -137,6 +137,10 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 			m_EnemySpawnData.emplace_back(enemySpawnInfo);
 		}
 	}
+
+	// Connections
+	// -----------
+	InitCellConnections();
 
 	// Close File
 	// ----------
@@ -152,9 +156,14 @@ void GridComponent::SetRockTexture(const std::string& rockTexture)
 
 void GridComponent::InitGridCells()
 {
-	m_Cells.clear();
-	m_Cells.resize(m_NrRows * m_NrCols);
+	// Create cells
+	// ------------
 
+	// Re-Init grid
+	m_pCells.clear();
+	m_pCells.resize(m_NrRows * m_NrCols);
+
+	// Prepare loop
 	Cell gridCell{};
 	for (int rowIdx{}; rowIdx < m_NrRows; ++rowIdx)
 	{
@@ -162,6 +171,7 @@ void GridComponent::InitGridCells()
 		{
 			const int gridIdx{ rowIdx * m_NrCols + colIdx };
 
+			// Give cell data
 			gridCell.size = glm::vec2{ m_CellWidth, m_CellHeight };
 			gridCell.worldPosition = glm::vec2{ colIdx * m_CellWidth, rowIdx * m_CellHeight };
 			gridCell.centerPosition = gridCell.worldPosition + gridCell.size / 2.f;
@@ -172,11 +182,12 @@ void GridComponent::InitGridCells()
 			else if (rowIdx < 8)	gridCell.depthLevel = 2;
 			else					gridCell.depthLevel = 3;
 
-			m_Cells[gridIdx] = std::make_unique<Cell>(gridCell);
+			// Make cell
+			m_pCells[gridIdx] = std::make_unique<Cell>(gridCell);
 		}
 	}
 }
-void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
+void GridComponent::CreateRock(const glm::vec3& rockPosition)
 {
 	// Create gameObject
 	// -----------------
@@ -205,6 +216,54 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 	pRock->SetParent(GetGameObject(), true);
 }
 
+void GridComponent::InitCellConnections()
+{
+	// Prepare loop
+	Cell* pCurrentCell{ nullptr };
+	int gridIdx{};
+
+	for (int rowIdx{}; rowIdx < m_NrRows; ++rowIdx)
+	{
+		for (int colIdx{}; colIdx < m_NrCols; ++colIdx)
+		{
+			// Get currentCell
+			pCurrentCell = m_pCells[rowIdx * m_NrCols + colIdx].get();
+			bool isValidCell = pCurrentCell->textureID != 0 && pCurrentCell->containsRock == false;
+			if (isValidCell == false) continue;
+
+			// Left cell
+			gridIdx = rowIdx * m_NrCols + (colIdx - 1);
+			CheckNeighborCell(pCurrentCell, gridIdx, true);
+
+			// Right cell
+			gridIdx = rowIdx * m_NrCols + (colIdx + 1);
+			CheckNeighborCell(pCurrentCell, gridIdx, true);
+
+			// Below cell
+			gridIdx = (rowIdx + 1) * m_NrCols + colIdx;
+			CheckNeighborCell(pCurrentCell, gridIdx, false);
+
+			// Above cell
+			gridIdx = (rowIdx - 1) * m_NrCols + colIdx;
+			CheckNeighborCell(pCurrentCell, gridIdx, false);
+		}
+	}
+}
+void GridComponent::CheckNeighborCell(Cell* pCurrentCell, int cellIdx, bool checkIfSameRow)
+{
+	// Get neighbourCell
+	Cell* pNeighbourCell{ GetCell(cellIdx) };
+
+	// Check conditions
+	const bool isValidCell{ pNeighbourCell != nullptr && pNeighbourCell->textureID != 0 && pNeighbourCell->containsRock == false };
+	if (isValidCell == false) return;
+	
+	if (checkIfSameRow && pNeighbourCell->rowCol.x != pCurrentCell->rowCol.x) return;
+
+	// Add to connections
+	pCurrentCell->pConnectedCells.emplace_back(pNeighbourCell);
+}
+
 void GridComponent::RenderGrid() const
 {
 	if (m_pRenderer == nullptr) return;
@@ -215,7 +274,7 @@ void GridComponent::RenderGrid() const
 	srcRect.width = static_cast<float>(m_CellWidth);
 	srcRect.height = static_cast<float>(m_CellHeight);
 
-	for (const auto& currentCell : m_Cells)
+	for (const auto& currentCell : m_pCells)
 	{
 		// If textureID is valid
 		if (currentCell->textureID != 0)
@@ -229,19 +288,38 @@ void GridComponent::RenderGrid() const
 }
 void GridComponent::RenderDebugGrid() const
 {
-	// Init rect
+	// Prepare variables
 	SDL_Rect rect{};
 	rect.w = m_CellWidth;
 	rect.h = m_CellHeight;
 
-	// Draw rects
-	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
-	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255));
-	for (const auto& currentCell : m_Cells)
+	int currentX{}, currentY{};
+	int connectionX{}, connectionY{};
+
+	// Draw Grid
+	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };	
+	for (const auto& currentCell : m_pCells)
 	{
+		// Individual cells
+		SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255), static_cast<Uint8>(255));
+
 		rect.x = static_cast<int>(static_cast<float>(currentCell->worldPosition.x));
 		rect.y = static_cast<int>(static_cast<float>(currentCell->worldPosition.y));
 
 		SDL_RenderDrawRect(pRenderer, &rect);
+
+		// Connections
+		SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(255 / 2.f), static_cast<Uint8>(255 / 2.f), static_cast<Uint8>(255 / 2.f), static_cast<Uint8>(255));
+
+		currentX = static_cast<int>(static_cast<float>(currentCell->centerPosition.x));
+		currentY = static_cast<int>(static_cast<float>(currentCell->centerPosition.y));
+
+		for (const auto& connectedCell : currentCell->pConnectedCells)
+		{
+			connectionX = static_cast<int>(static_cast<float>(connectedCell->centerPosition.x));
+			connectionY = static_cast<int>(static_cast<float>(connectedCell->centerPosition.y));
+
+			SDL_RenderDrawLine(pRenderer, currentX, currentY, connectionX, connectionY);
+		}
 	}
 }

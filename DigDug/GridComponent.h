@@ -28,6 +28,7 @@ namespace grid
 		int depthLevel{ 0 };
 
 		unsigned int textureID{ 0 };
+		std::vector<Cell*> pConnectedCells{};
 	};
 
 	class GridComponent final : public Component
@@ -64,7 +65,7 @@ namespace grid
 		// ---------------
 
 		// Array
-		std::vector<std::unique_ptr<Cell>> m_Cells{};
+		std::vector<std::unique_ptr<Cell>> m_pCells{};
 
 		// Cell
 		int m_NrRows{};
@@ -84,6 +85,9 @@ namespace grid
 		// ----------------
 		void InitGridCells();
 		void CreateRock(const glm::vec3& rockPosition);
+
+		void InitCellConnections();
+		void CheckNeighborCell(Cell* pCurrentCell, int cellIdx, bool checkIfSameRow);
 
 		void RenderGrid() const;
 		void RenderDebugGrid() const;
