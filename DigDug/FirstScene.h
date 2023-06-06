@@ -40,7 +40,8 @@ private:
 	// Member Functions
 	// ----------------
 	void BaseObjects(dae::Scene& scene);
-	void MapReading(dae::Scene& scene);
+	void Map(dae::Scene& scene);
+	void Enemies(dae::Scene& scene);
 	void MainCharacter(dae::Scene& scene);
 };
 

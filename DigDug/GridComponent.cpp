@@ -179,6 +179,7 @@ void GridComponent::InitGridCells()
 void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 {
 	// Create gameObject
+	// -----------------
 	std::shared_ptr<dae::GameObject> pRock{ std::make_shared<dae::GameObject>() };
 
 	// Add components
@@ -199,6 +200,7 @@ void GridComponent::GridComponent::CreateRock(const glm::vec3& rockPosition)
 	pRockComponent->SetRenderTextureComponent(pObjectTexture);
 
 	// Add as child
+	// ------------
 	pRock->SetWorldPosition(rockPosition);
 	pRock->SetParent(GetGameObject(), true);
 }

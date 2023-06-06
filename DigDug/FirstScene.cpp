@@ -33,7 +33,10 @@ FirstScene::~FirstScene()
 void FirstScene::CreateGameObjects(dae::Scene& scene)
 {
 	BaseObjects(scene);
-	MapReading(scene);
+
+	Map(scene);
+
+	Enemies(scene);
 	MainCharacter(scene);
 }
 
@@ -49,25 +52,8 @@ void FirstScene::BaseObjects(dae::Scene& /*scene*/)
 #endif // DEBUG
 }
 
-void FirstScene::MapReading(dae::Scene& scene)
+void FirstScene::Map(dae::Scene& scene)
 {
-	// -------- Enemies --------
-	// Enemies spawnData by Grid
-	// *************************
-
-	// Create gameObject
-	std::shared_ptr<dae::GameObject> pEnemies{ std::make_shared<dae::GameObject>() };
-
-	// Add components
-	// --------------
-
-	// Enemy Manager
-	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
-
-	// Add to scene
-	// ------------
-	scene.Add(pEnemies);
-
 	// ---- Grid -----
 	// Contains: Rocks
 	// ***************
@@ -90,16 +76,31 @@ void FirstScene::MapReading(dae::Scene& scene)
 	pGridComponent->SetRockTexture("Sprites/Other/Single_Rock.png");
 	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
 
-	// Give Data
-	// ---------
-
-	// Enemy spawn positions
-	pEnemyManager->SpawnEnemiesAtPositions(pGridComponent->GetEnemySpawnData());
-
 	// Add to scene
 	// ------------
 	scene.Add(pGrid);
 	m_pGrid = pGridComponent;
+}
+
+void FirstScene::Enemies(dae::Scene& scene)
+{
+	// -------- Enemies --------
+	// Enemies spawnData by Grid
+	// *************************
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pEnemies{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	// --------------
+
+	// Enemy Manager
+	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
+	pEnemyManager->SetGrid(m_pGrid);
+
+	// Add to scene
+	// ------------
+	scene.Add(pEnemies);
 }
 
 void FirstScene::MainCharacter(dae::Scene& scene)
