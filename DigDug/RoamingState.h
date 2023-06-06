@@ -3,6 +3,7 @@
 #include "MoveCommand.h"
 
 #include <memory>
+#include <array>
 
 class EnemyComponent;
 
@@ -33,9 +34,18 @@ namespace Enemy
 		virtual void OnLeave(EnemyComponent* pEnemy) override;
 
 	private:
+		// Enums
+		// -----
+		enum MovementEnum
+		{
+			Up, Down, Left, Right, NR_MOVEMENT
+		};
+		
 		// Member variables
 		// ----------------
-		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
+		std::array<std::unique_ptr<dae::MoveCommand>, NR_MOVEMENT> m_pMoveCommands{};
+		dae::MoveCommand* m_pCurrentCommand{ nullptr };
+
 		grid::Cell* m_pPreviousCell{ nullptr };
 		grid::Cell* m_pNextCell{ nullptr };
 

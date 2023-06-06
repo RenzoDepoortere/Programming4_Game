@@ -28,6 +28,24 @@ void EnemyManager::SpawnEnemies()
 	}
 }
 
+void EnemyManager::ControlEnemy(unsigned long controllerID, Enemy::EnemyTypes enemyType)
+{
+	// Loop through enemies
+	for (const auto& currentEnemy : m_pEnemies)
+	{
+		// Check if enemy is desired type
+		if (currentEnemy->GetBehaviorData().enemyType == enemyType)
+		{
+			// Set control of enemy to controller
+			currentEnemy->SetControl(controllerID);
+			return;
+		}
+	}
+
+	// State that enemyType was not found
+	std::cout << "Error: Requested enemyType not found" << std::endl;
+}
+
 void EnemyManager::SpawnPooka(const glm::vec3& position)
 {
 	// Create gameObject
@@ -47,6 +65,7 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	
 	Enemy::BehaviorData behaviorData{};
 	behaviorData.movementSpeed = 100.f;
+	behaviorData.enemyType = Enemy::Pooka;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetGrid(m_pGrid);
@@ -55,6 +74,8 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	// ------------
 	pPooka->SetWorldPosition(position);
 	pPooka->SetParent(GetGameObject(), true);
+
+	m_pEnemies.emplace_back(pEnemyComponent);
 }
 
 void EnemyManager::SpawnFygar(const glm::vec3& /*position*/)

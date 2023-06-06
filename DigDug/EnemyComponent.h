@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "MoveCommand.h"
 #include "EnemyState.h"
+#include "EnemyManager.h"
 
 #include <array>
 
@@ -16,6 +17,8 @@ namespace Enemy
 
 		float attackCooldown{};
 		//std::function attackFunction{};
+
+		EnemyTypes enemyType{};
 	};
 
 	enum EnemyStates
@@ -52,11 +55,18 @@ public:
 	void SetBehaviorData(const Enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
 	Enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
+	void SetControl(unsigned long controllerID = -1);
+	bool GetIsControlled() const { return m_IsControlled; }
+	unsigned long GetControllerID() const { return m_ControllerID; }
+
 private:
 	// Member variables
 	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
 	bool m_InitializedStates{ false };
+
+	bool m_IsControlled{ false };
+	unsigned long m_ControllerID{};
 
 	Enemy::BehaviorData m_EnemyBehavior{};
 	Enemy::EnemyState* m_pCurrentState{};

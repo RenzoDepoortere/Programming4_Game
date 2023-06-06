@@ -7,6 +7,8 @@
 #include "EnemyState.h"
 #include "RoamingState.h"
 
+#include "InputManager.h"
+
 EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
@@ -23,6 +25,21 @@ void EnemyComponent::Update(float deltaTime)
 
 	// Update currentState
 	m_pCurrentState->Update(this, deltaTime);
+}
+
+void EnemyComponent::SetControl(unsigned long controllerID)
+{
+	// No controller
+	if (controllerID == -1)
+	{
+		m_IsControlled = false;
+	}
+	// Else, store ID
+	else
+	{
+		m_IsControlled = true;
+		m_ControllerID = controllerID;
+	}
 }
 
 void EnemyComponent::InitStates()

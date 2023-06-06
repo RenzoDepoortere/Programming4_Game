@@ -9,7 +9,17 @@ namespace grid
 {
 	class GridComponent;
 }
+
+namespace Enemy
+{
+	enum EnemyTypes
+	{
+		Pooka, Fygar
+	};
+}
+
 class CharacterComponent;
+class EnemyComponent;
 
 class EnemyManager final : public Component
 {
@@ -25,6 +35,7 @@ public:
 
 	// Functionality
 	void SpawnEnemies();
+	void ControlEnemy(unsigned long controllerID, Enemy::EnemyTypes enemyType);
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
@@ -32,9 +43,10 @@ public:
 private:
 	// Member variables
 	// ----------------
-	
 	grid::GridComponent* m_pGrid{ nullptr };
 	std::vector<CharacterComponent*> m_pCharacters{};
+
+	std::vector<EnemyComponent*> m_pEnemies{};
 
 	std::shared_ptr<dae::Texture2D> m_pPookaTexture{ nullptr };
 	std::shared_ptr<dae::Texture2D> m_pFygarTexture{ nullptr };
