@@ -20,6 +20,7 @@ namespace Enemy
 namespace grid
 {
 	class GridComponent;
+	struct Cell;
 }
 
 class EnemyComponent final : public Component
@@ -50,9 +51,12 @@ private:
 
 	Enemy::BehaviorData m_EnemyBehavior{};
 
-	std::unique_ptr<dae::MoveCommand> pMoveCommand{ nullptr };
+	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
+	grid::Cell* m_pPreviousCell{ nullptr };
+	grid::Cell* m_pNextCell{ nullptr };
 
 	// Member functions
 	// ----------------
 	void TempPathing(float deltaTime);
+	void FindNextCell(grid::Cell* pCurrentCell);
 };

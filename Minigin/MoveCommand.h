@@ -27,7 +27,7 @@ namespace dae
 
 		void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
 		float GetMovementSpeed() const { return m_MovementSpeed; }
-		void SetMovementDirection(glm::vec2 movementDirection) { m_MovementDirection = movementDirection; }
+		void SetMovementDirection(const glm::vec2& movementDirection) { m_MovementDirection = movementDirection; }
 		glm::vec2 GetMovementDirection() const { return m_MovementDirection; }
 
 	private:
