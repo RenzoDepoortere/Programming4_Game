@@ -65,10 +65,12 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	
 	Enemy::BehaviorData behaviorData{};
 	behaviorData.movementSpeed = 100.f;
+	behaviorData.detectionRange = 2;
 	behaviorData.enemyType = Enemy::Pooka;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetGrid(m_pGrid);
+	pEnemyComponent->SetCharacters(m_pCharacters);
 
 	// Add as child
 	// ------------

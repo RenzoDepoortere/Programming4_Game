@@ -28,7 +28,7 @@ namespace Enemy
 		RoamingState& operator=(RoamingState&& other) = delete;
 
 		// Functionality
-		virtual void Update(EnemyComponent* pEnemy, float deltaTime) override;
+		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
 		virtual void OnEnter(EnemyComponent* pEnemy) override;
 		virtual void OnLeave(EnemyComponent* pEnemy) override;
@@ -53,5 +53,8 @@ namespace Enemy
 		// ----------------
 		void HandlePathing(EnemyComponent* pEnemy, float deltaTime);
 		void FindNextCell(grid::Cell* pCurrentCell);
+
+		EnemyStates LookForPlayer(EnemyComponent* pEnemy, float deltaTime);
+		bool IsDirtBetween(int cellsBetween, bool checkRows, grid::GridComponent* pGrid, grid::Cell* pCurrentCell, grid::Cell* pCharacterCell);
 	};
 }

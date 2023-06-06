@@ -71,7 +71,7 @@ Cell* GridComponent::GetCell(float x, float y, float) const
 void GridComponent::Render() const
 {
 	RenderGrid();
-	RenderDebugGrid();
+	//RenderDebugGrid();
 }
 
 void GridComponent::AddConnections(Cell* pCell)

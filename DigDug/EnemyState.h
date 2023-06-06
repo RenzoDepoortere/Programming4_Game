@@ -3,6 +3,13 @@ class EnemyComponent;
 
 namespace Enemy
 {
+	enum EnemyStates
+	{
+		Roaming,
+		Chase,
+		NR_STATES
+	};
+
 	class EnemyState
 	{
 	public:
@@ -16,7 +23,7 @@ namespace Enemy
 		EnemyState& operator=(EnemyState&& other) = delete;
 
 		// Functionality
-		virtual void Update(EnemyComponent* pEnemy, float deltaTime) = 0;
+		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) = 0;
 
 		virtual void OnEnter(EnemyComponent* pEnemy) = 0;
 		virtual void OnLeave(EnemyComponent* pEnemy) = 0;

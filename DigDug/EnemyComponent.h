@@ -12,19 +12,14 @@ namespace Enemy
 	{
 		float movementSpeed{};
 
-		float detectionRange{};
+		// How many cells the enemy can max observe in each direction
+		int detectionRange{};
 		float attackRange{};
 
 		float attackCooldown{};
 		//std::function attackFunction{};
 
 		EnemyTypes enemyType{};
-	};
-
-	enum EnemyStates
-	{
-		Roaming,
-		NR_STATES
 	};
 }
 
@@ -52,6 +47,9 @@ public:
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }
 
+	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
+	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
+
 	void SetBehaviorData(const Enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
 	Enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
@@ -63,6 +61,7 @@ private:
 	// Member variables
 	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
+	std::vector<CharacterComponent*> m_pCharacters{};
 	bool m_InitializedStates{ false };
 
 	bool m_IsControlled{ false };

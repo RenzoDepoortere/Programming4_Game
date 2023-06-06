@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "EnemyState.h"
 #include "RoamingState.h"
+#include "ChaseState.h"
 
 #include "InputManager.h"
 
@@ -24,7 +25,17 @@ void EnemyComponent::Update(float deltaTime)
 	}
 
 	// Update currentState
-	m_pCurrentState->Update(this, deltaTime);
+	Enemy::EnemyStates state{};
+	state = m_pCurrentState->Update(this, deltaTime);
+
+	// Change state if asked
+	if (state != Enemy::NR_STATES)
+	{
+		m_pCurrentState->OnLeave(this);
+		
+		m_pCurrentState = m_pEnemyStates[static_cast<int>(state)].get();
+		m_pCurrentState->OnEnter(this);
+	}
 }
 
 void EnemyComponent::SetControl(unsigned long controllerID)
@@ -46,6 +57,7 @@ void EnemyComponent::InitStates()
 {
 	// Create states
 	m_pEnemyStates[static_cast<int>(Enemy::Roaming)] = std::make_unique<Enemy::RoamingState>();
+	m_pEnemyStates[static_cast<int>(Enemy::Chase)] = std::make_unique<Enemy::ChaseState>();
 
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(Enemy::Roaming)].get();

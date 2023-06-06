@@ -1,9 +1,10 @@
 #include "RoamingState.h"
 
 #include "EnemyComponent.h"
-#include "GameObject.h"
-
 #include "GridComponent.h"
+#include "CharacterComponent.h"
+
+#include "GameObject.h"
 #include "InputMapper.h"
 
 void Enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
@@ -82,12 +83,30 @@ void Enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
 }
 
-void Enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
+Enemy::EnemyStates Enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
 {
-	// Don't update if controlled
-	if (pEnemy->GetIsControlled()) return;
-	
-	HandlePathing(pEnemy, deltaTime);
+	// Variables
+	EnemyStates state{};
+	const bool isControlled{ pEnemy->GetIsControlled() };
+
+	// Update if not controlled
+	if (isControlled == false)
+	{
+		HandlePathing(pEnemy, deltaTime);
+		state = LookForPlayer(pEnemy, deltaTime);
+	}
+	//// If controlled, check for input
+	//else
+	//{
+	//	// Attack if X pressed
+	//	if (dae::InputManager::GetInstance().IsPressed(pEnemy->GetControllerID(), dae::InputManager::ControllerButton::ButtonX))
+	//	{
+
+	//	}
+	//}
+
+	// Return
+	return state;
 }
 
 void Enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
@@ -176,4 +195,96 @@ void Enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 		// Col is higher
 		else			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Right)].get();
 	}
+}
+
+Enemy::EnemyStates Enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, float /*deltaTime*/)
+{
+	// Get currentCell
+	// ---------------
+	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
+	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
+
+	const int detectionRange{ pEnemy->GetBehaviorData().detectionRange };
+
+	// Loop through characters
+	// -----------------------
+	glm::vec3 characterPos{};
+	grid::Cell* pCharacterCell{ nullptr };
+	
+	bool insideXRange{}, insideYRange{};
+	bool sameRow{}, sameCol{};
+	int cellsBetween{};
+
+	for (const auto& currentCharacter : pEnemy->GetCharacters())
+	{
+		// Get cell
+		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();
+		pCharacterCell = pGrid->GetCell(characterPos);
+
+		// Check if in same cell
+		if (pCharacterCell == pCurrentCell) return Chase;
+
+		// Check if either same row or col
+		sameRow = pCharacterCell->rowCol.x == pCurrentCell->rowCol.x;
+		sameCol = pCharacterCell->rowCol.y == pCurrentCell->rowCol.y;
+		if ((sameCol || sameRow) == false) continue;
+
+		// Check if inside range
+		insideXRange = pCurrentCell->rowCol.x - detectionRange <= pCharacterCell->rowCol.x && pCharacterCell->rowCol.x <= pCurrentCell->rowCol.x + detectionRange;
+		insideYRange = pCurrentCell->rowCol.y - detectionRange <= pCharacterCell->rowCol.y && pCharacterCell->rowCol.y <= pCurrentCell->rowCol.y + detectionRange;
+		if ((insideXRange && insideYRange) == false) continue;
+	
+		// Check if no dirt between
+		if (sameRow)
+		{
+			cellsBetween = static_cast<int>(pCharacterCell->rowCol.y - pCurrentCell->rowCol.y);
+
+			if (IsDirtBetween(cellsBetween, false, pGrid, pCurrentCell, pCharacterCell)) continue;
+			else																		return Chase;
+		}
+
+		if (sameCol)
+		{
+			cellsBetween = static_cast<int>(pCharacterCell->rowCol.x - pCurrentCell->rowCol.x);
+			if (abs(cellsBetween) == 1) return Chase;
+
+			if (IsDirtBetween(cellsBetween, true, pGrid, pCurrentCell, pCharacterCell)) continue;
+			else																	     return Chase;
+		}
+	}
+
+	// Return default if not inside range
+	return NR_STATES;
+}
+bool Enemy::RoamingState::IsDirtBetween(int cellsBetween, bool checkRows, grid::GridComponent* pGrid, grid::Cell* pCurrentCell, grid::Cell* pCharacterCell)
+{
+	// If only a cell apart, return false
+	if (abs(cellsBetween) == 1) return false;
+
+	// Loop through cellsBetween
+	const int nrCols{ pGrid->GetNrCols() };
+	grid::Cell* pCellBetween{ nullptr };
+
+	int moveDirection{ (cellsBetween < 0) ? -1 : 1 };
+	bool dirtBetween{ false };
+	int cellIdx{};
+
+	for (int idx{ 1 }; idx < abs(cellsBetween); ++idx)
+	{
+		if (checkRows) cellIdx = static_cast<int>((pCurrentCell->rowCol.x + (idx * moveDirection)) * nrCols + pCharacterCell->rowCol.y);
+		else		   cellIdx = static_cast<int>(pCurrentCell->rowCol.x * nrCols + (pCharacterCell->rowCol.y + (idx * moveDirection)));
+
+		pCellBetween = pGrid->GetCell(cellIdx);
+		if (pCellBetween == nullptr) continue;
+
+		if (pCellBetween->textureID != 0)
+		{
+			dirtBetween = true;
+			break;
+		}
+	}
+
+	if (dirtBetween) return true;
+	else			 return false;
 }
