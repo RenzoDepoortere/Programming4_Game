@@ -28,18 +28,21 @@ void EnemyComponent::CreateMovementCommand()
 void EnemyComponent::TempPathing(float deltaTime)
 {
 	// Get current cell
-	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
-	grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
+	glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
+	grid::Cell* pStartCell{ m_pGrid->GetCell(currentPos) };
+
+	// Search next cell
+	// ----------------
 
 	// Check if close enough to nextCell
 	bool closeEnoughToTarget{ false };
-	if (m_pNextCell == pCurrentCell)
+	if (m_pNextCell == pStartCell)
 	{
 		const glm::vec3 nextCenterPos{ m_pNextCell->centerPosition.x, m_pNextCell->centerPosition.y, 0.f };
 		const glm::vec3 directionTo{ nextCenterPos - currentPos };
 		
 		const float length{ utils::GetSqrdMagnitude(directionTo) };
-		const float minDistance{ 100 };
+		const float minDistance{ 50 };
 
 		if (length <= minDistance) closeEnoughToTarget = true;
 	}
@@ -47,11 +50,19 @@ void EnemyComponent::TempPathing(float deltaTime)
 	// Search next cell if necessary
 	if (m_pNextCell == nullptr || closeEnoughToTarget)
 	{
-		FindNextCell(pCurrentCell);
+		FindNextCell(pStartCell);
 	}
 
 	// Move towards nextCell
+	// --------------------
 	m_pMoveCommand->Execute(deltaTime);
+
+	//// Set previousCell
+	//// ----------------
+	//currentPos = GetGameObject()->GetWorldPosition();
+	//grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
+
+	//if (pCurrentCell != pStartCell) 
 }
 void EnemyComponent::FindNextCell(grid::Cell* pCurrentCell)
 {
@@ -71,7 +82,7 @@ void EnemyComponent::FindNextCell(grid::Cell* pCurrentCell)
 	{
 		// Get vector without previousCell
 		std::vector<grid::Cell*> pAvailableCells{ pCurrentCell->pConnectedCells };
-		pAvailableCells.erase(std::remove(pAvailableCells.begin(), pAvailableCells.end(), m_pPreviousCell), pAvailableCells.end());
+		std::erase(pAvailableCells, m_pPreviousCell);
 
 		// Get random cell
 		const int randomIdx{ rand() % static_cast<int>(pAvailableCells.size()) };

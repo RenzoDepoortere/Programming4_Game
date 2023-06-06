@@ -286,16 +286,31 @@ void GridComponent::InitCellConnections()
 void GridComponent::CheckNeighborCell(Cell* pCurrentCell, int cellIdx, bool checkIfSameRow)
 {
 	// Get neighbourCell
+	// -----------------
 	Cell* pNeighbourCell{ GetCell(cellIdx) };
 
 	// Check conditions
+	// ----------------
+
+	// Check if is not null, ground or rock
 	const bool isValidCell{ pNeighbourCell != nullptr && pNeighbourCell->textureID == 0 && pNeighbourCell->containsRock == false };
 	if (isValidCell == false) return;
 	
+	// Check if cell is not on the otherside of the grid
 	if (checkIfSameRow && pNeighbourCell->rowCol.x != pCurrentCell->rowCol.x) return;
 
-	// Add to connections
+	// Check if cell is not already in connectedCell
+	auto neighborIt{ std::find(pCurrentCell->pConnectedCells.begin(), pCurrentCell->pConnectedCells.end(), pNeighbourCell) };
+	if (neighborIt != pCurrentCell->pConnectedCells.end()) return;
+
+	// Check if neighbour doesn't contain currentCell
+	auto currentIt{ std::find(pNeighbourCell->pConnectedCells.begin(), pNeighbourCell->pConnectedCells.end(), pCurrentCell) };
+	if (currentIt != pNeighbourCell->pConnectedCells.end()) return;
+
+	// Add connections
+	// ---------------
 	pCurrentCell->pConnectedCells.emplace_back(pNeighbourCell);
+	pNeighbourCell->pConnectedCells.emplace_back(pCurrentCell);
 }
 
 void GridComponent::RenderGrid() const
