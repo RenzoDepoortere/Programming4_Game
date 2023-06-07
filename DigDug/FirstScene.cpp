@@ -73,7 +73,7 @@ void FirstScene::Map(dae::Scene& scene)
 
 	// Grid
 	auto pGridComponent{ pGrid->AddComponent<grid::GridComponent>() };
-	pGridComponent->SetRockTexture("Sprites/Other/Single_Rock.png");
+	pGridComponent->SetRockTexture("Sprites/Other/Rock_Animation.png");
 	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
 
 	// Add to scene

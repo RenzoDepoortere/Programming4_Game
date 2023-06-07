@@ -24,6 +24,8 @@ namespace dae
 		void SetMaxFrames(int maxFrames) { m_MaxFrames = maxFrames; }
 		void SetFramesPerSecond(int framesPerSecond) { m_FramesPerSecond = framesPerSecond; }
 
+		bool PlayedOnce() const { return m_PlayedOnce; }
+
 		bool GetPaused() const { return m_IsPaused; }
 		void SetPaused(bool isPaused) { m_IsPaused = isPaused; }
 
@@ -31,7 +33,7 @@ namespace dae
 		// Member variables
 		utils::Rect m_SrcRect{};
 
-		
+		bool m_PlayedOnce{};
 		bool m_IsPaused{};
 
 		int m_FramesPerSecond{};

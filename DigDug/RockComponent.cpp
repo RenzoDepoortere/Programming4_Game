@@ -1,7 +1,9 @@
 #include "RockComponent.h"
+
 #include "GameObject.h"
 #include "GridComponent.h"
-#include "RenderTextureComponent.h"
+#include "AnimationComponent.h"
+
 #include "ServiceLocator.h"
 #include "EventManager.h"
 #include "EventsEnum.h"
@@ -18,8 +20,6 @@ RockComponent::RockComponent(dae::GameObject* pParentObject)
 	// Get SFX ID
 	const std::string fileName{ "Sound/FallenRock_SFX.wav" };
 	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
-
-	// Get animationComponent
 }
 
 void RockComponent::Update(float deltaTime)
@@ -100,7 +100,7 @@ void RockComponent::Fall(float deltaTime)
 
 	// Check if cell below is blocked
 	// ------------------------------
-	const glm::ivec2 textureSize{ m_pRenderTextureComponent->GetTextureSize() };
+	const glm::ivec2 textureSize{ m_pAnimationComponent->GetTextureSize() };
 	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
 
 	grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
@@ -129,9 +129,8 @@ void RockComponent::Fall(float deltaTime)
 		// Current state is destroyed
 		m_CurrentRockState = Destroyed;
 
-		// Set destroyTime
-		const float destroyTime{ 1.f };
-		m_CurrentDestroyTime = destroyTime;
+		// Play animation
+		m_pAnimationComponent->SetPaused(false);
 
 		// Play SFX
 		const int volume{ 100 };
@@ -140,13 +139,10 @@ void RockComponent::Fall(float deltaTime)
 		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
 	}
 }
-void RockComponent::Destroy(float deltaTime)
+void RockComponent::Destroy(float /*deltaTime*/)
 {
-	// Animation
-
-	// Countdown
-	m_CurrentDestroyTime -= deltaTime;
-	if (m_CurrentDestroyTime < 0)
+	// Destroy if animation played
+	if (m_pAnimationComponent->PlayedOnce())
 	{
 		// Destroy object
 		GetGameObject()->RemoveObject();

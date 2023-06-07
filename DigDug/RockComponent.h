@@ -5,7 +5,7 @@
 namespace dae
 {
 	class GameObject;
-	class RenderTextureComponent;
+	class AnimationComponent;
 }
 
 namespace grid
@@ -30,7 +30,7 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
-	void SetRenderTextureComponent(dae::RenderTextureComponent* pRenderTextureComponent) { m_pRenderTextureComponent = pRenderTextureComponent; }
+	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 
 private:
 	// Enums
@@ -43,15 +43,13 @@ private:
 	// Member variables
 	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
-	dae::RenderTextureComponent* m_pRenderTextureComponent{ nullptr };
+	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 	RockState m_CurrentRockState{ Passive };
 
 	int m_RotationDirection{ 1 };
 	float m_CurrentRumbleTime{};
 
 	std::unique_ptr<dae::MoveCommand> pMoveCommand{ nullptr };
-
-	float m_CurrentDestroyTime{};
 
 	// Member functions
 	// ----------------

@@ -1,7 +1,9 @@
 #include "GridComponent.h"
+
 #include "Renderer.h"
 #include "GameObject.h"
 #include "RenderTextureComponent.h"
+#include "AnimationComponent.h"
 #include "ResourceManager.h"
 #include "RockComponent.h"
 
@@ -231,18 +233,24 @@ void GridComponent::CreateRock(const glm::vec3& rockPosition)
 	// --------------
 
 	// Textures
-	dae::RenderTextureComponent* pObjectTexture{ nullptr };
+	dae::AnimationComponent* pObjectTexture{ nullptr };
 	if (m_pRockTexture)
 	{
-		pObjectTexture = pRock->AddComponent<dae::RenderTextureComponent>();
+		pObjectTexture = pRock->AddComponent<dae::AnimationComponent>();
 		pObjectTexture->SetTexture(m_pRockTexture);
 		pObjectTexture->CenterTexture(true);
+
+		pObjectTexture->SetSingleSpriteSize(40.f);
+		pObjectTexture->SetMaxFrames(4);
+		pObjectTexture->SetFramesPerSecond(8);
+
+		pObjectTexture->SetPaused(true);
 	}
 
 	// Rock
 	RockComponent* pRockComponent{ pRock->AddComponent<RockComponent>() };
 	pRockComponent->SetGrid(this);
-	pRockComponent->SetRenderTextureComponent(pObjectTexture);
+	pRockComponent->SetAnimationComponent(pObjectTexture);
 
 	// Add as child
 	// ------------

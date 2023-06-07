@@ -26,11 +26,8 @@ void dae::AnimationComponent::Update(float deltaTime)
 		m_CurrentFrame = (m_CurrentFrame + 1) % m_MaxFrames;
 		m_SrcRect.x = m_CurrentFrame * m_SrcRect.width;
 
-		// If restarted
-		if (m_CurrentFrame == 0)
-		{
-			// Send event
-		}
+		// If restarted, set bool
+		if (m_PlayedOnce == false && m_CurrentFrame == 0) m_PlayedOnce = true;
 	}
 }
 
