@@ -7,7 +7,7 @@ namespace grid
 	{
 		Up, Down, Left, Right, NR_DIRECTIONS
 	};
-	CellRelativeDirection RelativeDirection(Cell* pFrom, Cell* pTo)
+	inline CellRelativeDirection RelativeDirection(Cell* pFrom, Cell* pTo)
 	{
 		// Get bools
 		const bool lowerRow{ pTo->rowCol.x < pFrom->rowCol.x };

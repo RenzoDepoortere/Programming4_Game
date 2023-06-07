@@ -4,7 +4,7 @@
 
 #include <memory>
 #include <array>
-#include <vector>
+#include <deque>
 
 class EnemyComponent;
 class CharacterComponent;
@@ -63,13 +63,13 @@ namespace Enemy
 		CharacterComponent* m_pCharacterToChase{ nullptr };
 		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
 
-		std::vector<grid::Cell*> m_DesiredPath{};
+		std::deque<grid::Cell*> m_DesiredPath{};
 		float m_CheckInterval{};	// Each X seconds, the AI will recalculate it's path
 		float m_CurrentTime{};
 
 		// Member functions
 		// ----------------
-		std::vector<grid::Cell*> CalculatePath(EnemyComponent* pEnemy);
+		std::deque<grid::Cell*> CalculatePath(EnemyComponent* pEnemy);
 		void FollowPath(EnemyComponent* pEnemy, float deltaTime);
 
 		float GetHeuristicCost(grid::Cell* pStartNode, grid::Cell* pEndNode) const;

@@ -2,6 +2,7 @@
 
 #include "EnemyComponent.h"
 #include "GridComponent.h"
+#include "GridHelpers.h"
 #include "CharacterComponent.h"
 #include "GameObject.h"
 
@@ -78,7 +79,7 @@ Enemy::EnemyStates Enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 	return NR_STATES;
 }
 
-std::vector<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
+std::deque<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
 {
 	// Get cells
 	// ---------
@@ -94,7 +95,7 @@ std::vector<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy
 
 	// StartVariables
 	// --------------
-	std::vector<grid::Cell*> path;
+	std::deque<grid::Cell*> path;
 	std::vector<CellRecord> openList;
 	std::vector<CellRecord> closedList;
 	CellRecord currentRecord;
@@ -289,9 +290,64 @@ std::vector<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy
 	std::reverse(path.begin(), path.end());
 	return path;
 }
-void Enemy::ChaseState::FollowPath(EnemyComponent* /*pEnemy*/, float /*deltaTime*/)
+void Enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 {
+	// Get cells
+	// ---------
+	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
 
+	// Own
+	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
+	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
+
+	// Next cell
+	grid::Cell* pNextCell{ m_DesiredPath[0] };
+
+	// Check if cell reached
+	// ---------------------
+	if (pCurrentCell == pNextCell)
+	{
+		// Remove first cell
+		m_DesiredPath.pop_front();
+
+		// If no more path, get new one
+		if (m_DesiredPath.size() == 0)
+		{
+			m_DesiredPath = CalculatePath(pEnemy);
+		}	
+
+		// Set new nextCell
+		pNextCell = m_DesiredPath[0];
+	}
+
+	// Go to next cell
+	// ---------------
+	glm::vec2 moveDirection{};
+	auto relativeDirection{ grid::RelativeDirection(pCurrentCell, pNextCell) };
+
+	// Get movementDirection
+	switch (relativeDirection)
+	{
+	case grid::Up:
+		moveDirection = glm::vec2{ 0.f, -1.f };
+		break;
+
+	case grid::Down:
+		moveDirection = glm::vec2{ 0.f, 1.f };
+		break;
+
+	case grid::Left:
+		moveDirection = glm::vec2{ -1.f, 0.f };
+		break;
+
+	case grid::Right:
+		moveDirection = glm::vec2{ 1.f, 0.f };
+		break;
+	}
+
+	// Set movementDirection and move
+	m_pMoveCommand->SetMovementDirection(moveDirection);
+	m_pMoveCommand->Execute(deltaTime);
 }
 
 float Enemy::ChaseState::GetHeuristicCost(grid::Cell* pStartNode, grid::Cell* pEndNode) const
