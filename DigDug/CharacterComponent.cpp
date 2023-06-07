@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "DiggingState.h"
 #include "ShootingState.h"
+#include "BlowingState.h"
 
 CharacterComponent::CharacterComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
@@ -70,6 +71,7 @@ void CharacterComponent::InitStates()
 	// Create states
 	m_pPlayerStates[static_cast<int>(player::Digging)] = std::make_unique<player::DiggingState>();
 	m_pPlayerStates[static_cast<int>(player::Shooting)] = std::make_unique<player::ShootingState>();
+	m_pPlayerStates[static_cast<int>(player::Blowing)] = std::make_unique<player::BlowingState>();
 
 	// Set default state
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();

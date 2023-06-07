@@ -89,8 +89,8 @@ player::PlayerStates player::ShootingState::Update(CharacterComponent* /*pPlayer
 	player::PlayerStates state{ NR_STATES };
 	if (m_pRope->GetIsThrowing() == false)
 	{
-		//if (m_pRope->GetCaughtEnemy()) state = player::Blowing;
-		state = player::Digging;
+		if (m_pRope->GetCaughtEnemy()) state = player::Blowing;
+		else						   state = player::Digging;
 	}
 
 	// Return

@@ -7,6 +7,7 @@ namespace player
 	{
 		Digging,
 		Shooting,
+		Blowing,
 		NR_STATES
 	};
 
