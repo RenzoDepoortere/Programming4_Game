@@ -11,8 +11,8 @@ dae::AnimationComponent::AnimationComponent(dae::GameObject* pParentObject)
 
 void dae::AnimationComponent::Update(float deltaTime)
 {
-	// Don't update on pause
-	if (m_IsPaused) return;
+	// Don't update on pause or if 1 frame or lower
+	if (m_IsPaused || m_MaxFrames <= 1) return;
 
 	const float frameTime{ 1.f / m_FramesPerSecond };
 
@@ -54,6 +54,9 @@ void dae::AnimationComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)
 {
 	// Set texture
 	RenderTextureComponent::SetTexture(pTexture);
+
+	// Reset src
+	m_SrcRect.x = 0.f;
 
 	// Reset animation
 	m_TimePassed = 0.f;

@@ -29,6 +29,7 @@ void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
 	pAnimationComponent->SetTexture(m_pWalkingSprite);
 
+	pAnimationComponent->SetSingleSpriteSize(25.f);
 	pAnimationComponent->SetMaxFrames(2);
 	pAnimationComponent->SetPaused(false);
 }

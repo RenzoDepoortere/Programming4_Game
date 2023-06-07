@@ -22,6 +22,7 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
 	pAnimationComponent->SetTexture(m_pShootingSprite);
 	
+	pAnimationComponent->SetSingleSpriteSize(25.f);
 	pAnimationComponent->SetMaxFrames(1);
 	pAnimationComponent->SetPaused(true);
 
@@ -69,17 +70,26 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 		pRopeTexture->SetFlip(true);
 		break;
 	}
+
+	// Throw
+	m_pRope->StartThrow();
 }
 void player::ShootingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
+	// Set rope in-active
+	auto pRope{ m_pRope->GetGameObject() };
+	pRope->SetIsActive(false);
+	pRope->SetIsHidden(true);
 }
 
 player::PlayerStates player::ShootingState::Update(CharacterComponent* /*pPlayer*/, float /*deltaTime*/)
 {
-
+	// Check if rope is done throwing
+	player::PlayerStates state{ NR_STATES };
+	if (m_pRope->GetIsThrowing() == false) state = player::Digging;
 
 	// Return
-	return NR_STATES;
+	return state;
 }
 
 void player::ShootingState::InitRope(CharacterComponent* pPlayer)
@@ -96,7 +106,11 @@ void player::ShootingState::InitRope(CharacterComponent* pPlayer)
 	pObjectTexture->CenterTexture(true);
 
 	// Add ropeComponent
+	const float throwSpeed{ 500.f };
+	
 	m_pRope = pRope->AddComponent<RopeComponent>();
+	m_pRope->SetThrowSpeed(throwSpeed);
+	m_pRope->SetRenderTextureComponent(pObjectTexture);
 
 	// Add as child
 	pRope->SetParent(pPlayer->GetGameObject(), false);
