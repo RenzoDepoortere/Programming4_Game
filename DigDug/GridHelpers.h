@@ -31,4 +31,13 @@ namespace grid
 			else			return Right;
 		}
 	}
+
+	inline bool IsInDirtCell(const glm::vec3& position, grid::GridComponent* pGrid)
+	{
+		grid::Cell* pCell{ pGrid->GetCell(position) };
+		if (pCell == nullptr) return false;
+
+		if (pCell->textureID != 0) return true;
+		else					   return false;
+	}
 }

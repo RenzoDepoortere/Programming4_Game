@@ -2,6 +2,12 @@
 
 #include "RenderTextureComponent.h"
 #include "GameObject.h"
+#include "CharacterComponent.h"
+#include "GridHelpers.h"
+
+#include "Renderer.h"
+
+#include <SDL.h>
 
 RopeComponent::RopeComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
@@ -15,21 +21,47 @@ void RopeComponent::Update(float deltaTime)
 
 	// Update
 	HandleRopeExtension(deltaTime);
+	CheckCollision();
 }
 void RopeComponent::Render() const
 {
+	// Render rope
 	const glm::vec3 pos{ GetGameObject()->GetWorldPosition() };
 	m_pRenderTextureComponent->RenderManually(glm::vec2{ pos.x, pos.y }, m_SrcRect);
 }
 
-void RopeComponent::StartThrow()
+void RopeComponent::StartThrow(unsigned int lookingDirection, const glm::vec3& startPos)
 {
-	// Set throwing to true
+	// Reset bools
 	m_IsThrowing = true;
+	m_CaughtEnemy = false;
 
 	// Reset visuals
 	m_SrcRect.width = 0.f;
 	m_TextureFill = 0.f;
+
+	// Set movementDirection
+	switch (static_cast<player::LookingDirection>(lookingDirection))
+	{
+	case player::Up:
+		m_MovementDirection = glm::vec2{ 0, -1 };
+		break;
+
+	case player::Down:
+		m_MovementDirection = glm::vec2{ 0, 1 };
+		break;
+
+	case player::Left:
+		m_MovementDirection = glm::vec2{ -1, 0 };
+		break;
+
+	case player::Right:
+		m_MovementDirection = glm::vec2{ 1, 0 };
+		break;
+	}
+
+	// Set startPos
+	m_StartPosition = startPos;
 }
 
 void RopeComponent::SetRenderTextureComponent(dae::RenderTextureComponent* pRenderTextureComponent)
@@ -57,5 +89,19 @@ void RopeComponent::HandleRopeExtension(float deltaTime)
 	if (m_TextureFill == 1.f)
 	{
 		m_IsThrowing = false;
+	}
+}
+void RopeComponent::CheckCollision()
+{
+	// Get outerPoint pos
+	glm::vec3 pointPos{ m_StartPosition };
+	if (m_MovementDirection.x != 0) pointPos.x += m_TextureWidth / 2.f * (m_MovementDirection.x + m_TextureFill);
+	else  							pointPos.y += m_TextureWidth / 2.f * (m_MovementDirection.y + m_TextureFill);
+
+	// Check if hit dirtCell
+	if (grid::IsInDirtCell(pointPos, m_pGrid))
+	{
+		m_IsThrowing = false;
+		return;
 	}
 }

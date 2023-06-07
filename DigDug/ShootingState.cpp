@@ -48,7 +48,8 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 	const float playerWidth{ pPlayer->GetAnimationComponent()->GetTextureSize().x / 2.f };
 	const float offset{ playerWidth + ropeLength / 2.f };
 
-	switch (pPlayer->GetLookingDirection())
+	const player::LookingDirection lookingDirection{ pPlayer->GetLookingDirection() };
+	switch (lookingDirection)
 	{
 	case player::Up:
 		pRope->SetLocalPosition(0.f, -offset, 0.f);
@@ -72,7 +73,8 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 	}
 
 	// Throw
-	m_pRope->StartThrow();
+	const glm::vec3 playerPos{ pPlayer->GetGameObject()->GetWorldPosition() };
+	m_pRope->StartThrow(lookingDirection, playerPos);
 }
 void player::ShootingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
@@ -86,7 +88,11 @@ player::PlayerStates player::ShootingState::Update(CharacterComponent* /*pPlayer
 {
 	// Check if rope is done throwing
 	player::PlayerStates state{ NR_STATES };
-	if (m_pRope->GetIsThrowing() == false) state = player::Digging;
+	if (m_pRope->GetIsThrowing() == false)
+	{
+		//if (m_pRope->GetCaughtEnemy()) state = player::Blowing;
+		state = player::Digging;
+	}
 
 	// Return
 	return state;
@@ -94,6 +100,8 @@ player::PlayerStates player::ShootingState::Update(CharacterComponent* /*pPlayer
 
 void player::ShootingState::InitRope(CharacterComponent* pPlayer)
 {
+	auto pGrid{ pPlayer->GetGrid() };
+
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pRope{ std::make_shared<dae::GameObject>() };
 
@@ -110,7 +118,9 @@ void player::ShootingState::InitRope(CharacterComponent* pPlayer)
 	
 	m_pRope = pRope->AddComponent<RopeComponent>();
 	m_pRope->SetThrowSpeed(throwSpeed);
+
 	m_pRope->SetRenderTextureComponent(pObjectTexture);
+	m_pRope->SetGrid(pGrid);
 
 	// Add as child
 	pRope->SetParent(pPlayer->GetGameObject(), false);
