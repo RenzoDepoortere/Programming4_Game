@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "CharacterComponent.h"
 #include "GridHelpers.h"
+#include "CharacterComponent.h"
+#include "EnemyManager.h"
 
 #include "Renderer.h"
 
@@ -30,7 +32,7 @@ void RopeComponent::Render() const
 	m_pRenderTextureComponent->RenderManually(glm::vec2{ pos.x, pos.y }, m_SrcRect);
 }
 
-void RopeComponent::StartThrow(unsigned int lookingDirection, const glm::vec3& startPos)
+void RopeComponent::StartThrow(CharacterComponent* pPlayer)
 {
 	// Reset bools
 	m_IsThrowing = true;
@@ -41,7 +43,7 @@ void RopeComponent::StartThrow(unsigned int lookingDirection, const glm::vec3& s
 	m_TextureFill = 0.f;
 
 	// Set movementDirection
-	switch (static_cast<player::LookingDirection>(lookingDirection))
+	switch (pPlayer->GetLookingDirection())
 	{
 	case player::Up:
 		m_MovementDirection = glm::vec2{ 0, -1 };
@@ -61,7 +63,8 @@ void RopeComponent::StartThrow(unsigned int lookingDirection, const glm::vec3& s
 	}
 
 	// Set startPos
-	m_StartPosition = startPos;
+	m_StartPosition = pPlayer->GetGameObject()->GetWorldPosition();
+	m_pPlayer = pPlayer;
 }
 
 void RopeComponent::SetRenderTextureComponent(dae::RenderTextureComponent* pRenderTextureComponent)
@@ -103,5 +106,17 @@ void RopeComponent::CheckCollision()
 	{
 		m_IsThrowing = false;
 		return;
+	}
+
+	// Check if hit enemy
+	EnemyComponent* pEnemy{ nullptr };
+	if (m_pPlayer->GetEnemyManager()->CollidesEnemy(pointPos, pEnemy))
+	{
+		// Caught enemy
+		m_CaughtEnemy = true;
+		m_IsThrowing = false;
+
+		// Couple enemy to player
+
 	}
 }

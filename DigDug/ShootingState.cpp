@@ -73,8 +73,7 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 	}
 
 	// Throw
-	const glm::vec3 playerPos{ pPlayer->GetGameObject()->GetWorldPosition() };
-	m_pRope->StartThrow(lookingDirection, playerPos);
+	m_pRope->StartThrow(pPlayer);
 }
 void player::ShootingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {

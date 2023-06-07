@@ -5,6 +5,7 @@
 #include "GridComponent.h"
 #include "AnimationComponent.h"	
 #include "EnemyComponent.h"
+#include "CharacterComponent.h"
 
 #include "ResourceManager.h"
 
@@ -46,6 +47,31 @@ void EnemyManager::ControlEnemy(unsigned long controllerID, Enemy::EnemyTypes en
 	std::cout << "Error: Requested enemyType not found" << std::endl;
 }
 
+void EnemyManager::SetCharacters(const std::vector<CharacterComponent*>& pCharacters)
+{
+	m_pCharacters = pCharacters;
+	for (const auto& currentCharacter : m_pCharacters)
+	{
+		currentCharacter->SetEnemyManager(this);
+	}
+}
+
+bool EnemyManager::CollidesEnemy(const glm::vec3 position, EnemyComponent* pEnemy) const
+{
+	// Loop through enemies
+	for (const auto& currentEnemy : m_pEnemies)
+	{
+		// Check if point in enemy
+		if (currentEnemy->IsInsideEnemy(position))
+		{
+			pEnemy = currentEnemy;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void EnemyManager::SpawnPooka(const glm::vec3& position)
 {
 	// Create gameObject
@@ -76,6 +102,7 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	behaviorData.enemyType = Enemy::Pooka;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
+	pEnemyComponent->SetAnimationComponent(pObjectTexture);
 	pEnemyComponent->SetGrid(m_pGrid);
 	pEnemyComponent->SetCharacters(m_pCharacters);
 
@@ -86,7 +113,6 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	m_pEnemies.emplace_back(pEnemyComponent);
 }
-
 void EnemyManager::SpawnFygar(const glm::vec3& /*position*/)
 {
 

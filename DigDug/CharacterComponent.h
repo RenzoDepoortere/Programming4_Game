@@ -25,6 +25,8 @@ namespace player
 	};
 }
 
+class EnemyManager;
+
 class CharacterComponent final : public Component
 {
 public:
@@ -43,6 +45,9 @@ public:
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }
 
+	void SetEnemyManager(EnemyManager* pEnemyManager) { m_pEnemyManager = pEnemyManager; }
+	EnemyManager* GetEnemyManager() const { return m_pEnemyManager; }
+
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
 
@@ -55,6 +60,7 @@ private:
 	// Member variables
 	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
+	EnemyManager* m_pEnemyManager{ nullptr };
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
 	unsigned long m_ControllerID{};

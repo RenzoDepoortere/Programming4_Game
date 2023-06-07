@@ -37,6 +37,11 @@ void EnemyComponent::Update(float deltaTime)
 	}
 }
 
+bool EnemyComponent::IsInsideEnemy(const glm::vec3 /*position*/) const
+{
+	return false;
+}
+
 void EnemyComponent::SetControl(unsigned long controllerID)
 {
 	// No controller

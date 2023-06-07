@@ -14,6 +14,8 @@ namespace grid
 	class GridComponent;
 }
 
+class CharacterComponent;
+
 class RopeComponent final : public Component
 {
 public:
@@ -29,7 +31,7 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 
-	void StartThrow(unsigned int lookingDirection, const glm::vec3& startPos);
+	void StartThrow(CharacterComponent* pPlayer);
 	void SetThrowSpeed(float throwSpeed) { m_ThrowSpeed = throwSpeed; }
 
 	void SetRenderTextureComponent(dae::RenderTextureComponent* pRenderTextureComponent);
@@ -54,6 +56,7 @@ private:
 	float m_ThrowSpeed{};
 	glm::vec2 m_MovementDirection{};
 	glm::vec3 m_StartPosition{};
+	CharacterComponent* m_pPlayer{ nullptr };
 
 	// Member functions
 	// ----------------
