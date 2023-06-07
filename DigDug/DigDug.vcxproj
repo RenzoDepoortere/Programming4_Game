@@ -204,6 +204,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="ChaseState.cpp" />
+    <ClCompile Include="DiggingState.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FirstScene.cpp" />
@@ -226,7 +227,9 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="CharacterComponent.h" />
+    <ClInclude Include="CharacterState.h" />
     <ClInclude Include="ChaseState.h" />
+    <ClInclude Include="DiggingState.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyState.h" />

@@ -23,9 +23,9 @@ namespace Enemy
 		EnemyState& operator=(EnemyState&& other) = delete;
 
 		// Functionality
-		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) = 0;
-
 		virtual void OnEnter(EnemyComponent* pEnemy) = 0;
 		virtual void OnLeave(EnemyComponent* pEnemy) = 0;
+
+		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) = 0;
 	};
 }

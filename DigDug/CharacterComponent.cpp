@@ -1,115 +1,43 @@
 #include "CharacterComponent.h"
 
-#include "GridComponent.h"
-#include "AnimationComponent.h"
 #include "GameObject.h"
-
-#include "InputMapper.h"
+#include "DiggingState.h"
 
 CharacterComponent::CharacterComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
+
 }
 
 void CharacterComponent::Update(float deltaTime)
 {
-	HandleInput(deltaTime, m_ControllerID);
-	RemoveDirt();
-}
-
-void CharacterComponent::HandleInput(float deltaTime, unsigned long /*controlledID*/)
-{
-	// Init move command if necessary
-	// ------------------------------
-	if (m_MoveCommandInitialized == false)
+	// Init states if necessary
+	if (m_InitializedStates == false)
 	{
-		m_MoveCommandInitialized = true;
-		InitMoveCommand();
+		m_InitializedStates = true;
+		InitStates();
 	}
 
-	// Check input
-	// -----------
-	const bool upPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_W) };
-	const bool downPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_S) };
-	const bool leftPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_A) };
-	const bool rightPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_D) };
+	// Update currentState
+	Player::PlayerStates state{};
+	state = m_pCurrentState->Update(this, deltaTime);
 
-	const bool isInput{ upPressed || downPressed || leftPressed || rightPressed };
-	
-	// Move
-	// ----
-	if (isInput)
+	// Change state if asked
+	if (state != Player::NR_STATES)
 	{
-		glm::vec2 moveDirection{};
-		if (upPressed) moveDirection = glm::vec2{ 0.f, -1.f };
-		else if (downPressed) moveDirection = glm::vec2{ 0.f, 1.f };
-		else if (leftPressed) moveDirection = glm::vec2{ -1.f, 0.f };
-		else if (rightPressed) moveDirection = glm::vec2{ 1.f, 0.f };
+		m_pCurrentState->OnLeave(this);
 
-		m_pMoveCommand->SetMovementDirection(moveDirection);
-		m_pMoveCommand->Execute(deltaTime);
-	}
-
-	// Rotate accordingly
-	// ------------------
-	if (upPressed)
-	{
-		GetGameObject()->SetRotation(90.f);
-		m_pAnimationComponent->SetFlip(true);
-	}
-	else if (downPressed)
-	{
-		GetGameObject()->SetRotation(90.f);
-		m_pAnimationComponent->SetFlip(false);
-	}
-	else if (leftPressed)
-	{
-		GetGameObject()->SetRotation(0.f);
-		m_pAnimationComponent->SetFlip(true);
-	}
-	else if (rightPressed)
-	{
-		GetGameObject()->SetRotation(0.f);
-		m_pAnimationComponent->SetFlip(false);
-	}
-
-	// Play animation
-	// --------------
-	const bool isPaused{ m_pAnimationComponent->GetPaused() };
-
-	// If input and paused
-	if (isInput && isPaused)
-	{
-		// Play
-		m_pAnimationComponent->SetPaused(false);
-
-	}
-	// If no input and playing
-	if (isInput == false && isPaused == false)
-	{
-		// Pause
-		m_pAnimationComponent->SetPaused(true);
+		m_pCurrentState = m_pPlayerStates[static_cast<int>(state)].get();
+		m_pCurrentState->OnEnter(this);
 	}
 }
-void CharacterComponent::RemoveDirt()
+
+void CharacterComponent::InitStates()
 {
-	if (m_pGrid == nullptr) return;
+	// Create states
+	m_pPlayerStates[static_cast<int>(Player::Digging)] = std::make_unique<Player::DiggingState>();
 
-	// Get currentCell
-	const glm::vec3 objectPos{ GetGameObject()->GetWorldPosition() };
-	grid::Cell* pCurrentCell{ m_pGrid->GetCell(objectPos) };
-
-	// Remove texture and add connection
-	pCurrentCell->textureID = 0;
-	m_pGrid->AddConnections(pCurrentCell);
-}
-
-void CharacterComponent::InitMoveCommand()
-{
-	// Create movementCommand
-	// ----------------------
-	float movementSpeed{ 100.f };
-	glm::vec2 movementDirection{};
-
-	m_pMoveCommand = std::make_unique<dae::MoveCommand>(GetGameObject(), movementDirection, movementSpeed, m_pGrid);
+	// Set default state
+	m_pCurrentState = m_pPlayerStates[static_cast<int>(Player::Digging)].get();
+	m_pCurrentState->OnEnter(this);
 }

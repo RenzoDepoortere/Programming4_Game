@@ -1,8 +1,10 @@
 #pragma once
 #include "Component.h"
 #include "MoveCommand.h"
+#include "CharacterState.h"
 
 #include <memory>
+#include <array>
 
 namespace dae
 {
@@ -31,24 +33,28 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
+	grid::GridComponent* GetGrid() const { return m_pGrid; }
+
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
+	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
 
 	void SetControllerID(unsigned long controllerID) { m_ControllerID = controllerID; }
 
 private:
 	// Member variables
+	// ----------------
 	grid::GridComponent* m_pGrid{ nullptr };
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
 	unsigned long m_ControllerID{};
 
-	bool m_MoveCommandInitialized{};
-	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{};
+	Player::CharacterState* m_pCurrentState{};
+	std::array<std::unique_ptr<Player::CharacterState>, Player::NR_STATES> m_pPlayerStates{};
+
+	bool m_InitializedStates{ false };
 
 	// Member functions
-	void HandleInput(float deltaTime, unsigned long controlledID);	// This should be handled by states later
-	void RemoveDirt();
-
-	void InitMoveCommand();
+	// ----------------
+	void InitStates();
 };
 

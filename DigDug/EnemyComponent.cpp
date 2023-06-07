@@ -4,7 +4,6 @@
 #include "GridComponent.h"
 
 #include "Utils.h"
-#include "EnemyState.h"
 #include "RoamingState.h"
 #include "ChaseState.h"
 

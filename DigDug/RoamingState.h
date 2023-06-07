@@ -32,9 +32,7 @@ namespace Enemy
 		virtual void OnEnter(EnemyComponent* pEnemy) override;
 		virtual void OnLeave(EnemyComponent* pEnemy) override;
 
-	private:
-		// Enums
-		// -----		
+	private:	
 		// Member variables
 		// ----------------
 		std::array<std::unique_ptr<dae::MoveCommand>, 4> m_pMoveCommands{};
