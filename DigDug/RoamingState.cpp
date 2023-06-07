@@ -1,8 +1,9 @@
 #include "RoamingState.h"
 
 #include "EnemyComponent.h"
-#include "GridComponent.h"
 #include "CharacterComponent.h"
+#include "GridComponent.h"
+#include "GridHelpers.h"
 
 #include "GameObject.h"
 #include "InputMapper.h"
@@ -40,12 +41,12 @@ void Enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 		if (pEnemy->GetIsControlled() == false)
 		{
 			// Store commands
-			m_pMoveCommands[static_cast<int>(MovementEnum::Left)] = std::move(pLeftMoveCommand);
-			m_pMoveCommands[static_cast<int>(MovementEnum::Right)] = std::move(pRightMoveCommand);
-			m_pMoveCommands[static_cast<int>(MovementEnum::Down)] = std::move(pDownMoveCommand);
-			m_pMoveCommands[static_cast<int>(MovementEnum::Up)] = std::move(pUpMoveCommand);
+			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)] = std::move(pLeftMoveCommand);
+			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Right)] = std::move(pRightMoveCommand);
+			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Down)] = std::move(pDownMoveCommand);
+			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Up)] = std::move(pUpMoveCommand);
 
-			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Left)].get();
+			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)].get();
 		}
 		else
 		{
@@ -174,27 +175,8 @@ void Enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 
 	// Calculate next direction
 	// ------------------------
-	const bool lowerRow{ m_pNextCell->rowCol.x < pCurrentCell->rowCol.x };
-	const bool lowerCol{ m_pNextCell->rowCol.y < pCurrentCell->rowCol.y };
-
-	const bool notSameRow{ m_pNextCell->rowCol.x != pCurrentCell->rowCol.x };
-
-	// If not same row
-	if (notSameRow)
-	{
-		// Row is lower
-		if (lowerRow)	m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Up)].get();
-		// Row is higher
-		else			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Down)].get();
-	}
-	// If not same col
-	else
-	{
-		// Col is lower
-		if (lowerCol)	m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Left)].get();
-		// Col is higher
-		else			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(MovementEnum::Right)].get();
-	}
+	const grid::CellRelativeDirection direction{ grid::RelativeDirection(pCurrentCell, m_pNextCell) };
+	m_pCurrentCommand = m_pMoveCommands[static_cast<int>(direction)].get();
 }
 
 Enemy::EnemyStates Enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, float /*deltaTime*/)

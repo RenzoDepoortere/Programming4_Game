@@ -14,7 +14,8 @@ void Enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	float closestDistance{ FLT_MAX };
 	float currentDistance{};
 
-	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
+	dae::GameObject* pEnemyGameObject{ pEnemy->GetGameObject() };
+	const glm::vec3 currentPos{ pEnemyGameObject->GetWorldPosition() };
 
 	// Check for closest character
 	// ---------------------------
@@ -37,11 +38,18 @@ void Enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	// Store closest one
 	m_pCharacterToChase = pClosestCharacter;
 
+	// Create moveCommand
+	// ------------------
+	const Enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
+	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+
+	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid, false);
+
 	// Calculate path
 	// --------------
 	m_DesiredPath = CalculatePath(pEnemy);
 
-	m_CheckInterval = 1.f;
+	m_CheckInterval = behaviorData.detectionInterval;
 	m_CurrentTime = m_CheckInterval;
 }
 void Enemy::ChaseState::OnLeave(EnemyComponent* /*pEnemy*/)
@@ -56,6 +64,8 @@ Enemy::EnemyStates Enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 	if (m_CurrentTime <= 0.f)
 	{
 		m_CurrentTime = m_CheckInterval;
+
+		// Check if should still chase
 
 		// Calculate path
 		m_DesiredPath = CalculatePath(pEnemy);

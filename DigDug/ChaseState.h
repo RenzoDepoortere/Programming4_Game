@@ -11,7 +11,6 @@ class CharacterComponent;
 
 namespace grid
 {
-	class GridComponent;
 	struct Cell;
 }
 
@@ -62,6 +61,8 @@ namespace Enemy
 		// Member variables
 		// ----------------
 		CharacterComponent* m_pCharacterToChase{ nullptr };
+		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
+
 		std::vector<grid::Cell*> m_DesiredPath{};
 		float m_CheckInterval{};	// Each X seconds, the AI will recalculate it's path
 		float m_CurrentTime{};

@@ -152,5 +152,8 @@
     <ClInclude Include="ChaseState.h">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="GridHelpers.h">
+      <Filter>Components\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

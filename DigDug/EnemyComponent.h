@@ -12,10 +12,10 @@ namespace Enemy
 	{
 		float movementSpeed{};
 
-		// How many cells the enemy can max observe in each direction
-		int detectionRange{};
-		float attackRange{};
+		int detectionRange{};		// How many cells the enemy can max observe in each direction
+		float detectionInterval{};	// How long it takes before the enemy checks whether it should still chase or give up
 
+		float attackRange{};
 		float attackCooldown{};
 		//std::function attackFunction{};
 

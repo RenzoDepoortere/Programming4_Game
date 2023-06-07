@@ -9,7 +9,6 @@ class EnemyComponent;
 
 namespace grid
 {
-	class GridComponent;
 	struct Cell;
 }
 
@@ -35,15 +34,10 @@ namespace Enemy
 
 	private:
 		// Enums
-		// -----
-		enum MovementEnum
-		{
-			Up, Down, Left, Right, NR_MOVEMENT
-		};
-		
+		// -----		
 		// Member variables
 		// ----------------
-		std::array<std::unique_ptr<dae::MoveCommand>, NR_MOVEMENT> m_pMoveCommands{};
+		std::array<std::unique_ptr<dae::MoveCommand>, 4> m_pMoveCommands{};
 		dae::MoveCommand* m_pCurrentCommand{ nullptr };
 
 		grid::Cell* m_pPreviousCell{ nullptr };

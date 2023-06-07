@@ -230,6 +230,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="FirstScene.h" />
     <ClInclude Include="GridComponent.h" />
+    <ClInclude Include="GridHelpers.h" />
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RockComponent.h" />
