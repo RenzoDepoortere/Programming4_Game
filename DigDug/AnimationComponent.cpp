@@ -1,6 +1,6 @@
 #include "AnimationComponent.h"
 
-#include "GameObject.h"
+#include "../Minigin/GameObject.h"
 
 dae::AnimationComponent::AnimationComponent(dae::GameObject* pParentObject)
 	: dae::RenderTextureComponent{ pParentObject }
@@ -48,4 +48,16 @@ void dae::AnimationComponent::SetSingleSpriteSize(float spriteSize)
 {
 	m_SrcRect.width = spriteSize;
 	m_SrcRect.height = spriteSize;
+}
+
+void dae::AnimationComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)
+{
+	// Set texture
+	RenderTextureComponent::SetTexture(pTexture);
+
+	// Reset animation
+	m_TimePassed = 0.f;
+	m_CurrentFrame = 0;
+
+	m_PlayedOnce = false;
 }

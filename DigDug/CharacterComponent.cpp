@@ -1,5 +1,6 @@
 #include "CharacterComponent.h"
 
+#include "AnimationComponent.h"
 #include "GameObject.h"
 #include "DiggingState.h"
 #include "ShootingState.h"
@@ -20,11 +21,11 @@ void CharacterComponent::Update(float deltaTime)
 	}
 
 	// Update currentState
-	Player::PlayerStates state{};
+	player::PlayerStates state{};
 	state = m_pCurrentState->Update(this, deltaTime);
 
 	// Change state if asked
-	if (state != Player::NR_STATES)
+	if (state != player::NR_STATES)
 	{
 		m_pCurrentState->OnLeave(this);
 
@@ -33,13 +34,44 @@ void CharacterComponent::Update(float deltaTime)
 	}
 }
 
+void CharacterComponent::SetLookingDirection(player::LookingDirection lookingDirection)
+{
+	// Rotate accordingly
+	auto pObject{ GetGameObject() };
+	switch (lookingDirection)
+	{
+	case player::Up:
+		pObject->SetRotation(90.f);
+		m_pAnimationComponent->SetFlip(true);
+		break;
+
+	case player::Down:
+		pObject->SetRotation(90.f);
+		m_pAnimationComponent->SetFlip(false);
+		break;
+
+	case player::Left:
+		pObject->SetRotation(0.f);
+		m_pAnimationComponent->SetFlip(true);
+		break;
+
+	case player::Right:
+		pObject->SetRotation(0.f);
+		m_pAnimationComponent->SetFlip(false);
+		break;
+	}
+
+	// Set lookingDirection
+	m_CurrentLookingDirection = lookingDirection;
+}
+
 void CharacterComponent::InitStates()
 {
 	// Create states
-	m_pPlayerStates[static_cast<int>(Player::Digging)] = std::make_unique<Player::DiggingState>();
-	m_pPlayerStates[static_cast<int>(Player::Shooting)] = std::make_unique<Player::ShootingState>();
+	m_pPlayerStates[static_cast<int>(player::Digging)] = std::make_unique<player::DiggingState>();
+	m_pPlayerStates[static_cast<int>(player::Shooting)] = std::make_unique<player::ShootingState>();
 
 	// Set default state
-	m_pCurrentState = m_pPlayerStates[static_cast<int>(Player::Digging)].get();
+	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();
 	m_pCurrentState->OnEnter(this);
 }

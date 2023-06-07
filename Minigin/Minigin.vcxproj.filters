@@ -161,6 +161,9 @@
     <ClInclude Include="..\DigDug\EventsEnum.h">
       <Filter>OwnFiles\Observers</Filter>
     </ClInclude>
+    <ClInclude Include="..\DigDug\AnimationComponent.h">
+      <Filter>OwnFiles\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minigin.cpp">
@@ -255,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="AudioFile.cpp">
       <Filter>OwnFiles\ServiceLocator\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DigDug\AnimationComponent.cpp">
+      <Filter>OwnFiles\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

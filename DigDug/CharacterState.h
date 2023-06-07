@@ -1,7 +1,7 @@
 #pragma once
 class CharacterComponent;
 
-namespace Player
+namespace player
 {
 	enum PlayerStates
 	{

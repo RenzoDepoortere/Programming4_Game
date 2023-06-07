@@ -23,7 +23,7 @@ namespace dae
 		virtual void Render() const override;
 		void RenderManually(const glm::vec2& pos, const utils::Rect& srcRect) const; // Use this function when you want to have more control of the image, be sure to call it inside the render though
 
-		void SetTexture(std::shared_ptr<Texture2D> pTexture);
+		virtual void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }
 
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }

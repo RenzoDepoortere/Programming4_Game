@@ -4,7 +4,9 @@
 
 #include <memory>
 
-namespace Player
+class RopeComponent;
+
+namespace player
 {
 	class ShootingState final : public CharacterState
 	{
@@ -28,11 +30,12 @@ namespace Player
 		// Member variables
 		// ----------------
 		std::shared_ptr<dae::Texture2D> m_pShootingSprite{ nullptr };
-		std::shared_ptr<dae::Texture2D> m_pRopeSprite{ nullptr };
-
+		
+		RopeComponent* m_pRope{ nullptr };
+		bool m_RopeInitialized{ false };
 
 		// Member functions
 		// ----------------
-	
+		void InitRope(CharacterComponent* pPlayer);
 	};
 }

@@ -58,8 +58,10 @@ namespace dae
 		float GetRotation();
 
 		// Other
-		void SetIsActive(bool isActive, bool hide) { m_IsActive = isActive; m_Hide = hide; }
+		void SetIsActive(bool isActive) { m_IsActive = isActive; }
 		bool GetIsActive() const { return m_IsActive; }
+
+		void SetIsHidden(bool hide) { m_Hide = hide; }
 		bool GetIsHidden() const { return m_Hide; }
 
 	private:

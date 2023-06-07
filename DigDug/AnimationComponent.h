@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderTextureComponent.h"
+#include "../Minigin/RenderTextureComponent.h"
 
 namespace dae
 {
@@ -28,6 +28,8 @@ namespace dae
 
 		bool GetPaused() const { return m_IsPaused; }
 		void SetPaused(bool isPaused) { m_IsPaused = isPaused; }
+
+		virtual void SetTexture(std::shared_ptr<Texture2D> pTexture) override;
 
 	private:
 		// Member variables

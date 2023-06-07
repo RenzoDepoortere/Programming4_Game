@@ -246,7 +246,7 @@ float dae::GameObject::GetRotation()
 		UpdateWorldTransform();
 	}
 
-	return m_LocalTransform.GetRotation();
+	return m_WorldTransform.GetRotation();
 }
 
 void dae::GameObject::SetDirty()

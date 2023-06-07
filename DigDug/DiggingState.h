@@ -5,9 +5,9 @@
 
 #include <memory>
 
-namespace Player
+namespace player
 {
-	class DiggingState final : public Player::CharacterState
+	class DiggingState final : public player::CharacterState
 	{
 	public:
 		// Rule of Five

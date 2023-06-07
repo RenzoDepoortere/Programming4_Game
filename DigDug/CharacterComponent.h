@@ -17,6 +17,14 @@ namespace grid
 	class GridComponent;
 }
 
+namespace player
+{
+	enum LookingDirection
+	{
+		Up, Down, Left, Right
+	};
+}
+
 class CharacterComponent final : public Component
 {
 public:
@@ -40,6 +48,9 @@ public:
 
 	void SetControllerID(unsigned long controllerID) { m_ControllerID = controllerID; }
 
+	void SetLookingDirection(player::LookingDirection lookingDirection);
+	player::LookingDirection GetLookingDirection() const { return m_CurrentLookingDirection; }
+
 private:
 	// Member variables
 	// ----------------
@@ -48,10 +59,11 @@ private:
 
 	unsigned long m_ControllerID{};
 
-	Player::CharacterState* m_pCurrentState{};
-	std::array<std::unique_ptr<Player::CharacterState>, Player::NR_STATES> m_pPlayerStates{};
-
+	player::CharacterState* m_pCurrentState{};
+	std::array<std::unique_ptr<player::CharacterState>, player::NR_STATES> m_pPlayerStates{};
 	bool m_InitializedStates{ false };
+
+	player::LookingDirection m_CurrentLookingDirection{ player::Right };
 
 	// Member functions
 	// ----------------

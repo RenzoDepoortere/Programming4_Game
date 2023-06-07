@@ -8,13 +8,13 @@
 #include "InputMapper.h"
 #include "ResourceManager.h"
 
-Player::DiggingState::DiggingState()
+player::DiggingState::DiggingState()
 {
 	std::string textureString{ "Sprites/Characters/MainCharacter/Walking_Animation.png" };
 	m_pWalkingSprite = dae::ResourceManager::GetInstance().LoadTexture(textureString);
 }
 
-void Player::DiggingState::OnEnter(CharacterComponent* pPlayer)
+void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 {
 	// Create movementCommand
 	if (m_pMoveCommand == nullptr)
@@ -28,13 +28,15 @@ void Player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 	// Set playerTexture
 	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
 	pAnimationComponent->SetTexture(m_pWalkingSprite);
+
+	pAnimationComponent->SetMaxFrames(2);
 	pAnimationComponent->SetPaused(false);
 }
-void Player::DiggingState::OnLeave(CharacterComponent* /*pPlayer*/)
+void player::DiggingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
 }
 
-Player::PlayerStates Player::DiggingState::Update(CharacterComponent* pPlayer, float deltaTime)
+player::PlayerStates player::DiggingState::Update(CharacterComponent* pPlayer, float deltaTime)
 {
 	// Update
 	PlayerStates state{};
@@ -45,7 +47,7 @@ Player::PlayerStates Player::DiggingState::Update(CharacterComponent* pPlayer, f
 	return state;
 }
 
-Player::PlayerStates Player::DiggingState::HandleInput(CharacterComponent* pPlayer, float deltaTime)
+player::PlayerStates player::DiggingState::HandleInput(CharacterComponent* pPlayer, float deltaTime)
 {
 	// Check input
 	// -----------
@@ -75,32 +77,14 @@ Player::PlayerStates Player::DiggingState::HandleInput(CharacterComponent* pPlay
 
 	// Rotate accordingly
 	// ------------------
-	auto pObject{ pPlayer->GetGameObject() };
-	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
-
-	if (upPressed)
-	{
-		pObject->SetRotation(90.f);
-		pAnimationComponent->SetFlip(true);
-	}
-	else if (downPressed)
-	{
-		pObject->SetRotation(90.f);
-		pAnimationComponent->SetFlip(false);
-	}
-	else if (leftPressed)
-	{
-		pObject->SetRotation(0.f);
-		pAnimationComponent->SetFlip(true);
-	}
-	else if (rightPressed)
-	{
-		pObject->SetRotation(0.f);
-		pAnimationComponent->SetFlip(false);
-	}
+	if (upPressed)			pPlayer->SetLookingDirection(Up);
+	else if (downPressed)	pPlayer->SetLookingDirection(Down);
+	else if (leftPressed)	pPlayer->SetLookingDirection(Left);
+	else if (rightPressed)	pPlayer->SetLookingDirection(Right);
 
 	// Play animation
 	// --------------
+	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
 	const bool isPaused{ pAnimationComponent->GetPaused() };
 
 	// If input and paused
@@ -120,7 +104,7 @@ Player::PlayerStates Player::DiggingState::HandleInput(CharacterComponent* pPlay
 	// Return
 	return NR_STATES;
 }
-void Player::DiggingState::RemoveDirt(CharacterComponent* pPlayer)
+void player::DiggingState::RemoveDirt(CharacterComponent* pPlayer)
 {
 	// Get currentCell
 	grid::GridComponent* pGrid{ pPlayer->GetGrid() };
