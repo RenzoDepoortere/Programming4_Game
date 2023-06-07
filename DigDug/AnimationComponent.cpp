@@ -33,6 +33,9 @@ void dae::AnimationComponent::Update(float deltaTime)
 
 void dae::AnimationComponent::Render() const
 {
+	// Return if no texture
+	if (GetTexture() == nullptr) return;
+
 	// Get data
 	glm::vec3 pos{ GetGameObject()->GetWorldPosition() };
 	const glm::ivec2 textureSize{ GetTextureSize() };

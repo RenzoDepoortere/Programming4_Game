@@ -57,6 +57,11 @@ namespace dae
 		void SetRotation(float degrees);
 		float GetRotation();
 
+		// Other
+		void SetIsActive(bool isActive, bool hide) { m_IsActive = isActive; m_Hide = hide; }
+		bool GetIsActive() const { return m_IsActive; }
+		bool GetIsHidden() const { return m_Hide; }
+
 	private:
 		// Member Variables
 		// ----------------
@@ -76,6 +81,10 @@ namespace dae
 		// Component
 		std::unordered_map<std::type_index,std::shared_ptr<Component>> m_pComponents{};
 		std::vector<std::type_index> m_ComponentsToDelete{};
+
+		// Other
+		bool m_IsActive{ true };
+		bool m_Hide{ false };
 
 		// Member Functions
 		// ----------------

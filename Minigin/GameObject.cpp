@@ -5,16 +5,19 @@
 #pragma region GameLoop
 void dae::GameObject::Update(float deltaTime)
 {
-	// Update Components
-	for (const auto& currentComponent : m_pComponents)
+	if (m_IsActive)
 	{
-		currentComponent.second->Update(deltaTime);
-	}
+		// Update Components
+		for (const auto& currentComponent : m_pComponents)
+		{
+			currentComponent.second->Update(deltaTime);
+		}
 
-	// Update Children
-	for (const auto& currentChild : m_pChildren)
-	{
-		currentChild->Update(deltaTime);
+		// Update Children
+		for (const auto& currentChild : m_pChildren)
+		{
+			currentChild->Update(deltaTime);
+		}
 	}
 
 	// Delete marked objects
@@ -23,44 +26,53 @@ void dae::GameObject::Update(float deltaTime)
 }
 void dae::GameObject::FixedUpdate(float deltaTime)
 {
-	// Fixed-Update Components
-	for (const auto& currentComponent : m_pComponents)
+	if (m_IsActive)
 	{
-		currentComponent.second->FixedUpdate(deltaTime);
-	}
+		// Fixed-Update Components
+		for (const auto& currentComponent : m_pComponents)
+		{
+			currentComponent.second->FixedUpdate(deltaTime);
+		}
 
-	// Fixed-Update Children
-	for (const auto& currentChild : m_pChildren)
-	{
-		currentChild->FixedUpdate(deltaTime);
+		// Fixed-Update Children
+		for (const auto& currentChild : m_pChildren)
+		{
+			currentChild->FixedUpdate(deltaTime);
+		}
 	}
 }
 void dae::GameObject::Render() const
 {
-	// Render Components
-	for (const auto& currentComponent : m_pComponents)
+	if (m_Hide == false)
 	{
-		currentComponent.second->Render();
-	}
+		// Render Components
+		for (const auto& currentComponent : m_pComponents)
+		{
+			currentComponent.second->Render();
+		}
 
-	// Render Children
-	for (const auto& currentChild : m_pChildren)
-	{
-		currentChild->Render();
+		// Render Children
+		for (const auto& currentChild : m_pChildren)
+		{
+			currentChild->Render();
+		}
 	}
 }
 void dae::GameObject::RenderImGUI()
 {
-	// Render Components
-	for (const auto& currentComponent : m_pComponents)
+	if (m_Hide == false)
 	{
-		currentComponent.second->RenderImGUI();
-	}
+		// Render Components
+		for (const auto& currentComponent : m_pComponents)
+		{
+			currentComponent.second->RenderImGUI();
+		}
 
-	// Render Children
-	for (const auto& currentChild : m_pChildren)
-	{
-		currentChild->RenderImGUI();
+		// Render Children
+		for (const auto& currentChild : m_pChildren)
+		{
+			currentChild->RenderImGUI();
+		}
 	}
 }
 #pragma endregion
