@@ -7,10 +7,31 @@ dae::AnimationComponent::AnimationComponent(dae::GameObject* pParentObject)
 {
 	// Render manually
 	SetManualRender(true);
+}
 
-	// Temp
-	m_SrcRect.width = 25.f;
-	m_SrcRect.height = 25.f;
+void dae::AnimationComponent::Update(float deltaTime)
+{
+	// Don't update on pause
+	if (m_IsPaused) return;
+
+	const float frameTime{ 1.f / m_FramesPerSecond };
+
+	// Count
+	m_TimePassed += deltaTime;
+	if (frameTime <= m_TimePassed)
+	{
+		m_TimePassed -= frameTime;
+
+		// Go to next frame
+		m_CurrentFrame = (m_CurrentFrame + 1) % m_MaxFrames;
+		m_SrcRect.x = m_CurrentFrame * m_SrcRect.width;
+
+		// If restarted
+		if (m_CurrentFrame == 0)
+		{
+			// Send event
+		}
+	}
 }
 
 void dae::AnimationComponent::Render() const
@@ -21,4 +42,10 @@ void dae::AnimationComponent::Render() const
 
 	// Render
 	RenderManually(glm::vec2{ pos.x, pos.y }, m_SrcRect);
+}
+
+void dae::AnimationComponent::SetSingleSpriteSize(float spriteSize)
+{
+	m_SrcRect.width = spriteSize;
+	m_SrcRect.height = spriteSize;
 }

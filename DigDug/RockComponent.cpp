@@ -18,6 +18,8 @@ RockComponent::RockComponent(dae::GameObject* pParentObject)
 	// Get SFX ID
 	const std::string fileName{ "Sound/FallenRock_SFX.wav" };
 	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
+
+	// Get animationComponent
 }
 
 void RockComponent::Update(float deltaTime)

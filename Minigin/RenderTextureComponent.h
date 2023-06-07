@@ -19,6 +19,7 @@ namespace dae
 		RenderTextureComponent& operator=(RenderTextureComponent&& other) = delete;
 
 		// Functionality
+		virtual void Update(float /*deltaTime*/) override {};
 		virtual void Render() const override;
 		void RenderManually(const glm::vec2& pos, const utils::Rect& srcRect) const; // Use this function when you want to have more control of the image, be sure to call it inside the render though
 

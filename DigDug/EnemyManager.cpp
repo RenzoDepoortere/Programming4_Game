@@ -12,7 +12,7 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
 	// Get enemy textures
-	m_pPookaTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Pooka.png");
+	m_pPookaTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Pooka_Walk_Animation.png");
 	m_pFygarTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Fygar.png");
 }
 
@@ -59,6 +59,10 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	dae::AnimationComponent* pObjectTexture{ pPooka->AddComponent<dae::AnimationComponent>() };
 	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(m_pPookaTexture);
+
+	pObjectTexture->SetSingleSpriteSize(25.f);
+	pObjectTexture->SetMaxFrames(2);
+	pObjectTexture->SetFramesPerSecond(12);
 
 	// Add enemyComponent
 	EnemyComponent* pEnemyComponent{ pPooka->AddComponent<EnemyComponent>() };
