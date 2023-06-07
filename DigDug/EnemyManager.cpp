@@ -29,7 +29,7 @@ void EnemyManager::SpawnEnemies()
 	}
 }
 
-void EnemyManager::ControlEnemy(unsigned long controllerID, Enemy::EnemyTypes enemyType)
+void EnemyManager::ControlEnemy(unsigned long controllerID, enemy::EnemyTypes enemyType)
 {
 	// Loop through enemies
 	for (const auto& currentEnemy : m_pEnemies)
@@ -56,7 +56,7 @@ void EnemyManager::SetCharacters(const std::vector<CharacterComponent*>& pCharac
 	}
 }
 
-bool EnemyManager::CollidesEnemy(const glm::vec3 position, EnemyComponent* pEnemy) const
+bool EnemyManager::CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const
 {
 	// Loop through enemies
 	for (const auto& currentEnemy : m_pEnemies)
@@ -93,13 +93,13 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	// Add enemyComponent
 	EnemyComponent* pEnemyComponent{ pPooka->AddComponent<EnemyComponent>() };
 	
-	Enemy::BehaviorData behaviorData{};
+	enemy::BehaviorData behaviorData{};
 	behaviorData.movementSpeed = 100.f;
 	
 	behaviorData.detectionRange = 2;
 	behaviorData.detectionInterval = 1.f;
 
-	behaviorData.enemyType = Enemy::Pooka;
+	behaviorData.enemyType = enemy::Pooka;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetAnimationComponent(pObjectTexture);

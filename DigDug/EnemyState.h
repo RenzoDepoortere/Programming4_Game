@@ -1,12 +1,13 @@
 #pragma once
 class EnemyComponent;
 
-namespace Enemy
+namespace enemy
 {
 	enum EnemyStates
 	{
 		Roaming,
 		Chase,
+		Caught,
 		NR_STATES
 	};
 

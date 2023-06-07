@@ -6,7 +6,7 @@
 #include "CharacterComponent.h"
 #include "GameObject.h"
 
-void Enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
+void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 {
 	// Prepare variables
 	// -----------------
@@ -41,7 +41,7 @@ void Enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 
 	// Create moveCommand
 	// ------------------
-	const Enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
+	const enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
 	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
 
 	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid, false);
@@ -53,12 +53,12 @@ void Enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	m_CheckInterval = behaviorData.detectionInterval;
 	m_CurrentTime = m_CheckInterval;
 }
-void Enemy::ChaseState::OnLeave(EnemyComponent* /*pEnemy*/)
+void enemy::ChaseState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
 
 }
 
-Enemy::EnemyStates Enemy::ChaseState::Update(EnemyComponent* pEnemy, float deltaTime)
+enemy::EnemyStates enemy::ChaseState::Update(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Countdown
 	m_CurrentTime -= deltaTime;
@@ -79,7 +79,7 @@ Enemy::EnemyStates Enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 	return NR_STATES;
 }
 
-std::deque<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
+std::deque<grid::Cell*> enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
 {
 	// Get cells
 	// ---------
@@ -290,7 +290,7 @@ std::deque<grid::Cell*> Enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
 	std::reverse(path.begin(), path.end());
 	return path;
 }
-void Enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
+void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get cells
 	// ---------
@@ -350,7 +350,7 @@ void Enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 	m_pMoveCommand->Execute(deltaTime);
 }
 
-float Enemy::ChaseState::GetHeuristicCost(grid::Cell* pStartNode, grid::Cell* pEndNode) const
+float enemy::ChaseState::GetHeuristicCost(grid::Cell* pStartNode, grid::Cell* pEndNode) const
 {
 	const glm::vec2 toDestination{ pEndNode->centerPosition - pStartNode->centerPosition };
 	return std::max(abs(toDestination.x), abs(toDestination.y));

@@ -56,3 +56,22 @@ void dae::RenderTextureComponent::SetTexture(std::shared_ptr<Texture2D> pTexture
 	m_pTexture2D = pTexture;
 	m_TextureSize = m_pTexture2D->GetSize();
 }
+
+utils::Rect dae::RenderTextureComponent::GetBoundingRect() const
+{
+	const glm::vec3 currrentPos{ GetGameObject()->GetWorldPosition() };
+
+	utils::Rect boundingRect{};
+	boundingRect.x = currrentPos.x;
+	boundingRect.y = currrentPos.y;
+	boundingRect.width = static_cast<float>(m_TextureSize.x);
+	boundingRect.height = static_cast<float>(m_TextureSize.y);
+
+	if (m_CenterTexture)
+	{
+		boundingRect.x -= m_TextureSize.x / 2.f;
+		boundingRect.y -= m_TextureSize.y / 2.f;
+	}
+
+	return boundingRect;
+}

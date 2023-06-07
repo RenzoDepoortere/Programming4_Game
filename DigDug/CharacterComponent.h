@@ -26,6 +26,7 @@ namespace player
 }
 
 class EnemyManager;
+class EnemyComponent;
 
 class CharacterComponent final : public Component
 {
@@ -56,6 +57,9 @@ public:
 	void SetLookingDirection(player::LookingDirection lookingDirection);
 	player::LookingDirection GetLookingDirection() const { return m_CurrentLookingDirection; }
 
+	void SetCaughtEnemy(EnemyComponent* pEnemy) { m_pCaughtEnemy = pEnemy; }
+	EnemyComponent* GetCaughtEnemy() const { return m_pCaughtEnemy; }
+
 private:
 	// Member variables
 	// ----------------
@@ -70,6 +74,8 @@ private:
 	bool m_InitializedStates{ false };
 
 	player::LookingDirection m_CurrentLookingDirection{ player::Right };
+
+	EnemyComponent* m_pCaughtEnemy{ nullptr };
 
 	// Member functions
 	// ----------------

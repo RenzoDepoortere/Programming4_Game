@@ -14,7 +14,7 @@ namespace grid
 	struct Cell;
 }
 
-namespace Enemy
+namespace enemy
 {
 	class ChaseState final : public EnemyState
 	{

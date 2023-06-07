@@ -15,6 +15,14 @@ namespace utils
 		}
 	};
 
+	inline bool IsInsideRect(const glm::vec3& position, const Rect& rect)
+	{
+		const bool isInsideX{ rect.x <= position.x && position.x <= rect.x + rect.width };
+		const bool isInsideY{ rect.y <= position.y && position.y <= rect.y + rect.height };
+
+		return isInsideX && isInsideY;
+	}
+
 	inline float GetSqrdMagnitude(const glm::vec3& vector)
 	{
 		return powf(vector.x, 2.f) + powf(vector.y, 2.f) + powf(vector.z, 2.f);

@@ -26,6 +26,8 @@ namespace dae
 		virtual void SetTexture(std::shared_ptr<Texture2D> pTexture);
 		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }
 
+		virtual utils::Rect GetBoundingRect() const;
+
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
 		void SetFlip(bool flip) { m_Flip = flip; }
 		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }

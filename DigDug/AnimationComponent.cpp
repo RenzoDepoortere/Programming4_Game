@@ -64,3 +64,22 @@ void dae::AnimationComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)
 
 	m_PlayedOnce = false;
 }
+
+utils::Rect dae::AnimationComponent::GetBoundingRect() const
+{
+	const glm::vec3 currrentPos{ GetGameObject()->GetWorldPosition() };
+
+	utils::Rect boundingRect{};
+	boundingRect.x = currrentPos.x;
+	boundingRect.y = currrentPos.y;
+	boundingRect.width = m_SrcRect.width;
+	boundingRect.height = m_SrcRect.height;
+
+	if (GetCenteredTexture())
+	{
+		boundingRect.x -= m_SrcRect.width;
+		boundingRect.y -= m_SrcRect.height;
+	}
+
+	return boundingRect;
+}

@@ -6,7 +6,7 @@
 
 #include <array>
 
-namespace Enemy
+namespace enemy
 {
 	struct BehaviorData
 	{
@@ -50,6 +50,7 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	bool IsInsideEnemy(const glm::vec3 position) const;
+	void SetCaughtState();
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }
@@ -57,8 +58,8 @@ public:
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
 	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
 
-	void SetBehaviorData(const Enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
-	Enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
+	void SetBehaviorData(const enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
+	enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
@@ -78,9 +79,9 @@ private:
 	bool m_IsControlled{ false };
 	unsigned long m_ControllerID{};
 
-	Enemy::BehaviorData m_EnemyBehavior{};
-	Enemy::EnemyState* m_pCurrentState{};
-	std::array<std::unique_ptr<Enemy::EnemyState>, Enemy::NR_STATES> m_pEnemyStates{};
+	enemy::BehaviorData m_EnemyBehavior{};
+	enemy::EnemyState* m_pCurrentState{};
+	std::array<std::unique_ptr<enemy::EnemyState>, enemy::NR_STATES> m_pEnemyStates{};
 
 	// Member functions
 	// ----------------	

@@ -31,6 +31,8 @@ namespace dae
 
 		virtual void SetTexture(std::shared_ptr<Texture2D> pTexture) override;
 
+		virtual utils::Rect GetBoundingRect() const override;
+
 	private:
 		// Member variables
 		utils::Rect m_SrcRect{};

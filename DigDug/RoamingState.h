@@ -12,7 +12,7 @@ namespace grid
 	struct Cell;
 }
 
-namespace Enemy
+namespace enemy
 {
 	class RoamingState final : public EnemyState
 	{
@@ -27,10 +27,10 @@ namespace Enemy
 		RoamingState& operator=(RoamingState&& other) = delete;
 
 		// Functionality
-		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
-
 		virtual void OnEnter(EnemyComponent* pEnemy) override;
 		virtual void OnLeave(EnemyComponent* pEnemy) override;
+
+		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
 	private:	
 		// Member variables

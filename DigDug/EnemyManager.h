@@ -10,7 +10,7 @@ namespace grid
 	class GridComponent;
 }
 
-namespace Enemy
+namespace enemy
 {
 	enum EnemyTypes
 	{
@@ -35,12 +35,12 @@ public:
 
 	// Functionality
 	void SpawnEnemies();
-	void ControlEnemy(unsigned long controllerID, Enemy::EnemyTypes enemyType);
+	void ControlEnemy(unsigned long controllerID, enemy::EnemyTypes enemyType);
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters);
 
-	bool CollidesEnemy(const glm::vec3 position, EnemyComponent* pEnemy = nullptr) const;
+	bool CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const;
 
 private:
 	// Member variables

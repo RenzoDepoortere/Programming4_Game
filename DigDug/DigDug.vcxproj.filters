@@ -101,6 +101,9 @@
     <ClCompile Include="RopeComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
+    <ClCompile Include="CaughtState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="RopeComponent.h">
       <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CaughtState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

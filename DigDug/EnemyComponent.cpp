@@ -6,6 +6,8 @@
 #include "Utils.h"
 #include "RoamingState.h"
 #include "ChaseState.h"
+#include "CaughtState.h"
+#include "AnimationComponent.h"
 
 #include "InputManager.h"
 
@@ -24,11 +26,11 @@ void EnemyComponent::Update(float deltaTime)
 	}
 
 	// Update currentState
-	Enemy::EnemyStates state{};
+	enemy::EnemyStates state{};
 	state = m_pCurrentState->Update(this, deltaTime);
 
 	// Change state if asked
-	if (state != Enemy::NR_STATES)
+	if (state != enemy::NR_STATES)
 	{
 		m_pCurrentState->OnLeave(this);
 		
@@ -37,9 +39,16 @@ void EnemyComponent::Update(float deltaTime)
 	}
 }
 
-bool EnemyComponent::IsInsideEnemy(const glm::vec3 /*position*/) const
+bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
 {
-	return false;
+	return utils::IsInsideRect(position, m_pAnimationComponent->GetBoundingRect());
+}
+void EnemyComponent::SetCaughtState()
+{
+	m_pCurrentState->OnLeave(this);
+
+	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Caught)].get();
+	m_pCurrentState->OnEnter(this);
 }
 
 void EnemyComponent::SetControl(unsigned long controllerID)
@@ -60,10 +69,11 @@ void EnemyComponent::SetControl(unsigned long controllerID)
 void EnemyComponent::InitStates()
 {
 	// Create states
-	m_pEnemyStates[static_cast<int>(Enemy::Roaming)] = std::make_unique<Enemy::RoamingState>();
-	m_pEnemyStates[static_cast<int>(Enemy::Chase)] = std::make_unique<Enemy::ChaseState>();
+	m_pEnemyStates[static_cast<int>(enemy::Roaming)] = std::make_unique<enemy::RoamingState>();
+	m_pEnemyStates[static_cast<int>(enemy::Chase)] = std::make_unique<enemy::ChaseState>();
+	m_pEnemyStates[static_cast<int>(enemy::Caught)] = std::make_unique<enemy::CaughtState>();
 
 	// Set default state
-	m_pCurrentState = m_pEnemyStates[static_cast<int>(Enemy::Roaming)].get();
+	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
 	m_pCurrentState->OnEnter(this);
 }

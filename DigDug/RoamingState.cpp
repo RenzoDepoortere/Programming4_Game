@@ -8,7 +8,7 @@
 #include "GameObject.h"
 #include "InputMapper.h"
 
-void Enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
+void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 {
 	// Create move commands
 	// --------------------
@@ -80,11 +80,11 @@ void Enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 		}
 	}
 }
-void Enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
+void enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
 }
 
-Enemy::EnemyStates Enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
+enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Variables
 	EnemyStates state{};
@@ -110,7 +110,7 @@ Enemy::EnemyStates Enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 	return state;
 }
 
-void Enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
+void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get current cell
 	glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
@@ -142,7 +142,7 @@ void Enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
 	// ---------------------
 	m_pCurrentCommand->Execute(deltaTime);
 }
-void Enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
+void enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 {
 	// Get random other connected cell
 	// -------------------------------
@@ -179,7 +179,7 @@ void Enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 	m_pCurrentCommand = m_pMoveCommands[static_cast<int>(direction)].get();
 }
 
-Enemy::EnemyStates Enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, float /*deltaTime*/)
+enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, float /*deltaTime*/)
 {
 	// Get currentCell
 	// ---------------
@@ -239,7 +239,7 @@ Enemy::EnemyStates Enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 	// Return default if not inside range
 	return NR_STATES;
 }
-bool Enemy::RoamingState::IsDirtBetween(int cellsBetween, bool checkRows, grid::GridComponent* pGrid, grid::Cell* pCurrentCell, grid::Cell* pCharacterCell)
+bool enemy::RoamingState::IsDirtBetween(int cellsBetween, bool checkRows, grid::GridComponent* pGrid, grid::Cell* pCurrentCell, grid::Cell* pCharacterCell)
 {
 	// If only a cell apart, return false
 	if (abs(cellsBetween) == 1) return false;

@@ -6,6 +6,7 @@
 #include "GridHelpers.h"
 #include "CharacterComponent.h"
 #include "EnemyManager.h"
+#include "EnemyComponent.h"
 
 #include "Renderer.h"
 
@@ -117,6 +118,7 @@ void RopeComponent::CheckCollision()
 		m_IsThrowing = false;
 
 		// Couple enemy to player
-
+		m_pPlayer->SetCaughtEnemy(pEnemy);
+		pEnemy->SetCaughtState();
 	}
 }
