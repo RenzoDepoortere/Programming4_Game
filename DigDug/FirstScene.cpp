@@ -11,12 +11,12 @@
 
 #include "TextComponent.h"
 #include "RenderTextureComponent.h"
+#include "AnimationComponent.h"
 #include "EnemyManager.h"
 #include "GridComponent.h"
 #include "CharacterComponent.h"
 
 #include "PauseCommand.h"
-#include "MoveCommand.h"
 
 #include "ServiceLocator.h"
 #include "SDLSoundSystem.h"
@@ -90,61 +90,24 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 
 	// Add texture
 	// -----------
-	std::string textureString{ "Sprites/Characters/MainCharacter/MC.png" };
+	std::string textureString{ "Sprites/Characters/MainCharacter/Walking_Animation.png" };
 	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
-	dae::RenderTextureComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::RenderTextureComponent>() };
+	
+	dae::AnimationComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::AnimationComponent>() };
 	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(pTexture);
+
+	pObjectTexture->SetSingleSpriteSize(25.f);
+	pObjectTexture->SetMaxFrames(2);
+	pObjectTexture->SetFramesPerSecond(12);
+
+	pObjectTexture->SetPaused(true);
 
 	// Add characterComponent
 	// ----------------------
 	CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
 	pCharacterComponent->SetGrid(m_pGrid);
-
-	// Add movement
-	// ------------
-	float movementSpeed{ 100.f };
-	glm::vec2 movementDirection{};
-	const auto keyState{ dae::InputMapper::KeyState::Hold };
-
-	// LEFT
-	auto controllerInput{ std::make_pair(0, dae::InputManager::ControllerButton::None) };
-	auto inputKeys{ std::make_pair(SDL_SCANCODE_A, controllerInput) };
-
-	movementDirection = glm::vec2{ -1, 0 };
-
-	std::unique_ptr<dae::MoveCommand> pMoveCommand{ std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid) };
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
-
-
-	// RIGHT
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_D, controllerInput);
-
-	movementDirection = glm::vec2{ 1, 0 };
-
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
-
-
-	// DOWN
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_S, controllerInput);
-
-	movementDirection = glm::vec2{ 0, 1 };
-
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
-
-
-	// UP
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
-	inputKeys = std::make_pair(SDL_SCANCODE_W, controllerInput);
-
-	movementDirection = glm::vec2{ 0, -1 };
-
-	pMoveCommand = std::make_unique<dae::MoveCommand>(pMainCharacter.get(), movementDirection, movementSpeed, m_pGrid);
-	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pMoveCommand));
+	pCharacterComponent->SetAnimationComponent(pObjectTexture);
 
 	// Add to scene
 	// ------------

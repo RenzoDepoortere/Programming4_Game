@@ -26,7 +26,7 @@ void dae::RenderTextureComponent::Render() const
 	destRect.x = pos.x;
 	destRect.y = pos.y;
 
-	Renderer::GetInstance().RenderTexture(*m_pTexture2D, destRect, {}, angle);
+	Renderer::GetInstance().RenderTexture(*m_pTexture2D, destRect, {}, angle, m_Flip);
 }
 void dae::RenderTextureComponent::RenderManually(const glm::vec2& pos, const utils::Rect& srcRect) const
 {
@@ -48,7 +48,7 @@ void dae::RenderTextureComponent::RenderManually(const glm::vec2& pos, const uti
 	editedDestRect.height = srcRect.height;
 
 	const float angle{ GetGameObject()->GetRotation() };
-	Renderer::GetInstance().RenderTexture(*m_pTexture2D, editedDestRect, srcRect, angle);
+	Renderer::GetInstance().RenderTexture(*m_pTexture2D, editedDestRect, srcRect, angle, m_Flip);
 }
 
 void dae::RenderTextureComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)

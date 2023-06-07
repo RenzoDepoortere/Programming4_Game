@@ -27,6 +27,7 @@ namespace dae
 		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }
 
 		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
+		void SetFlip(bool flip) { m_Flip = flip; }
 		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }
 
 	protected:
@@ -40,6 +41,7 @@ namespace dae
 		glm::ivec2 m_TextureSize{};
 
 		bool m_CenterTexture{ false };
+		bool m_Flip{ false };
 		bool m_ManualRender{ false };
 	};
 }

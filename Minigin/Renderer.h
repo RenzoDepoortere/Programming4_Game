@@ -23,7 +23,7 @@ namespace dae
 		void Render();
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, const utils::Rect& destRect, const utils::Rect& srcRect = {}, float angle = 0) const;
+		void RenderTexture(const Texture2D& texture, const utils::Rect& destRect, const utils::Rect& srcRect = {}, float angle = 0, bool flip = false) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

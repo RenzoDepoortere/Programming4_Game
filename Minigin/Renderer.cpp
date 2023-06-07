@@ -77,8 +77,15 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const utils::Rect& destRect, const utils::Rect& srcRect, float angle) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, const utils::Rect& destRect, const utils::Rect& srcRect, float angle, bool flip) const
 {
+	// Size
+	const glm::ivec2 textureSize{ texture.GetSize() };
+
+	// Flip
+	SDL_RendererFlip flipSetting{ SDL_FLIP_NONE };
+	if (flip)		 flipSetting = SDL_FLIP_HORIZONTAL;
+
 	// Destination rect
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(destRect.x);
@@ -87,7 +94,10 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const utils::Rect& d
 	dst.h = static_cast<int>(destRect.height);
 	if (destRect.width == 0 && destRect.height == 0)
 	{
-		SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+		dst.w = textureSize.x;
+		dst.h = textureSize.y;
+
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), NULL, &dst, angle, NULL, flipSetting);
 	}
 
 	if (srcRect != utils::Rect{})
@@ -99,11 +109,11 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const utils::Rect& d
 		src.w = static_cast<int>(srcRect.width);
 		src.h = static_cast<int>(srcRect.height);
 
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, angle, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, angle, NULL, flipSetting);
 	}
 	else
 	{
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), NULL, &dst, angle, NULL, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), NULL, &dst, angle, NULL, flipSetting);
 	}
 }
 
