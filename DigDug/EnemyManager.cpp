@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #include "GridComponent.h"
-#include "RenderTextureComponent.h"
+#include "AnimationComponent.h"	
 #include "EnemyComponent.h"
 
 #include "ResourceManager.h"
@@ -55,8 +55,8 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	// Add components
 	// --------------
 
-	// Add texture
-	dae::RenderTextureComponent* pObjectTexture{ pPooka->AddComponent<dae::RenderTextureComponent>() };
+	// Add animationComponent
+	dae::AnimationComponent* pObjectTexture{ pPooka->AddComponent<dae::AnimationComponent>() };
 	pObjectTexture->CenterTexture(true);
 	pObjectTexture->SetTexture(m_pPookaTexture);
 

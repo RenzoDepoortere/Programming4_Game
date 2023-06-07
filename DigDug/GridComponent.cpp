@@ -318,7 +318,7 @@ void GridComponent::RenderGrid() const
 	if (m_pRenderer == nullptr) return;
 
 	// Draw corresponding texture of each cell
-	utils::Rect destRect{};
+	glm::vec2 pos{};
 	utils::Rect srcRect{};
 	srcRect.width = static_cast<float>(m_CellWidth);
 	srcRect.height = static_cast<float>(m_CellHeight);
@@ -328,10 +328,10 @@ void GridComponent::RenderGrid() const
 		// If textureID is valid
 		if (currentCell->textureID != 0)
 		{
-			destRect.x = currentCell->worldPosition.x;
-			destRect.y = currentCell->worldPosition.y;
+			pos.x = currentCell->worldPosition.x;
+			pos.y = currentCell->worldPosition.y;
 			srcRect.x = (currentCell->textureID - 1) * srcRect.width;
-			m_pRenderer->RenderManually(destRect, srcRect, 0.f);
+			m_pRenderer->RenderManually(pos, srcRect);
 		}
 	}
 }

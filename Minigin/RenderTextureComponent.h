@@ -6,19 +6,10 @@
 
 namespace dae
 {
-	class RenderTextureComponent final : public Component
+	class RenderTextureComponent : public Component
 	{
 	public:
-		virtual void Render() const override;
-		// Use this function when you want to have more control of the image, be sure to call it inside the render though
-		void RenderManually(const utils::Rect& destRect, const utils::Rect& srcRect, float angle) const;
-
-		void SetTexture(std::shared_ptr<Texture2D> pTexture);
-		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
-		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }	// Todo: return half if this is centered
-
-		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }
-
+		// Rule of five
 		explicit RenderTextureComponent(dae::GameObject* pParentObject);
 		virtual ~RenderTextureComponent() override = default;
 
@@ -27,11 +18,27 @@ namespace dae
 		RenderTextureComponent& operator=(const RenderTextureComponent& other) = delete;
 		RenderTextureComponent& operator=(RenderTextureComponent&& other) = delete;
 
+		// Functionality
+		virtual void Render() const override;
+		void RenderManually(const glm::vec2& pos, const utils::Rect& srcRect) const; // Use this function when you want to have more control of the image, be sure to call it inside the render though
+
+		void SetTexture(std::shared_ptr<Texture2D> pTexture);
+		glm::ivec2 GetTextureSize() const { return m_pTexture2D->GetSize(); }
+
+		void CenterTexture(bool centerTexture) { m_CenterTexture = centerTexture; }
+		void SetManualRender(bool manualRender) { m_ManualRender = manualRender; }
+
+	protected:
+		bool GetCenteredTexture() const { return m_CenterTexture; }
+		std::shared_ptr<Texture2D> GetTexture() const { return m_pTexture2D; }
+
 	private:
+		// Member variables
+		// ----------------
 		std::shared_ptr<Texture2D> m_pTexture2D{ nullptr };
 		glm::ivec2 m_TextureSize{};
-		bool m_CenterTexture{ false };
 
+		bool m_CenterTexture{ false };
 		bool m_ManualRender{ false };
 	};
 }

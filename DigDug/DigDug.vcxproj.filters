@@ -92,6 +92,9 @@
     <ClCompile Include="ChaseState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="GridHelpers.h">
       <Filter>Components\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

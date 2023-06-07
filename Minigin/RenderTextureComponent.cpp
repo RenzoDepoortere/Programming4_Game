@@ -28,12 +28,15 @@ void dae::RenderTextureComponent::Render() const
 
 	Renderer::GetInstance().RenderTexture(*m_pTexture2D, destRect, {}, angle);
 }
-void dae::RenderTextureComponent::RenderManually(const utils::Rect& destRect, const utils::Rect& srcRect, float angle) const
+void dae::RenderTextureComponent::RenderManually(const glm::vec2& pos, const utils::Rect& srcRect) const
 {
 	if (m_pTexture2D == nullptr) return;
 	if (m_ManualRender == false) return;
 
-	utils::Rect editedDestRect{ destRect };
+	utils::Rect editedDestRect{};
+	editedDestRect.x = pos.x;
+	editedDestRect.y = pos.y;
+
 	if (m_CenterTexture)
 	{
 		editedDestRect.x -= srcRect.width / 2.f;
@@ -44,6 +47,7 @@ void dae::RenderTextureComponent::RenderManually(const utils::Rect& destRect, co
 	editedDestRect.width = srcRect.width;
 	editedDestRect.height = srcRect.height;
 
+	const float angle{ GetGameObject()->GetRotation() };
 	Renderer::GetInstance().RenderTexture(*m_pTexture2D, editedDestRect, srcRect, angle);
 }
 
