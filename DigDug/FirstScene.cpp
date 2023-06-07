@@ -89,13 +89,9 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	std::shared_ptr<dae::GameObject> pMainCharacter{ std::make_shared<dae::GameObject>() };
 
 	// Add texture
-	// -----------
-	std::string textureString{ "Sprites/Characters/MainCharacter/Walking_Animation.png" };
-	std::shared_ptr<dae::Texture2D> pTexture{ dae::ResourceManager::GetInstance().LoadTexture(textureString) };
-	
+	// -----------	
 	dae::AnimationComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::AnimationComponent>() };
 	pObjectTexture->CenterTexture(true);
-	pObjectTexture->SetTexture(pTexture);
 
 	pObjectTexture->SetSingleSpriteSize(25.f);
 	pObjectTexture->SetMaxFrames(2);

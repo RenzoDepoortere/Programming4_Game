@@ -213,6 +213,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RockComponent.cpp" />
+    <ClCompile Include="ShootingState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\FPSCounter.h" />
@@ -239,6 +240,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RockComponent.h" />
+    <ClInclude Include="ShootingState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

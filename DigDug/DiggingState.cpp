@@ -6,6 +6,13 @@
 #include "AnimationComponent.h"
 
 #include "InputMapper.h"
+#include "ResourceManager.h"
+
+Player::DiggingState::DiggingState()
+{
+	std::string textureString{ "Sprites/Characters/MainCharacter/Walking_Animation.png" };
+	m_pWalkingSprite = dae::ResourceManager::GetInstance().LoadTexture(textureString);
+}
 
 void Player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 {
@@ -17,6 +24,11 @@ void Player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 
 		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pPlayer->GetGameObject(), movementDirection, movementSpeed, pPlayer->GetGrid());
 	}
+
+	// Set playerTexture
+	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
+	pAnimationComponent->SetTexture(m_pWalkingSprite);
+	pAnimationComponent->SetPaused(false);
 }
 void Player::DiggingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
@@ -37,6 +49,9 @@ Player::PlayerStates Player::DiggingState::HandleInput(CharacterComponent* pPlay
 {
 	// Check input
 	// -----------
+	const bool actionKeyPressed{ dae::InputManager::GetInstance().IsPressed(SDL_SCANCODE_J) };
+	if (actionKeyPressed) return Shooting;
+
 	const bool upPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_W) };
 	const bool downPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_S) };
 	const bool leftPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_A) };
