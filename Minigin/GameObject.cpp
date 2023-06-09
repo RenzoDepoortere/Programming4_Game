@@ -190,6 +190,10 @@ void dae::GameObject::SetWorldPosition(const glm::vec3& position)
 {
 	SetWorldPosition(position.x, position.y, position.z);
 }
+void dae::GameObject::SetWorldPosition(const glm::vec2& position)
+{
+	SetWorldPosition(position.x, position.y, 0.f);
+}
 const glm::vec3& dae::GameObject::GetWorldPosition()
 {
 	if (m_IsDirty)

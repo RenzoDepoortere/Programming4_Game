@@ -107,6 +107,9 @@
     <ClCompile Include="BlowingState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="GhostState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -186,6 +189,9 @@
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="BlowingState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GhostState.h">
       <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>

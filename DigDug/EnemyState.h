@@ -6,6 +6,7 @@ namespace enemy
 	enum EnemyStates
 	{
 		Roaming,
+		Ghost,
 		Chase,
 		Caught,
 		NR_STATES

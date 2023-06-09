@@ -5,6 +5,7 @@
 
 #include "Utils.h"
 #include "RoamingState.h"
+#include "GhostState.h"
 #include "ChaseState.h"
 #include "CaughtState.h"
 #include "AnimationComponent.h"
@@ -76,6 +77,7 @@ void EnemyComponent::InitStates()
 {
 	// Create states
 	m_pEnemyStates[static_cast<int>(enemy::Roaming)] = std::make_unique<enemy::RoamingState>();
+	m_pEnemyStates[static_cast<int>(enemy::Ghost)] = std::make_unique<enemy::GhostState>();
 	m_pEnemyStates[static_cast<int>(enemy::Chase)] = std::make_unique<enemy::ChaseState>();
 	m_pEnemyStates[static_cast<int>(enemy::Caught)] = std::make_unique<enemy::CaughtState>();
 

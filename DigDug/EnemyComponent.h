@@ -15,6 +15,8 @@ namespace enemy
 		int detectionRange{};		// How many cells the enemy can max observe in each direction
 		float detectionInterval{};	// How long it takes before the enemy checks whether it should still chase or give up
 
+		float ghostTime{};			// How long it takes before the enemy turns into a ghost
+
 		//float attackRange{};
 		//float attackCooldown{};
 		//std::function attackFunction{};

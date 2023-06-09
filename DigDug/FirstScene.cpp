@@ -109,6 +109,11 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	// ------------
 	m_pCharacters.emplace_back(pCharacterComponent);
 	scene.Add(pMainCharacter);
+
+	// Transform
+	// ---------
+	grid::Cell* pCell{ m_pGrid->GetCell(0) };
+	pMainCharacter->SetWorldPosition(pCell->centerPosition);
 }
 
 void FirstScene::Enemies(dae::Scene& scene)
