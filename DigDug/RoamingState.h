@@ -47,10 +47,13 @@ namespace enemy
 		grid::Cell* m_pPreviousCell{ nullptr };
 		grid::Cell* m_pNextCell{ nullptr };
 
+		float m_CurrentRoamTime{};
+
 		// Member functions
 		// ----------------
 		void InitMovementCommands(EnemyComponent* pEnemy);
 
+		EnemyStates CheckGhostTimer(EnemyComponent* pEnemy, float deltaTime);
 		void HandlePathing(EnemyComponent* pEnemy, float deltaTime);
 		void FindNextCell(grid::Cell* pCurrentCell);
 

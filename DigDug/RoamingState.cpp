@@ -19,6 +19,10 @@ enemy::RoamingState::RoamingState()
 
 void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 {
+	// Reset variables
+	// ---------------
+	m_CurrentRoamTime = 0.f;
+
 	// Create move commands
 	// --------------------
 	if (m_CommandInitialized == false)
@@ -32,17 +36,19 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 
 	auto pTexture{ m_pPookaWalkingAnimation };
 	float textureSize{ 25.f };
+	int fps{ 12 };
 	if (pEnemy->GetBehaviorData().enemyType != Pooka)
 	{
 		pTexture = m_pFygarWalkingAnimation;
-		textureSize = 21.5f;
+		textureSize = 21.f;
+		fps = 8;
 	}
 	
 	pAnimationComponent->SetTexture(pTexture);
 	pAnimationComponent->SetSingleSpriteSize(textureSize);
 
 	pAnimationComponent->SetMaxFrames(2);
-	pAnimationComponent->SetFramesPerSecond(12);
+	pAnimationComponent->SetFramesPerSecond(fps);
 
 	pAnimationComponent->SetPaused(false);
 }
@@ -53,12 +59,15 @@ void enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
 enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Variables
-	EnemyStates state{};
+	EnemyStates state{ NR_STATES };
 	const bool isControlled{ pEnemy->GetIsControlled() };
 
 	// Update if not controlled
 	if (isControlled == false)
 	{
+		state = CheckGhostTimer(pEnemy, deltaTime);
+		if (state != NR_STATES) return state;
+
 		HandlePathing(pEnemy, deltaTime);
 		state = LookForPlayer(pEnemy, deltaTime);
 	}
@@ -144,6 +153,19 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 
 		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pUpMoveCommand));
 	}
+}
+
+enemy::EnemyStates enemy::RoamingState::CheckGhostTimer(EnemyComponent* pEnemy, float deltaTime)
+{
+	auto behaviorData{ pEnemy->GetBehaviorData() };
+
+	m_CurrentRoamTime += deltaTime;
+	if (behaviorData.ghostTime <= m_CurrentRoamTime)
+	{
+		return Ghost;
+	}
+
+	return NR_STATES;
 }
 
 void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)

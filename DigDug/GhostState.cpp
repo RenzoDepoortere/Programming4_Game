@@ -31,16 +31,18 @@ void enemy::GhostState::OnEnter(EnemyComponent* pEnemy)
 	auto pAnimationComponent = pEnemy->GetAnimationComponent();
 
 	auto pTexture = m_pPookaGhostTexture;
+	float textureSize = 19.f;
 	if (pEnemy->GetBehaviorData().enemyType != Pooka)
 	{
 		pTexture = m_pFygarGhostTexture;
+		textureSize = 21.f;
 	}
 
 	pAnimationComponent->SetTexture(pTexture);
-	pAnimationComponent->SetSingleSpriteSize(13.f);
+	pAnimationComponent->SetSingleSpriteSize(textureSize);
 
 	pAnimationComponent->SetMaxFrames(2);
-	pAnimationComponent->SetFramesPerSecond(12);
+	pAnimationComponent->SetFramesPerSecond(6);
 }
 void enemy::GhostState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
