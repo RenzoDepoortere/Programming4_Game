@@ -6,6 +6,7 @@
 #include "ShootingState.h"
 #include "BlowingState.h"
 #include "PlayerSquashedState.h"
+#include "HitState.h"
 
 #include "Renderer.h"
 
@@ -34,6 +35,7 @@ void CharacterComponent::Update(float deltaTime)
 		m_pCurrentState->OnLeave(this);
 
 		m_pCurrentState = m_pPlayerStates[static_cast<int>(state)].get();
+		m_CurrentStateID = state;
 		m_pCurrentState->OnEnter(this);
 	}
 }
@@ -60,6 +62,7 @@ void CharacterComponent::SetSquashed()
 	m_pCurrentState->OnLeave(this);
 
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Squashed)].get();
+	m_CurrentStateID = player::Squashed;
 	m_pCurrentState->OnEnter(this);
 }
 
@@ -114,8 +117,10 @@ void CharacterComponent::InitStates()
 	m_pPlayerStates[static_cast<int>(player::Shooting)] = std::make_unique<player::ShootingState>();
 	m_pPlayerStates[static_cast<int>(player::Blowing)] = std::make_unique<player::BlowingState>();
 	m_pPlayerStates[static_cast<int>(player::Squashed)] = std::make_unique<player::PlayerSquashedState>();
+	m_pPlayerStates[static_cast<int>(player::Hit)] = std::make_unique<player::HitState>();
 
 	// Set default state
+	m_CurrentStateID = player::Digging;
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();
 	m_pCurrentState->OnEnter(this);
 }

@@ -33,27 +33,8 @@ EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 
 void EnemyComponent::Update(float deltaTime)
 {
-	// Init states if necessary
-	if (m_InitializedStates == false)
-	{
-		m_InitializedStates = true;
-		InitStates();
-	}
-
-	// Update currentState
-	enemy::EnemyStates state{};
-	state = m_pCurrentState->Update(this, deltaTime);
-
-	// Change state if asked
-	if (state != enemy::NR_STATES)
-	{
-		m_pCurrentState->OnLeave(this);
-		
-		m_pCurrentState = m_pEnemyStates[static_cast<int>(state)].get();
-		m_pCurrentState->OnEnter(this);
-
-		m_CurrentStateID = state;
-	}
+	UpdateStates(deltaTime);
+	CheckPlayer();
 }
 void EnemyComponent::Render() const
 {
@@ -96,6 +77,7 @@ void EnemyComponent::SetSquashed()
 	m_pCurrentState->OnLeave(this);
 
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Squashed)].get();
+	m_CurrentStateID = enemy::Squashed;
 	m_pCurrentState->OnEnter(this);
 }
 void EnemyComponent::SetFlee()
@@ -114,6 +96,7 @@ void EnemyComponent::SetFlee()
 	m_pCurrentState->OnLeave(this);
 
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Flee)].get();
+	m_CurrentStateID = enemy::Flee;
 	m_pCurrentState->OnEnter(this);
 }
 
@@ -141,7 +124,6 @@ void EnemyComponent::HandleEvent(unsigned int /*eventID*/)
 
 	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
 }
-
 void EnemyComponent::OnSubjectDestroy()
 {
 }
@@ -182,4 +164,33 @@ void EnemyComponent::OnInactive()
 	
 	// Send event
 	dae::EventManager<grid::Cell*, bool>::GetInstance().SendEvent(event::EnemyDeath, pCurrentCell, isInSquashedState);
+}
+
+void EnemyComponent::UpdateStates(float deltaTime)
+{
+	// Init states if necessary
+	if (m_InitializedStates == false)
+	{
+		m_InitializedStates = true;
+		InitStates();
+	}
+
+	// Update currentState
+	enemy::EnemyStates state{};
+	state = m_pCurrentState->Update(this, deltaTime);
+
+	// Change state if asked
+	if (state != enemy::NR_STATES)
+	{
+		m_pCurrentState->OnLeave(this);
+
+		m_pCurrentState = m_pEnemyStates[static_cast<int>(state)].get();
+		m_pCurrentState->OnEnter(this);
+
+		m_CurrentStateID = state;
+	}
+}
+void EnemyComponent::CheckPlayer()
+{
+
 }

@@ -12,15 +12,15 @@ player::PlayerSquashedState::PlayerSquashedState()
 	m_pSquashedTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/MainCharacter/Squashed_State.png");
 }
 
-void player::PlayerSquashedState::OnEnter(CharacterComponent* pEnemy)
+void player::PlayerSquashedState::OnEnter(CharacterComponent* pPlayer)
 {
 	// Reset rotation
 	// --------------
-	pEnemy->GetGameObject()->SetRotation(0.f);
+	pPlayer->GetGameObject()->SetRotation(0.f);
 
 	// Set texture
 	// -----------
-	auto pAnimationComponent = pEnemy->GetAnimationComponent();
+	auto pAnimationComponent = pPlayer->GetAnimationComponent();
 
 	pAnimationComponent->SetTexture(m_pSquashedTexture);
 	pAnimationComponent->SetSingleSpriteSize(23.f);

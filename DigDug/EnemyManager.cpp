@@ -128,7 +128,6 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetAnimationComponent(pObjectTexture);
-	pEnemyComponent->SetCharacters(m_pCharacters);
 
 	// Add as child
 	// ------------
@@ -168,7 +167,6 @@ void EnemyManager::SpawnFygar(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetAnimationComponent(pObjectTexture);
-	pEnemyComponent->SetCharacters(m_pCharacters);
 
 	// Add as child
 	// ------------

@@ -9,6 +9,7 @@ namespace player
 		Shooting,
 		Blowing,
 		Squashed,
+		Hit,
 		NR_STATES
 	};
 

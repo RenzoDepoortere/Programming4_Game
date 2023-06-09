@@ -73,7 +73,7 @@ void enemy::GhostState::HandleMovement(EnemyComponent* pEnemy, float deltaTime)
 	glm::vec3 desiredPos{};
 	glm::vec3 playerPos{};
 
-	for (const auto& currentPlayer : pEnemy->GetCharacters())
+	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
 	{
 		playerPos = currentPlayer->GetGameObject()->GetWorldPosition();
 		currentDistance = utils::GetSqrdMagnitude(playerPos - currentPos);

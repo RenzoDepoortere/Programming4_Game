@@ -64,6 +64,8 @@ public:
 
 	void SetSquashed();
 
+	player::PlayerStates GetCurrentStateID() const { return m_CurrentStateID; }
+
 	// Observer
 	virtual void HandleEvent(unsigned int eventID) override;
 	virtual void OnSubjectDestroy() override;
@@ -78,6 +80,7 @@ private:
 	unsigned long m_ControllerID{};
 
 	player::CharacterState* m_pCurrentState{};
+	player::PlayerStates m_CurrentStateID{};
 	std::array<std::unique_ptr<player::CharacterState>, player::NR_STATES> m_pPlayerStates{};
 	bool m_InitializedStates{ false };
 

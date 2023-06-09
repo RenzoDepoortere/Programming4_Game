@@ -22,7 +22,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 
 	// Check for closest character
 	// ---------------------------
-	for (const auto& currentCharacter : pEnemy->GetCharacters())
+	for (const auto& currentCharacter : FirstScene::GetInstance().GetCharacters())
 	{
 		// Get cell
 		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();

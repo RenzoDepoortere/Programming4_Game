@@ -258,7 +258,7 @@ enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 	bool sameRow{}, sameCol{};
 	int cellsBetween{};
 
-	for (const auto& currentCharacter : pEnemy->GetCharacters())
+	for (const auto& currentCharacter : FirstScene::GetInstance().GetCharacters())
 	{
 		// Get cell
 		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();

@@ -68,9 +68,6 @@ public:
 
 	enemy::EnemyStates GetCurrentStateID() const { return m_CurrentStateID; }
 
-	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
-	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
-
 	void SetBehaviorData(const enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
 	enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
@@ -89,7 +86,6 @@ private:
 	// Member variables
 	// ----------------
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
-	std::vector<CharacterComponent*> m_pCharacters{};
 	bool m_InitializedStates{ false };
 
 	bool m_IsControlled{ false };
@@ -108,4 +104,7 @@ private:
 	// ----------------	
 	void InitStates();
 	void OnInactive();
+
+	void UpdateStates(float deltaTime);
+	void CheckPlayer();
 };

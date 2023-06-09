@@ -148,6 +148,9 @@ void RockComponent::Fall(float deltaTime)
 	// Player
 	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
 	{
+		// If in hitState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;
+
 		// Check if can add
 		pGameObject = currentPlayer->GetGameObject();
 		boundingRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
