@@ -134,6 +134,8 @@ void FirstScene::Enemies(dae::Scene& scene)
 	pEnemyManager->SetCharacters(m_pCharacters);
 	pEnemyManager->SpawnEnemies();
 
+	m_pEnemies = pEnemyManager->GetEnemies();
+
 	//auto controllerID = dae::InputManager::GetInstance().AddController();
 	//pEnemyManager->ControlEnemy(controllerID, enemy::Pooka);
 

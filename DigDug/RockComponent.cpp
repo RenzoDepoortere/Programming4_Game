@@ -10,6 +10,7 @@
 #include "ServiceLocator.h"
 #include "EventManager.h"
 #include "EventsEnum.h"
+#include "Renderer.h"
 
 RockComponent::RockComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
@@ -48,6 +49,24 @@ void RockComponent::Update(float deltaTime)
 		break;
 	}
 }
+void RockComponent::Render() const
+{
+	const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
+	const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
+
+	// Draw boundingRect
+	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
+	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
+
+	SDL_Rect rect{};
+	rect.x = static_cast<int>(boundingRect.x);
+	rect.y = static_cast<int>(boundingRect.y);
+	rect.w = static_cast<int>(boundingRect.width);
+	rect.h = static_cast<int>(boundingRect.height);
+
+	SDL_RenderDrawRect(pRenderer, &rect);
+}
+
 
 void RockComponent::BottomCellGone()
 {
@@ -178,6 +197,9 @@ void RockComponent::Fall(float deltaTime)
 		const int loops{ 0 };
 
 		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
+
+		// Send event
+
 	}
 }
 void RockComponent::Destroy(float /*deltaTime*/)
@@ -186,7 +208,8 @@ void RockComponent::Destroy(float /*deltaTime*/)
 	if (m_pAnimationComponent->PlayedOnce())
 	{
 		// Destroy object
-		GetGameObject()->RemoveObject();
+		GetGameObject()->SetIsActive(false);
+		GetGameObject()->SetIsHidden(true);
 	}
 }
 

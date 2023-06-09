@@ -30,6 +30,7 @@ public:
 
 	// Functionality
 	virtual void Update(float deltaTime) override;
+	virtual void Render() const override;
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
