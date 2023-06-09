@@ -8,6 +8,7 @@ namespace enemy
 		Roaming,
 		Ghost,
 		Chase,
+		Attack,
 		Caught,
 		Squashed,
 		Flee,

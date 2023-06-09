@@ -201,6 +201,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="..\Minigin\PointComponent.cpp" />
     <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
     <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
+    <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="BlowingState.cpp" />
     <ClCompile Include="CaughtState.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
@@ -233,6 +234,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="..\Minigin\PointComponent.h" />
     <ClInclude Include="..\Minigin\RotatingMovement.h" />
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
+    <ClInclude Include="AttackState.h" />
     <ClInclude Include="BlowingState.h" />
     <ClInclude Include="CaughtState.h" />
     <ClInclude Include="CharacterComponent.h" />

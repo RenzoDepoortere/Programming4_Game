@@ -29,15 +29,12 @@ namespace enemy
 		ChaseState& operator=(ChaseState&& other) = delete;
 
 		// Functionality
-		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
-
 		virtual void OnEnter(EnemyComponent* pEnemy) override;
 		virtual void OnLeave(EnemyComponent* pEnemy) override;
 
-	private:
-		// Structs
-		// -------
+		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
+	private:
 		// Member variables
 		// ----------------
 		CharacterComponent* m_pCharacterToChase{ nullptr };

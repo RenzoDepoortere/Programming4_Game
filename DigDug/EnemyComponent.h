@@ -20,9 +20,9 @@ namespace enemy
 		float ghostTime{};			// How long it takes before the enemy turns into a ghost
 		float maxGhostTime{};		// How long the enemy can be in ghost mode
 
-		//float attackRange{};
-		//float attackCooldown{};
-		//std::function attackFunction{};
+		int attackRange{};			// How many cells the enemy needs before it will attack
+		float attackCharge{};		// How long it will take the enemy before actually attacking
+		float attackStun{};			// How long the enemy will be stunend after it attacks
 
 		EnemyTypes enemyType{};
 	};
