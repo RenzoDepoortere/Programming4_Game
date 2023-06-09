@@ -33,7 +33,9 @@ namespace enemy
 	private:
 		// Member variables
 		// ----------------
-		std::array<std::pair<std::shared_ptr<dae::Texture2D>, float>, 4> m_pCaughtTextures{};
+		std::array<std::pair<std::shared_ptr<dae::Texture2D>, float>, 4> m_pPookaCaughtTextures{};
+		std::array<std::pair<std::shared_ptr<dae::Texture2D>, float>, 4> m_pFygarCaughtTextures{};
+		std::array<std::pair<std::shared_ptr<dae::Texture2D>, float>, 4> m_pCurrentCaughtTextures{};
 		dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
 		int m_CurrentState{};

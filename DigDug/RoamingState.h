@@ -36,7 +36,8 @@ namespace enemy
 	private:	
 		// Member variables
 		// ----------------
-		std::shared_ptr<dae::Texture2D> m_pWalkingAnimation{ nullptr };
+		std::shared_ptr<dae::Texture2D> m_pPookaWalkingAnimation{ nullptr };
+		std::shared_ptr<dae::Texture2D> m_pFygarWalkingAnimation{ nullptr };
 
 		std::array<std::unique_ptr<dae::MoveCommand>, 4> m_pMoveCommands{};
 		dae::MoveCommand* m_pCurrentCommand{ nullptr };

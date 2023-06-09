@@ -50,8 +50,6 @@ private:
 
 	std::vector<EnemyComponent*> m_pEnemies{};
 
-	std::shared_ptr<dae::Texture2D> m_pFygarTexture{ nullptr };
-
 	// Member functions
 	// ----------------
 	void SpawnPooka(const glm::vec3& position);

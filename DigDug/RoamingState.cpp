@@ -13,7 +13,8 @@
 enemy::RoamingState::RoamingState()
 {
 	// Create walking sprite
-	m_pWalkingAnimation = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Pooka_Walk_Animation.png");
+	m_pPookaWalkingAnimation = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Pooka_Walk_Animation.png");
+	m_pFygarWalkingAnimation = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Walking.png");
 }
 
 void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
@@ -28,9 +29,18 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 	// Set animation sprite
 	// --------------------
 	dae::AnimationComponent* pAnimationComponent{ pEnemy->GetAnimationComponent() };
-	pAnimationComponent->SetTexture(m_pWalkingAnimation);
 
-	pAnimationComponent->SetSingleSpriteSize(25.f);
+	auto pTexture{ m_pPookaWalkingAnimation };
+	float textureSize{ 25.f };
+	if (pEnemy->GetBehaviorData().enemyType != Pooka)
+	{
+		pTexture = m_pFygarWalkingAnimation;
+		textureSize = 21.5f;
+	}
+	
+	pAnimationComponent->SetTexture(pTexture);
+	pAnimationComponent->SetSingleSpriteSize(textureSize);
+
 	pAnimationComponent->SetMaxFrames(2);
 	pAnimationComponent->SetFramesPerSecond(12);
 

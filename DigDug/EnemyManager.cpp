@@ -12,8 +12,6 @@
 EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
-	// Get enemy textures
-	m_pFygarTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Fygar.png");
 }
 
 void EnemyManager::SpawnEnemies()
@@ -107,7 +105,39 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	m_pEnemies.emplace_back(pEnemyComponent);
 }
-void EnemyManager::SpawnFygar(const glm::vec3& /*position*/)
+void EnemyManager::SpawnFygar(const glm::vec3& position)
 {
+	// Create gameObject
+	// -----------------
+	std::shared_ptr<dae::GameObject> pFygar{ std::make_shared<dae::GameObject>() };
 
+	// Add components
+	// --------------
+
+	// Add animationComponent
+	dae::AnimationComponent* pObjectTexture{ pFygar->AddComponent<dae::AnimationComponent>() };
+	pObjectTexture->CenterTexture(true);
+
+	// Add enemyComponent
+	EnemyComponent* pEnemyComponent{ pFygar->AddComponent<EnemyComponent>() };
+
+	enemy::BehaviorData behaviorData{};
+	behaviorData.movementSpeed = 75.f;
+
+	behaviorData.detectionRange = 1;
+	behaviorData.detectionInterval = 1.f;
+
+	behaviorData.enemyType = enemy::Fygar;
+
+	pEnemyComponent->SetBehaviorData(behaviorData);
+	pEnemyComponent->SetAnimationComponent(pObjectTexture);
+	pEnemyComponent->SetGrid(m_pGrid);
+	pEnemyComponent->SetCharacters(m_pCharacters);
+
+	// Add as child
+	// ------------
+	pFygar->SetWorldPosition(position);
+	pFygar->SetParent(GetGameObject(), true);
+
+	m_pEnemies.emplace_back(pEnemyComponent);
 }
