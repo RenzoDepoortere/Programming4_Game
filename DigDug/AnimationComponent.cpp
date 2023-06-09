@@ -50,6 +50,22 @@ void dae::AnimationComponent::SetSingleSpriteSize(float spriteSize)
 	m_SrcRect.height = spriteSize;
 }
 
+void dae::AnimationComponent::SetFrame(int frame)
+{
+	// Check if frame is not over max
+	if (m_MaxFrames <= frame)
+	{
+		std::cout << "Error: Tried to set frame over maxFrames" << std::endl;
+		return;
+	}
+
+	// Set frame and reset timer
+	m_CurrentFrame = frame;
+	m_SrcRect.x = m_CurrentFrame * m_SrcRect.width;
+
+	m_TimePassed = 0.f;
+}
+
 void dae::AnimationComponent::SetTexture(std::shared_ptr<Texture2D> pTexture)
 {
 	// Set texture

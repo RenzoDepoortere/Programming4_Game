@@ -50,7 +50,6 @@ private:
 
 	std::vector<EnemyComponent*> m_pEnemies{};
 
-	std::shared_ptr<dae::Texture2D> m_pPookaTexture{ nullptr };
 	std::shared_ptr<dae::Texture2D> m_pFygarTexture{ nullptr };
 
 	// Member functions

@@ -50,7 +50,11 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	bool IsInsideEnemy(const glm::vec3 position) const;
-	void SetCaughtState();
+	
+	void SetCaught(bool isCaught);
+	bool GetCaught() const { return m_IsCaught; }
+	void SetBlow(bool blow) { m_Blown = blow; }
+	bool GetBlown() const { return m_Blown; }
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }
@@ -78,6 +82,9 @@ private:
 
 	bool m_IsControlled{ false };
 	unsigned long m_ControllerID{};
+
+	bool m_IsCaught{ false };
+	bool m_Blown{ false };
 
 	enemy::BehaviorData m_EnemyBehavior{};
 	enemy::EnemyState* m_pCurrentState{};

@@ -1,5 +1,14 @@
 #pragma once
 #include "EnemyState.h"
+#include "Texture2D.h"
+
+#include <array>
+#include <memory>
+
+namespace dae
+{
+	class AnimationComponent;
+}
 
 namespace enemy
 {
@@ -24,9 +33,15 @@ namespace enemy
 	private:
 		// Member variables
 		// ----------------
+		std::array<std::pair<std::shared_ptr<dae::Texture2D>, float>, 4> m_pCaughtTextures{};
+		dae::AnimationComponent* m_pAnimationComponent{ nullptr };
+
+		int m_CurrentState{};
+		float m_CurrentTime{};
+
 
 		// Member functions
 		// ----------------
-
+		EnemyStates HandleCaughtGrading(EnemyComponent* pEnemy, float deltaTime);
 	};
 }

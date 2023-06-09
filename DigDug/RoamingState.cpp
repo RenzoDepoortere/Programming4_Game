@@ -4,81 +4,37 @@
 #include "CharacterComponent.h"
 #include "GridComponent.h"
 #include "GridHelpers.h"
+#include "AnimationComponent.h"
 
 #include "GameObject.h"
 #include "InputMapper.h"
+#include "ResourceManager.h"
+
+enemy::RoamingState::RoamingState()
+{
+	// Create walking sprite
+	m_pWalkingAnimation = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Pooka_Walk_Animation.png");
+}
 
 void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 {
 	// Create move commands
 	// --------------------
-	if (m_pCurrentCommand == nullptr)
+	if (m_CommandInitialized == false)
 	{
-		// Variables
-		glm::vec2 movementDirection{};
-		dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
-		const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
-		grid::GridComponent* pGrid{ pEnemy->GetGrid() };
-
-		// Left
-		movementDirection = glm::vec2{ -1, 0 };
-		std::unique_ptr<dae::MoveCommand> pLeftMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
-
-		// Right
-		movementDirection = glm::vec2{ 1, 0 };
-		std::unique_ptr<dae::MoveCommand> pRightMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
-
-		// Down
-		movementDirection = glm::vec2{ 0, 1 };
-		std::unique_ptr<dae::MoveCommand> pDownMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
-
-		// Up
-		movementDirection = glm::vec2{ 0, -1 };
-		std::unique_ptr<dae::MoveCommand> pUpMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
-
-		// Check if controlled or not
-		// --------------------------
-		if (pEnemy->GetIsControlled() == false)
-		{
-			// Store commands
-			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)] = std::move(pLeftMoveCommand);
-			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Right)] = std::move(pRightMoveCommand);
-			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Down)] = std::move(pDownMoveCommand);
-			m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Up)] = std::move(pUpMoveCommand);
-
-			m_pCurrentCommand = m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)].get();
-		}
-		else
-		{
-			// Map command to input
-			const auto keyState{ dae::InputMapper::KeyState::Hold };
-			const unsigned long controllerID{ pEnemy->GetControllerID() };
-
-			// Left
-			auto controllerInput{ std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadLeft) };
-			auto inputKeys{ std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput) };
-
-			dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pLeftMoveCommand));
-
-			// Right
-			controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadRight);
-			inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-			dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pRightMoveCommand));
-
-			// Down
-			controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadDown);
-			inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-			dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pDownMoveCommand));
-
-			// Up
-			controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadUp);
-			inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-			dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pUpMoveCommand));
-		}
+		InitMovementCommands(pEnemy);
 	}
+
+	// Set animation sprite
+	// --------------------
+	dae::AnimationComponent* pAnimationComponent{ pEnemy->GetAnimationComponent() };
+	pAnimationComponent->SetTexture(m_pWalkingAnimation);
+
+	pAnimationComponent->SetSingleSpriteSize(25.f);
+	pAnimationComponent->SetMaxFrames(2);
+	pAnimationComponent->SetFramesPerSecond(12);
+
+	pAnimationComponent->SetPaused(false);
 }
 void enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
@@ -108,6 +64,76 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 
 	// Return
 	return state;
+}
+
+void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
+{
+	m_CommandInitialized = true;
+
+	// Variables
+	glm::vec2 movementDirection{};
+	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
+	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
+	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+
+	// Left
+	movementDirection = glm::vec2{ -1, 0 };
+	std::unique_ptr<dae::MoveCommand> pLeftMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+
+	// Right
+	movementDirection = glm::vec2{ 1, 0 };
+	std::unique_ptr<dae::MoveCommand> pRightMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+
+	// Down
+	movementDirection = glm::vec2{ 0, 1 };
+	std::unique_ptr<dae::MoveCommand> pDownMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+
+	// Up
+	movementDirection = glm::vec2{ 0, -1 };
+	std::unique_ptr<dae::MoveCommand> pUpMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+
+	// Check if controlled or not
+	// --------------------------
+	if (pEnemy->GetIsControlled() == false)
+	{
+		// Store commands
+		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)] = std::move(pLeftMoveCommand);
+		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Right)] = std::move(pRightMoveCommand);
+		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Down)] = std::move(pDownMoveCommand);
+		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Up)] = std::move(pUpMoveCommand);
+
+		m_pCurrentCommand = m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)].get();
+	}
+	else
+	{
+		// Map command to input
+		const auto keyState{ dae::InputMapper::KeyState::Hold };
+		const unsigned long controllerID{ pEnemy->GetControllerID() };
+
+		// Left
+		auto controllerInput{ std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadLeft) };
+		auto inputKeys{ std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput) };
+
+		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pLeftMoveCommand));
+
+		// Right
+		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadRight);
+		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
+
+		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pRightMoveCommand));
+
+		// Down
+		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadDown);
+		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
+
+		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pDownMoveCommand));
+
+		// Up
+		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadUp);
+		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
+
+		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pUpMoveCommand));
+	}
 }
 
 void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)

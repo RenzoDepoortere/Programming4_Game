@@ -1,6 +1,7 @@
 #pragma once
 #include "EnemyState.h"
 #include "MoveCommand.h"
+#include "Texture2D.h"
 
 #include <memory>
 #include <array>
@@ -18,7 +19,7 @@ namespace enemy
 	{
 	public:
 		// Rule of Five
-		RoamingState() = default;
+		RoamingState();
 		virtual ~RoamingState() override = default;
 
 		RoamingState(const RoamingState& other) = delete;
@@ -35,14 +36,20 @@ namespace enemy
 	private:	
 		// Member variables
 		// ----------------
+		std::shared_ptr<dae::Texture2D> m_pWalkingAnimation{ nullptr };
+
 		std::array<std::unique_ptr<dae::MoveCommand>, 4> m_pMoveCommands{};
 		dae::MoveCommand* m_pCurrentCommand{ nullptr };
+
+		bool m_CommandInitialized{ false };
 
 		grid::Cell* m_pPreviousCell{ nullptr };
 		grid::Cell* m_pNextCell{ nullptr };
 
 		// Member functions
 		// ----------------
+		void InitMovementCommands(EnemyComponent* pEnemy);
+
 		void HandlePathing(EnemyComponent* pEnemy, float deltaTime);
 		void FindNextCell(grid::Cell* pCurrentCell);
 

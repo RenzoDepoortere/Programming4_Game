@@ -43,12 +43,18 @@ bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
 {
 	return utils::IsInsideRect(position, m_pAnimationComponent->GetBoundingRect());
 }
-void EnemyComponent::SetCaughtState()
+void EnemyComponent::SetCaught(bool isCaught)
 {
-	m_pCurrentState->OnLeave(this);
+	m_IsCaught = isCaught;
 
-	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Caught)].get();
-	m_pCurrentState->OnEnter(this);
+	// If caught, set state to caught
+	if (isCaught)
+	{
+		m_pCurrentState->OnLeave(this);
+
+		m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Caught)].get();
+		m_pCurrentState->OnEnter(this);
+	}
 }
 
 void EnemyComponent::SetControl(unsigned long controllerID)

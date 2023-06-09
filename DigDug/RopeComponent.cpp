@@ -119,6 +119,6 @@ void RopeComponent::CheckCollision()
 
 		// Couple enemy to player
 		m_pPlayer->SetCaughtEnemy(pEnemy);
-		pEnemy->SetCaughtState();
+		pEnemy->SetCaught(true);
 	}
 }

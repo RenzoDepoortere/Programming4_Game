@@ -24,13 +24,14 @@ namespace dae
 		void SetMaxFrames(int maxFrames) { m_MaxFrames = maxFrames; }
 		void SetFramesPerSecond(int framesPerSecond) { m_FramesPerSecond = framesPerSecond; }
 
+		void SetFrame(int frame);
+
 		bool PlayedOnce() const { return m_PlayedOnce; }
 
 		bool GetPaused() const { return m_IsPaused; }
 		void SetPaused(bool isPaused) { m_IsPaused = isPaused; }
 
 		virtual void SetTexture(std::shared_ptr<Texture2D> pTexture) override;
-
 		virtual utils::Rect GetBoundingRect() const override;
 
 	private:
