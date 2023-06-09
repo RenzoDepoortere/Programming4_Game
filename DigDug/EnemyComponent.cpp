@@ -59,6 +59,7 @@ bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
 {
 	return utils::IsInsideRect(position, m_pAnimationComponent->GetBoundingRect());
 }
+
 void EnemyComponent::SetCaught(bool isCaught)
 {
 	m_IsCaught = isCaught;
@@ -69,10 +70,10 @@ void EnemyComponent::SetCaught(bool isCaught)
 		m_pCurrentState->OnLeave(this);
 
 		m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Caught)].get();
+		m_CurrentStateID = enemy::Caught;
 		m_pCurrentState->OnEnter(this);
 	}
 }
-
 void EnemyComponent::SetSquashed()
 {
 	m_pCurrentState->OnLeave(this);
@@ -193,6 +194,9 @@ void EnemyComponent::UpdateStates(float deltaTime)
 }
 void EnemyComponent::CheckPlayer()
 {
+	// If in Caught state, return
+	if (m_CurrentStateID == enemy::Caught) return;
+
 	const utils::Rect ownBoundingRect{ m_pAnimationComponent->GetBoundingRect() };
 	utils::Rect boundingRect{};
 

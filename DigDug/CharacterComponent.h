@@ -92,5 +92,6 @@ private:
 	// Member functions
 	// ----------------
 	void InitStates();
+	void OnInactive();
 };
 

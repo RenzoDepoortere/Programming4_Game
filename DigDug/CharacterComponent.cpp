@@ -13,7 +13,8 @@
 CharacterComponent::CharacterComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
-
+	// Set inactive function
+	GetGameObject()->SetInActiveFunction(std::bind(&CharacterComponent::OnInactive, this));
 }
 
 void CharacterComponent::Update(float deltaTime)
@@ -131,4 +132,9 @@ void CharacterComponent::InitStates()
 	m_CurrentStateID = player::Digging;
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();
 	m_pCurrentState->OnEnter(this);
+}
+
+void CharacterComponent::OnInactive()
+{
+
 }
