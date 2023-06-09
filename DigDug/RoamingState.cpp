@@ -88,19 +88,19 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 
 	// Left
 	movementDirection = glm::vec2{ -1, 0 };
-	std::unique_ptr<dae::MoveCommand> pLeftMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+	std::unique_ptr<dae::MoveCommand> pLeftMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
 
 	// Right
 	movementDirection = glm::vec2{ 1, 0 };
-	std::unique_ptr<dae::MoveCommand> pRightMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+	std::unique_ptr<dae::MoveCommand> pRightMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
 
 	// Down
 	movementDirection = glm::vec2{ 0, 1 };
-	std::unique_ptr<dae::MoveCommand> pDownMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+	std::unique_ptr<dae::MoveCommand> pDownMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
 
 	// Up
 	movementDirection = glm::vec2{ 0, -1 };
-	std::unique_ptr<dae::MoveCommand> pUpMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid, false) };
+	std::unique_ptr<dae::MoveCommand> pUpMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
 
 	// Check if controlled or not
 	// --------------------------

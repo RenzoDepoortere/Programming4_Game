@@ -22,7 +22,7 @@ void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 		float movementSpeed{ 100.f };
 		glm::vec2 movementDirection{};
 
-		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pPlayer->GetGameObject(), movementDirection, movementSpeed, pPlayer->GetGrid());
+		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pPlayer->GetGameObject(), movementDirection, movementSpeed, pPlayer->GetGrid(), false);
 	}
 
 	// Set playerTexture

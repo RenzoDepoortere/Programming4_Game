@@ -7,18 +7,13 @@
 
 // Move
 // ****
-dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid, bool setInFirstCell)
+dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid, bool checkDirt)
 	: GameObjectCommand{ pActor }
 	, m_MovementDirection{ movementDirection }
 	, m_MovementSpeed{ movementSpeed }
 	, m_pGrid{ pGrid }
+	, m_CheckDirt{ checkDirt }
 {
-	// Set in first cell
-	if (pGrid && setInFirstCell)
-	{
-		const glm::vec2 firstCellPos{ pGrid->GetCell(0, 0, 0)->centerPosition };
-		pActor->SetWorldPosition(firstCellPos.x, firstCellPos.y, 0.f);
-	}
 }
 
 void dae::MoveCommand::Execute(float deltaTime)
@@ -107,15 +102,25 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 
 	if (pDesiredCell)
 	{
+		const bool leftOfCell{ pCurrentCell->centerPosition.x < startActorPos.x&& startActorPos.x < pDesiredCell->centerPosition.x };
+		const bool rightOfCell{ pDesiredCell->centerPosition.x < startActorPos.x&& startActorPos.x < pCurrentCell->centerPosition.x };
+		const bool topOfCell{ pCurrentCell->centerPosition.y < startActorPos.y&& startActorPos.y < pDesiredCell->centerPosition.y };
+		const bool botOfCell{ pDesiredCell->centerPosition.y < startActorPos.y&& startActorPos.y < pCurrentCell->centerPosition.y };
+
 		// If desired cell contains rock
 		// -----------------------------
 		if (pDesiredCell->containsRock)
 		{
-			const bool leftOfCell{ pCurrentCell->centerPosition.x < startActorPos.x&& startActorPos.x < pDesiredCell->centerPosition.x };
-			const bool rightOfCell{ pDesiredCell->centerPosition.x < startActorPos.x&& startActorPos.x < pCurrentCell->centerPosition.x };
-			const bool topOfCell{ pCurrentCell->centerPosition.y < startActorPos.y&& startActorPos.y < pDesiredCell->centerPosition.y };
-			const bool botOfCell{ pDesiredCell->centerPosition.y < startActorPos.y&& startActorPos.y < pCurrentCell->centerPosition.y };
+			if (leftOfCell && 0 < m_MovementDirection.x) return;
+			if (rightOfCell && m_MovementDirection.x < 0) return;
+			if (topOfCell && 0 < m_MovementDirection.y) return;
+			if (botOfCell && m_MovementDirection.y < 0) return;
+		}
 
+		// If desired cell is dirt
+		// -----------------------
+		if (m_CheckDirt && pDesiredCell->textureID != 0)
+		{
 			if (leftOfCell && 0 < m_MovementDirection.x) return;
 			if (rightOfCell && m_MovementDirection.x < 0) return;
 			if (topOfCell && 0 < m_MovementDirection.y) return;

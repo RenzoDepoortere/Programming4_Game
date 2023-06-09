@@ -14,7 +14,7 @@ namespace dae
 	{
 	public:
 		// Rule of five
-		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid = nullptr, bool setInFirstCell = true);
+		explicit MoveCommand(GameObject* pActor, glm::vec2 movementDirection, float movementSpeed, grid::GridComponent* pGrid = nullptr, bool checkDirt = true);
 		virtual ~MoveCommand() = default;
 
 		MoveCommand(const MoveCommand& other) = delete;
@@ -37,6 +37,7 @@ namespace dae
 		float m_MovementSpeed{};
 
 		grid::GridComponent* m_pGrid{ nullptr };
+		bool m_CheckDirt{};
 
 		// Member functions
 		// ----------------

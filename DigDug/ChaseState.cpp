@@ -44,7 +44,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	const enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
 	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
 
-	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid, false);
+	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid);
 
 	// Calculate path
 	// --------------
