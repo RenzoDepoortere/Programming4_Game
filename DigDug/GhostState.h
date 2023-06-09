@@ -37,9 +37,12 @@ namespace enemy
 		std::shared_ptr<dae::Texture2D> m_pFygarGhostTexture{ nullptr };
 
 		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
+		float m_CurrentGhostTime{};
+		bool m_AllowToTransferBack{};
 
 		// Member functions
 		// ----------------
-		
+		void HandleMovement(EnemyComponent* pEnemy, float deltaTime);
+		EnemyStates HandleGoingBack(EnemyComponent* pEnemy, float deltaTime);
 	};
 }

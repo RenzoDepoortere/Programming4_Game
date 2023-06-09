@@ -94,6 +94,7 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	const int maxGhostTime{ 10 };
 	const int minGhostTime{ 5 };
 	behaviorData.ghostTime = static_cast<float>(utils::RandomInteger(minGhostTime, maxGhostTime));
+	behaviorData.maxGhostTime = 1.f;
 
 	behaviorData.enemyType = enemy::Pooka;
 
@@ -134,6 +135,7 @@ void EnemyManager::SpawnFygar(const glm::vec3& position)
 	const int maxGhostTime{ 15 };
 	const int minGhostTime{ 10 };
 	behaviorData.ghostTime = static_cast<float>(utils::RandomInteger(minGhostTime, maxGhostTime));
+	behaviorData.maxGhostTime = 2.5f;
 
 	behaviorData.enemyType = enemy::Fygar;
 

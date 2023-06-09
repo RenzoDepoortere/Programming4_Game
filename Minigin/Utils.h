@@ -32,6 +32,11 @@ namespace utils
 		return sqrtf(powf(vector.x, 2.f) + powf(vector.y, 2.f) + powf(vector.z, 2.f));
 	}
 
+	inline glm::vec3 GetNormalizedVector(const glm::vec3& vector)
+	{
+		return vector / GetMagnitude(vector);
+	}
+
 	inline int RandomInteger(int min, int max)
 	{
 		return (rand() % (max - min + 1)) + min;

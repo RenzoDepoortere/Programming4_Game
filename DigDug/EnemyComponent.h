@@ -16,6 +16,7 @@ namespace enemy
 		float detectionInterval{};	// How long it takes before the enemy checks whether it should still chase or give up
 
 		float ghostTime{};			// How long it takes before the enemy turns into a ghost
+		float maxGhostTime{};		// How long the enemy can be in ghost mode
 
 		//float attackRange{};
 		//float attackCooldown{};
