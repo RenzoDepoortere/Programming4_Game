@@ -122,6 +122,9 @@
     <ClCompile Include="FleeState.cpp">
       <Filter>States\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerSquashedState.cpp">
+      <Filter>States\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="FleeState.h">
       <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSquashedState.h">
+      <Filter>States\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

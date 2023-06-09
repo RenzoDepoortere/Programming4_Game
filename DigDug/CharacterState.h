@@ -8,6 +8,7 @@ namespace player
 		Digging,
 		Shooting,
 		Blowing,
+		Squashed,
 		NR_STATES
 	};
 

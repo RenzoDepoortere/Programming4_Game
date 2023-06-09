@@ -4,11 +4,6 @@
 
 #include <memory>
 
-namespace dae
-{
-	class AnimationComponent;
-}
-
 namespace enemy
 {
 	class EnemySquashedState final : public EnemyState

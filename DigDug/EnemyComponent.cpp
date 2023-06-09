@@ -51,6 +51,8 @@ void EnemyComponent::Update(float deltaTime)
 		
 		m_pCurrentState = m_pEnemyStates[static_cast<int>(state)].get();
 		m_pCurrentState->OnEnter(this);
+
+		m_CurrentStateID = state;
 	}
 }
 void EnemyComponent::Render() const
@@ -157,6 +159,8 @@ void EnemyComponent::InitStates()
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
 	m_pCurrentState->OnEnter(this);
+
+	m_CurrentStateID = enemy::Roaming;
 }
 
 void EnemyComponent::OnInactive()

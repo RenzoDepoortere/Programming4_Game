@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "MoveCommand.h"
 #include "CharacterState.h"
+#include "Observer.h"
 
 #include <memory>
 #include <array>
@@ -28,7 +29,7 @@ namespace player
 class EnemyManager;
 class EnemyComponent;
 
-class CharacterComponent final : public Component
+class CharacterComponent final : public Component, public dae::Observer<>
 {
 public:
 	// Rule of five
@@ -60,6 +61,12 @@ public:
 
 	void SetCaughtEnemy(EnemyComponent* pEnemy) { m_pCaughtEnemy = pEnemy; }
 	EnemyComponent* GetCaughtEnemy() const { return m_pCaughtEnemy; }
+
+	void SetSquashed();
+
+	// Observer
+	virtual void HandleEvent(unsigned int eventID) override;
+	virtual void OnSubjectDestroy() override;
 
 private:
 	// Member variables

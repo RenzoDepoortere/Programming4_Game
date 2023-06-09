@@ -5,6 +5,7 @@
 #include "DiggingState.h"
 #include "ShootingState.h"
 #include "BlowingState.h"
+#include "PlayerSquashedState.h"
 
 #include "Renderer.h"
 
@@ -54,6 +55,27 @@ void CharacterComponent::Render() const
 	//SDL_RenderDrawRect(pRenderer, &rect);
 }
 
+void CharacterComponent::SetSquashed()
+{
+	m_pCurrentState->OnLeave(this);
+
+	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Squashed)].get();
+	m_pCurrentState->OnEnter(this);
+}
+
+// Only gets called when got hit by rock 
+void CharacterComponent::HandleEvent(unsigned int /*eventID*/)
+{
+	//// Play squashed SFX
+	//const int volume{ 100 };
+	//const int loops{ 0 };
+
+	//dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
+}
+void CharacterComponent::OnSubjectDestroy()
+{
+}
+
 void CharacterComponent::SetLookingDirection(player::LookingDirection lookingDirection)
 {
 	// Rotate accordingly
@@ -91,6 +113,7 @@ void CharacterComponent::InitStates()
 	m_pPlayerStates[static_cast<int>(player::Digging)] = std::make_unique<player::DiggingState>();
 	m_pPlayerStates[static_cast<int>(player::Shooting)] = std::make_unique<player::ShootingState>();
 	m_pPlayerStates[static_cast<int>(player::Blowing)] = std::make_unique<player::BlowingState>();
+	m_pPlayerStates[static_cast<int>(player::Squashed)] = std::make_unique<player::PlayerSquashedState>();
 
 	// Set default state
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();

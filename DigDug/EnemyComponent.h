@@ -66,6 +66,8 @@ public:
 	void SetFlee();
 	bool GetIsFleeing() const { return m_IsFleeing; }
 
+	enemy::EnemyStates GetCurrentStateID() const { return m_CurrentStateID; }
+
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
 	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
 
@@ -99,6 +101,7 @@ private:
 
 	enemy::BehaviorData m_EnemyBehavior{};
 	enemy::EnemyState* m_pCurrentState{};
+	enemy::EnemyStates m_CurrentStateID{};
 	std::array<std::unique_ptr<enemy::EnemyState>, enemy::NR_STATES> m_pEnemyStates{};
 
 	// Member functions

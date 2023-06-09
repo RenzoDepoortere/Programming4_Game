@@ -130,6 +130,9 @@ void RockComponent::Fall(float deltaTime)
 	// Enemies
 	for (const auto& currentEnemy : FirstScene::GetInstance().GetEnemies())
 	{
+		// If in ghostState, continue
+		if (currentEnemy->GetCurrentStateID() == enemy::Ghost) continue;
+
 		// Check if can add
 		pGameObject = currentEnemy->GetGameObject();
 		boundingRect = currentEnemy->GetAnimationComponent()->GetBoundingRect();
@@ -142,19 +145,20 @@ void RockComponent::Fall(float deltaTime)
 		}
 	}
 
-	//// Player
-	//for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
-	//{
-	//	// Check if can add
-	//	pGameObject = currentPlayer->GetGameObject();
-	//	boundingRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
+	// Player
+	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	{
+		// Check if can add
+		pGameObject = currentPlayer->GetGameObject();
+		boundingRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
 
-	//	if (CheckIfCanAdd(ownBoundingRect, pOwnGameObject, boundingRect, pGameObject))
-	//	{
-	//		// Set to squashState
-
-	//	}
-	//}
+		if (CheckIfCanAdd(ownBoundingRect, pOwnGameObject, boundingRect, pGameObject))
+		{
+			// Set to squashState
+			currentPlayer->SetSquashed();
+			m_HasBeenDestroyed.AddObserver(currentPlayer);
+		}
+	}
 
 	// Move
 	// ----

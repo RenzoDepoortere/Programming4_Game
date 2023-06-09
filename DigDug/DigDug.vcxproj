@@ -219,6 +219,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="RockComponent.cpp" />
     <ClCompile Include="RopeComponent.cpp" />
     <ClCompile Include="ShootingState.cpp" />
+    <ClCompile Include="PlayerSquashedState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\FPSCounter.h" />
@@ -251,6 +252,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="RockComponent.h" />
     <ClInclude Include="RopeComponent.h" />
     <ClInclude Include="ShootingState.h" />
+    <ClInclude Include="PlayerSquashedState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
