@@ -112,6 +112,10 @@ enemy::EnemyStates enemy::GhostState::HandleGoingBack(EnemyComponent* pEnemy, fl
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 
-	if (pCurrentCell->textureID == 0) return Roaming;
+	if (pCurrentCell->textureID == 0)
+	{
+		if (pEnemy->GetIsFleeing()) return Flee;
+		else						return Roaming;
+	}
 	else							  return NR_STATES;
 }

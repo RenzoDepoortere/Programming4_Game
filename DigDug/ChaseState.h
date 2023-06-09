@@ -37,26 +37,6 @@ namespace enemy
 	private:
 		// Structs
 		// -------
-		struct CellRecord
-		{
-			grid::Cell* pCell{ nullptr };
-			grid::Cell* pPreviousCell{ nullptr };
-			float costSoFar{ 0.f }; // accumulated g-costs of all the connections leading up to this one
-			float estimatedTotalCost{ 0.f }; // f-cost (= costSoFar + h-cost)
-
-			bool operator==(const CellRecord& other) const
-			{
-				return pCell == other.pCell
-					&& pPreviousCell == other.pPreviousCell
-					&& costSoFar == other.costSoFar
-					&& estimatedTotalCost == other.estimatedTotalCost;
-			};
-
-			bool operator<(const CellRecord& other) const
-			{
-				return estimatedTotalCost < other.estimatedTotalCost;
-			};
-		};
 
 		// Member variables
 		// ----------------
@@ -69,9 +49,6 @@ namespace enemy
 
 		// Member functions
 		// ----------------
-		std::deque<grid::Cell*> CalculatePath(EnemyComponent* pEnemy);
 		void FollowPath(EnemyComponent* pEnemy, float deltaTime);
-
-		float GetHeuristicCost(grid::Cell* pStartNode, grid::Cell* pEndNode) const;
 	};
 }

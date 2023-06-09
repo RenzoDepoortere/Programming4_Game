@@ -40,17 +40,6 @@ void EnemyComponent::Update(float deltaTime)
 		InitStates();
 	}
 
-	// Change state when in fleeState
-	if (m_IsFleeing)
-	{
-		m_IsFleeing = false;
-
-		m_pCurrentState->OnLeave(this);
-
-		m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Flee)].get();
-		m_pCurrentState->OnEnter(this);
-	}
-
 	// Update currentState
 	enemy::EnemyStates state{};
 	state = m_pCurrentState->Update(this, deltaTime);
@@ -109,16 +98,11 @@ void EnemyComponent::SetSquashed()
 }
 void EnemyComponent::SetFlee()
 {
-	// If currently in ghost state
-	if (dynamic_cast<enemy::GhostState*>(m_pCurrentState))
-	{
-		// Set flee to true, state will update when going out of flee state
-		m_IsFleeing = true;
-		return;
-	}
+	// Set flee to true
+	m_IsFleeing = true;
 
-	// If currently in squash state
-	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState))
+	// If currently in squash state or ghost state
+	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState) || dynamic_cast<enemy::GhostState*>(m_pCurrentState))
 	{
 		// Do nothing
 		return;
