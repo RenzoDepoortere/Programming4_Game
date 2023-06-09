@@ -10,6 +10,7 @@ namespace enemy
 		Chase,
 		Caught,
 		Squashed,
+		Flee,
 		NR_STATES
 	};
 

@@ -9,7 +9,10 @@
 #include "ChaseState.h"
 #include "CaughtState.h"
 #include "EnemySquashedState.h"
+#include "FleeState.h"
 #include "AnimationComponent.h"
+
+#include "FirstScene.h"
 
 #include "ServiceLocator.h"
 #include "EventManager.h"
@@ -35,6 +38,17 @@ void EnemyComponent::Update(float deltaTime)
 	{
 		m_InitializedStates = true;
 		InitStates();
+	}
+
+	// Change state when in fleeState
+	if (m_IsFleeing)
+	{
+		m_IsFleeing = false;
+
+		m_pCurrentState->OnLeave(this);
+
+		m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Flee)].get();
+		m_pCurrentState->OnEnter(this);
 	}
 
 	// Update currentState
@@ -93,6 +107,29 @@ void EnemyComponent::SetSquashed()
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Squashed)].get();
 	m_pCurrentState->OnEnter(this);
 }
+void EnemyComponent::SetFlee()
+{
+	// If currently in ghost state
+	if (dynamic_cast<enemy::GhostState*>(m_pCurrentState))
+	{
+		// Set flee to true, state will update when going out of flee state
+		m_IsFleeing = true;
+		return;
+	}
+
+	// If currently in squash state
+	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState))
+	{
+		// Do nothing
+		return;
+	}
+
+	// Else, just swap to flee state
+	m_pCurrentState->OnLeave(this);
+
+	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Flee)].get();
+	m_pCurrentState->OnEnter(this);
+}
 
 void EnemyComponent::SetControl(unsigned long controllerID)
 {
@@ -131,6 +168,7 @@ void EnemyComponent::InitStates()
 	m_pEnemyStates[static_cast<int>(enemy::Chase)] = std::make_unique<enemy::ChaseState>();
 	m_pEnemyStates[static_cast<int>(enemy::Caught)] = std::make_unique<enemy::CaughtState>();
 	m_pEnemyStates[static_cast<int>(enemy::Squashed)] = std::make_unique<enemy::EnemySquashedState>();
+	m_pEnemyStates[static_cast<int>(enemy::Flee)] = std::make_unique<enemy::FleeState>();
 
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
@@ -140,5 +178,20 @@ void EnemyComponent::InitStates()
 void EnemyComponent::OnInactive()
 {
 	// Send event
+	// ----------
 
+	// Check if squashed
+	bool isInSquashedState{ false };
+	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState))
+	{
+		isInSquashedState = true;
+	}
+
+	// Get cell
+	auto pGrid{ FirstScene::GetInstance().GetGrid() };
+	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
+	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
+	
+	// Send event
+	dae::EventManager<grid::Cell*, bool>::GetInstance().SendEvent(event::EnemyDeath, pCurrentCell, isInSquashedState);
 }

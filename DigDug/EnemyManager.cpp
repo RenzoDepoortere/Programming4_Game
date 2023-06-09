@@ -1,17 +1,22 @@
 #include "EnemyManager.h"
 
 #include "GameObject.h"
-
 #include "GridComponent.h"
 #include "AnimationComponent.h"	
 #include "EnemyComponent.h"
 #include "CharacterComponent.h"
 
 #include "ResourceManager.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
+
+#include <algorithm>
 
 EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
+	// Subscribe to enemyDeath event
+	dae::EventManager<grid::Cell*, bool>::GetInstance().Subscribe(event::EnemyDeath, this);
 }
 
 void EnemyManager::SpawnEnemies()
@@ -69,6 +74,29 @@ bool EnemyManager::CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEne
 	return false;
 }
 
+void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, bool /*wasSquashed*/)
+{
+	auto isAlive = [](EnemyComponent* pEnemy)
+	{
+		return pEnemy->GetGameObject()->GetIsActive();
+	};
+
+	// Check if there's just 1 enemy alive
+	const int nrAliveEnemies = static_cast<int>(std::count_if(m_pEnemies.begin(), m_pEnemies.end(), isAlive));
+	if (nrAliveEnemies == 1)
+	{
+		// Get alive enemy
+		auto enemyIt = std::find_if(m_pEnemies.begin(), m_pEnemies.end(), isAlive);
+		EnemyComponent* pEnemy{ *enemyIt };
+
+		// Set enemy to flee state
+		pEnemy->SetFlee();
+	}
+}
+void EnemyManager::OnSubjectDestroy()
+{
+}
+
 void EnemyManager::SpawnPooka(const glm::vec3& position)
 {
 	// Create gameObject
@@ -100,7 +128,6 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetAnimationComponent(pObjectTexture);
-	pEnemyComponent->SetGrid(m_pGrid);
 	pEnemyComponent->SetCharacters(m_pCharacters);
 
 	// Add as child
@@ -141,7 +168,6 @@ void EnemyManager::SpawnFygar(const glm::vec3& position)
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
 	pEnemyComponent->SetAnimationComponent(pObjectTexture);
-	pEnemyComponent->SetGrid(m_pGrid);
 	pEnemyComponent->SetCharacters(m_pCharacters);
 
 	// Add as child

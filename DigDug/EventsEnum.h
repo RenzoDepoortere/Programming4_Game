@@ -5,6 +5,7 @@ namespace event
 	enum eventID
 	{
 		PauseMenu,
-		RockBreak
+		RockBreak,
+		EnemyDeath
 	};
 }

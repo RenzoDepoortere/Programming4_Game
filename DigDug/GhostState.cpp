@@ -6,6 +6,8 @@
 #include "CharacterComponent.h"
 #include "GridComponent.h"
 
+#include "FirstScene.h"
+
 #include "ResourceManager.h"
 
 enemy::GhostState::GhostState()
@@ -25,9 +27,7 @@ void enemy::GhostState::OnEnter(EnemyComponent* pEnemy)
 	auto behaviorData{ pEnemy->GetBehaviorData() };
 	if (m_pMoveCommand == nullptr)
 	{
-		glm::vec2 movementDirection{};
-
-		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), movementDirection, behaviorData.movementSpeed / 2.f);
+		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), glm::vec2{}, behaviorData.movementSpeed / 2.f);
 	}
 	else
 	{
@@ -107,7 +107,7 @@ enemy::EnemyStates enemy::GhostState::HandleGoingBack(EnemyComponent* pEnemy, fl
 	if (m_AllowToTransferBack == false) return NR_STATES;
 
 	// Check if on empty cell
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };

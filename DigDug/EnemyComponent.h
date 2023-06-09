@@ -63,9 +63,8 @@ public:
 	bool GetBlown() const { return m_Blown; }
 
 	void SetSquashed();
-
-	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
-	grid::GridComponent* GetGrid() const { return m_pGrid; }
+	void SetFlee();
+	bool GetIsFleeing() const { return m_IsFleeing; }
 
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters) { m_pCharacters = pCharacters; }
 	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
@@ -87,7 +86,6 @@ public:
 private:
 	// Member variables
 	// ----------------
-	grid::GridComponent* m_pGrid{ nullptr };
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 	std::vector<CharacterComponent*> m_pCharacters{};
 	bool m_InitializedStates{ false };
@@ -97,6 +95,7 @@ private:
 
 	bool m_IsCaught{ false };
 	bool m_Blown{ false };
+	bool m_IsFleeing{ false };
 
 	enemy::BehaviorData m_EnemyBehavior{};
 	enemy::EnemyState* m_pCurrentState{};

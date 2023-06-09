@@ -6,6 +6,8 @@
 #include "GridHelpers.h"
 #include "AnimationComponent.h"
 
+#include "FirstScene.h"
+
 #include "GameObject.h"
 #include "InputMapper.h"
 #include "ResourceManager.h"
@@ -93,7 +95,7 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 	glm::vec2 movementDirection{};
 	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
 	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 
 	// Left
 	movementDirection = glm::vec2{ -1, 0 };
@@ -172,7 +174,7 @@ void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get current cell
 	glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
-	grid::Cell* pStartCell{ pEnemy->GetGrid()->GetCell(currentPos)};
+	grid::Cell* pStartCell{ FirstScene::GetInstance().GetGrid()->GetCell(currentPos)};
 
 	// Search next cell
 	// ----------------
@@ -242,7 +244,7 @@ enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 	// Get currentCell
 	// ---------------
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 
 	const int detectionRange{ pEnemy->GetBehaviorData().detectionRange };

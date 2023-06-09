@@ -2,12 +2,14 @@
 #include "Component.h"
 #include "glm/vec3.hpp"
 #include "Texture2D.h"
+#include "Observer.h"
 
 #include <vector>
 
 namespace grid
 {
 	class GridComponent;
+	struct Cell;
 }
 
 namespace enemy
@@ -21,7 +23,7 @@ namespace enemy
 class CharacterComponent;
 class EnemyComponent;
 
-class EnemyManager final : public Component
+class EnemyManager final : public Component, public dae::Observer<grid::Cell*, bool>
 {
 public:
 	// Rule of Five
@@ -42,6 +44,10 @@ public:
 	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
 
 	bool CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const;
+
+	// Observer
+	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, bool wasSquashed) override;
+	virtual void OnSubjectDestroy() override;
 
 private:
 	// Member variables

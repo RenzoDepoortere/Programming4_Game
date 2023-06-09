@@ -6,6 +6,8 @@
 #include "CharacterComponent.h"
 #include "GameObject.h"
 
+#include "FirstScene.h"
+
 void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 {
 	// Prepare variables
@@ -42,7 +44,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	// Create moveCommand
 	// ------------------
 	const enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 
 	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid);
 
@@ -83,7 +85,7 @@ std::deque<grid::Cell*> enemy::ChaseState::CalculatePath(EnemyComponent* pEnemy)
 {
 	// Get cells
 	// ---------
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 
 	// Own
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
@@ -294,7 +296,7 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get cells
 	// ---------
-	grid::GridComponent* pGrid{ pEnemy->GetGrid() };
+	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
 
 	// Own
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
