@@ -263,10 +263,12 @@ void dae::GameObject::SetIsActive(bool isActive)
 		m_InActiveFunction();
 	}
 
-	// Set children inactive
+	// Set children active
+	// We do this instantly because this function usually gets called only once, without using the getIsActive
+	// We also want the inActive function to get called on all the children
 	for (const auto& currentChild : m_pChildren)
 	{
-		currentChild->SetIsActive(false);
+		currentChild->SetIsActive(isActive);
 	}
 }
 
