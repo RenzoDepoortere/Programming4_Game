@@ -6,6 +6,7 @@
 #include "Observer.h"
 
 #include <array>
+#include <functional>
 
 namespace enemy
 {
@@ -104,4 +105,5 @@ private:
 	// Member functions
 	// ----------------	
 	void InitStates();
+	void OnInactive();
 };

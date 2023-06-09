@@ -170,7 +170,7 @@ void dae::GameObject::RemoveObject()
 }
 #pragma endregion
 
-#pragma region Position
+#pragma region Transform
 void dae::GameObject::SetWorldPosition(float x, float y, float z)
 {
 	m_WorldTransform.SetPosition(x, y, z);
@@ -236,7 +236,6 @@ void dae::GameObject::UpdateWorldTransform()
 
 	m_IsDirty = false;
 }
-#pragma endregion
 
 void dae::GameObject::SetRotation(float degrees)
 {
@@ -251,6 +250,24 @@ float dae::GameObject::GetRotation()
 	}
 
 	return m_WorldTransform.GetRotation();
+}
+#pragma endregion
+
+void dae::GameObject::SetIsActive(bool isActive)
+{
+	m_IsActive = isActive;
+	
+	// Call function on inactivity
+	if (m_IsActive == false && m_InActiveFunction)
+	{
+		m_InActiveFunction();
+	}
+
+	// Set children inactive
+	for (const auto& currentChild : m_pChildren)
+	{
+		currentChild->SetIsActive(false);
+	}
 }
 
 void dae::GameObject::SetDirty()

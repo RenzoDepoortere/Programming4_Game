@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <typeindex>
+#include <functional>
 
 #include "Transform.h"
 #include "Utils.h"
@@ -59,11 +60,13 @@ namespace dae
 		float GetRotation();
 
 		// Other
-		void SetIsActive(bool isActive) { m_IsActive = isActive; }
+		void SetIsActive(bool isActive);
 		bool GetIsActive() const { return m_IsActive; }
 
 		void SetIsHidden(bool hide) { m_Hide = hide; }
 		bool GetIsHidden() const { return m_Hide; }
+
+		void SetInActiveFunction(const std::function<void()>& function) { m_InActiveFunction = function; }	// Function gets played on SetInactive
 
 	private:
 		// Member Variables
@@ -88,6 +91,7 @@ namespace dae
 		// Other
 		bool m_IsActive{ true };
 		bool m_Hide{ false };
+		std::function<void()> m_InActiveFunction{};
 
 		// Member Functions
 		// ----------------

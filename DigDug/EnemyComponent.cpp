@@ -23,6 +23,9 @@ EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 	// Get SFX ID
 	const std::string fileName{ "Sound/Characters/Enemies/Squashed.wav" };
 	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
+
+	// Set inactive function
+	GetGameObject()->SetInActiveFunction(std::bind(&EnemyComponent::OnInactive, this));
 }
 
 void EnemyComponent::Update(float deltaTime)
@@ -132,4 +135,10 @@ void EnemyComponent::InitStates()
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
 	m_pCurrentState->OnEnter(this);
+}
+
+void EnemyComponent::OnInactive()
+{
+	// Send event
+
 }
