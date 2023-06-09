@@ -65,6 +65,14 @@ void CharacterComponent::SetSquashed()
 	m_CurrentStateID = player::Squashed;
 	m_pCurrentState->OnEnter(this);
 }
+void CharacterComponent::SetHit()
+{
+	m_pCurrentState->OnLeave(this);
+
+	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Hit)].get();
+	m_CurrentStateID = player::Hit;
+	m_pCurrentState->OnEnter(this);
+}
 
 // Only gets called when got hit by rock 
 void CharacterComponent::HandleEvent(unsigned int /*eventID*/)

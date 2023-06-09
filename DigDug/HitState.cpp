@@ -26,7 +26,7 @@ void player::HitState::OnEnter(CharacterComponent* pPlayer)
 	m_pAnimationComponent->SetSingleSpriteSize(26.f);
 
 	m_pAnimationComponent->SetMaxFrames(4);
-	m_pAnimationComponent->SetFramesPerSecond(12);
+	m_pAnimationComponent->SetFramesPerSecond(8);
 
 	m_pAnimationComponent->SetPaused(false);
 	m_pAnimationComponent->SetFlip(false);
@@ -35,7 +35,13 @@ void player::HitState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
 }
 
-player::PlayerStates player::HitState::Update(CharacterComponent* /*pPlayer*/, float /*deltaTime*/)
+player::PlayerStates player::HitState::Update(CharacterComponent* pPlayer, float /*deltaTime*/)
 {
+	if (m_pAnimationComponent->PlayedOnce() && m_pAnimationComponent->GetPaused() == false)
+	{
+		pPlayer->GetGameObject()->SetIsActive(false);
+		pPlayer->GetGameObject()->SetIsHidden(true);
+	}
+
 	return NR_STATES;
 }

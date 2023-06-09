@@ -63,6 +63,7 @@ public:
 	EnemyComponent* GetCaughtEnemy() const { return m_pCaughtEnemy; }
 
 	void SetSquashed();
+	void SetHit();
 
 	player::PlayerStates GetCurrentStateID() const { return m_CurrentStateID; }
 

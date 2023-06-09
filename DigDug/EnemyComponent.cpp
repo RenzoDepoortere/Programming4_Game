@@ -11,6 +11,7 @@
 #include "EnemySquashedState.h"
 #include "FleeState.h"
 #include "AnimationComponent.h"
+#include "CharacterComponent.h"
 
 #include "FirstScene.h"
 
@@ -192,5 +193,23 @@ void EnemyComponent::UpdateStates(float deltaTime)
 }
 void EnemyComponent::CheckPlayer()
 {
+	const utils::Rect ownBoundingRect{ m_pAnimationComponent->GetBoundingRect() };
+	utils::Rect boundingRect{};
 
+	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	{
+		// If in hitState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;
+
+		// Check if is not dead
+		if (currentPlayer->GetGameObject()->GetIsActive() == false) continue;
+
+		// Check if overlaps
+		boundingRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
+		if (utils::RectOverlaps(ownBoundingRect, boundingRect))
+		{
+			// Set to hit
+			currentPlayer->SetHit();
+		}
+	}
 }
