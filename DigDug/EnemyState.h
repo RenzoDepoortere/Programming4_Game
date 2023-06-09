@@ -9,6 +9,7 @@ namespace enemy
 		Ghost,
 		Chase,
 		Caught,
+		Squashed,
 		NR_STATES
 	};
 

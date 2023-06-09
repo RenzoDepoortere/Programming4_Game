@@ -13,6 +13,7 @@ namespace grid
 }
 
 class CharacterComponent;
+class EnemyComponent;
 
 class FirstScene final : public dae::Singleton<FirstScene>
 {
@@ -25,8 +26,12 @@ public:
 	FirstScene& operator=(const FirstScene& other) = delete;
 	FirstScene& operator=(FirstScene&& other) = delete;
 
-	// Public Functions
+	// Functionality
 	void CreateGameObjects(dae::Scene& scene);
+
+	grid::GridComponent* GetGrid() const { return m_pGrid; }
+	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
+	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
 
 private:
 	friend class Singleton<FirstScene>;
@@ -37,6 +42,7 @@ private:
 	
 	grid::GridComponent* m_pGrid{ nullptr };
 	std::vector<CharacterComponent*> m_pCharacters{};
+	std::vector<EnemyComponent*> m_pEnemies{};
 
 	unsigned long m_ControllerIdx{};
 

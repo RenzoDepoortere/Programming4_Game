@@ -1,8 +1,11 @@
 #include "RockComponent.h"
+#include "FirstScene.h"
 
 #include "GameObject.h"
 #include "GridComponent.h"
 #include "AnimationComponent.h"
+#include "EnemyComponent.h"
+#include "CharacterComponent.h"
 
 #include "ServiceLocator.h"
 #include "EventManager.h"
@@ -15,7 +18,7 @@ RockComponent::RockComponent(dae::GameObject* pParentObject)
 	const glm::vec2 downDirection{ 0, 1 };
 	const float movementDirection{ 150.f };
 
-	pMoveCommand = std::make_unique<dae::MoveCommand>(GetGameObject(), downDirection, movementDirection);
+	m_pMoveCommand = std::make_unique<dae::MoveCommand>(GetGameObject(), downDirection, movementDirection);
 
 	// Get SFX ID
 	const std::string fileName{ "Sound/FallenRock_SFX.wav" };
@@ -94,13 +97,51 @@ void RockComponent::Rumble(float deltaTime)
 }
 void RockComponent::Fall(float deltaTime)
 {
+	// Check if actors hit
+	// -------------------
+	const glm::ivec2 textureSize{ m_pAnimationComponent->GetTextureSize() };
+	const utils::Rect ownBoundingRect{ m_pAnimationComponent->GetBoundingRect() };
+	utils::Rect boundingRect{};
+
+	dae::GameObject* pOwnGameObject{ GetGameObject() };
+	auto pChildren{ pOwnGameObject->GetChildren() };
+
+	dae::GameObject* pGameObject{ nullptr };
+
+	// Enemies
+	for (const auto& currentEnemy : FirstScene::GetInstance().GetEnemies())
+	{
+		// Check if can add
+		pGameObject = currentEnemy->GetGameObject();
+		boundingRect = currentEnemy->GetAnimationComponent()->GetBoundingRect();
+
+		if (CheckIfCanAdd(ownBoundingRect, pOwnGameObject, boundingRect, pGameObject))
+		{
+			// Set to squashState
+			currentEnemy->SetSquashed();
+		}
+	}
+
+	//// Player
+	//for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	//{
+	//	// Check if can add
+	//	pGameObject = currentPlayer->GetGameObject();
+	//	boundingRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
+
+	//	if (CheckIfCanAdd(ownBoundingRect, pOwnGameObject, boundingRect, pGameObject))
+	//	{
+	//		// Set to squashState
+
+	//	}
+	//}
+
 	// Move
 	// ----
-	pMoveCommand->Execute(deltaTime);
+	m_pMoveCommand->Execute(deltaTime);
 
 	// Check if cell below is blocked
 	// ------------------------------
-	const glm::ivec2 textureSize{ m_pAnimationComponent->GetTextureSize() };
 	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
 
 	grid::Cell* pCurrentCell{ m_pGrid->GetCell(currentPos) };
@@ -160,4 +201,23 @@ grid::Cell* RockComponent::GetCellBelow() const
 	bottomCellPos.y += pCurrentCell->size.y;
 
 	return m_pGrid->GetCell(bottomCellPos);
+}
+
+bool RockComponent::CheckIfCanAdd(const utils::Rect& ownBoundingRect, dae::GameObject* pOwnGameObject, const utils::Rect& boundingRect, dae::GameObject* pGameObject)
+{
+	// Check if is not dead
+	if (pGameObject->GetIsActive() == false) return false;
+
+	// Check if not already child
+	if (pGameObject->GetParent() == pOwnGameObject) return false;
+
+	// Check if overlaps
+	if (utils::RectOverlaps(ownBoundingRect, boundingRect))
+	{
+		// Add as child
+		pGameObject->SetParent(pOwnGameObject, true);
+		return true;
+	}
+
+	return false;
 }

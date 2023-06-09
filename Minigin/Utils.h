@@ -15,6 +15,14 @@ namespace utils
 		}
 	};
 
+	inline bool RectOverlaps(const Rect& firstRect, const Rect& secondRect)
+	{
+		const bool xOverlaps{ firstRect.x <= secondRect.x + secondRect.width && secondRect.x <= firstRect.x + firstRect.width };
+		const bool yOverlaps{ firstRect.y <= secondRect.y + secondRect.height && secondRect.y <= firstRect.y + firstRect.height };
+
+		return (xOverlaps && yOverlaps);
+	}
+
 	inline bool IsInsideRect(const glm::vec3& position, const Rect& rect)
 	{
 		const bool isInsideX{ rect.x <= position.x && position.x <= rect.x + rect.width };

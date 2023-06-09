@@ -8,9 +8,11 @@
 #include "GhostState.h"
 #include "ChaseState.h"
 #include "CaughtState.h"
+#include "EnemySquashedState.h"
 #include "AnimationComponent.h"
 
 #include "InputManager.h"
+#include "Renderer.h"
 
 EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
@@ -39,6 +41,23 @@ void EnemyComponent::Update(float deltaTime)
 		m_pCurrentState->OnEnter(this);
 	}
 }
+void EnemyComponent::Render() const
+{
+	const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
+	const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
+
+	// Draw boundingRect
+	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
+	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
+
+	SDL_Rect rect{};
+	rect.x = static_cast<int>(boundingRect.x);
+	rect.y = static_cast<int>(boundingRect.y);
+	rect.w = static_cast<int>(boundingRect.width);
+	rect.h = static_cast<int>(boundingRect.height);
+
+	SDL_RenderDrawRect(pRenderer, &rect);
+}
 
 bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
 {
@@ -56,6 +75,14 @@ void EnemyComponent::SetCaught(bool isCaught)
 		m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Caught)].get();
 		m_pCurrentState->OnEnter(this);
 	}
+}
+
+void EnemyComponent::SetSquashed()
+{
+	m_pCurrentState->OnLeave(this);
+
+	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Squashed)].get();
+	m_pCurrentState->OnEnter(this);
 }
 
 void EnemyComponent::SetControl(unsigned long controllerID)
@@ -80,6 +107,7 @@ void EnemyComponent::InitStates()
 	m_pEnemyStates[static_cast<int>(enemy::Ghost)] = std::make_unique<enemy::GhostState>();
 	m_pEnemyStates[static_cast<int>(enemy::Chase)] = std::make_unique<enemy::ChaseState>();
 	m_pEnemyStates[static_cast<int>(enemy::Caught)] = std::make_unique<enemy::CaughtState>();
+	m_pEnemyStates[static_cast<int>(enemy::Squashed)] = std::make_unique<enemy::EnemySquashedState>();
 
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();

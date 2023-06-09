@@ -2,6 +2,8 @@
 #include "Component.h"
 #include "MoveCommand.h"
 
+#include <vector>
+
 namespace dae
 {
 	class GameObject;
@@ -49,7 +51,7 @@ private:
 	int m_RotationDirection{ 1 };
 	float m_CurrentRumbleTime{};
 
-	std::unique_ptr<dae::MoveCommand> pMoveCommand{ nullptr };
+	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
 
 	// Member functions
 	// ----------------
@@ -59,5 +61,6 @@ private:
 	void Destroy(float deltaTime);
 
 	grid::Cell* GetCellBelow() const;
+	bool CheckIfCanAdd(const utils::Rect& ownBoundingRect, dae::GameObject* pOwnGameObject, const utils::Rect& boundingRect, dae::GameObject* pGameObject);
 };
 

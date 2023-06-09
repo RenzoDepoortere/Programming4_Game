@@ -93,8 +93,8 @@ utils::Rect dae::AnimationComponent::GetBoundingRect() const
 
 	if (GetCenteredTexture())
 	{
-		boundingRect.x -= m_SrcRect.width;
-		boundingRect.y -= m_SrcRect.height;
+		boundingRect.x -= m_SrcRect.width / 2.f;
+		boundingRect.y -= m_SrcRect.height / 2.f;
 	}
 
 	return boundingRect;

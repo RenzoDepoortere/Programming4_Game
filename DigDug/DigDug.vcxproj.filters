@@ -34,6 +34,12 @@
     <Filter Include="States">
       <UniqueIdentifier>{5c42453d-8c37-4b21-a774-5fca0fe0dd64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States\Player">
+      <UniqueIdentifier>{55d4ca2f-92d9-489b-aa5f-41f887a14ae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States\Enemy">
+      <UniqueIdentifier>{497a4a48-b8df-45d7-853f-72e6a3a38213}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -86,29 +92,32 @@
     <ClCompile Include="EnemyComponent.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="RoamingState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="ChaseState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="DiggingState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="ShootingState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="RopeComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
-    <ClCompile Include="CaughtState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="BlowingState.cpp">
-      <Filter>States</Filter>
+      <Filter>States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="DiggingState.cpp">
+      <Filter>States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootingState.cpp">
+      <Filter>States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CaughtState.cpp">
+      <Filter>States\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaseState.cpp">
+      <Filter>States\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="GhostState.cpp">
-      <Filter>States</Filter>
+      <Filter>States\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="RoamingState.cpp">
+      <Filter>States\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySquashedState.cpp">
+      <Filter>States\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,38 +170,41 @@
     <ClInclude Include="EnemyComponent.h">
       <Filter>Components\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="RoamingState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="ChaseState.h">
-      <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="GridHelpers.h">
       <Filter>Components\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="DiggingState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="ShootingState.h">
-      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="RopeComponent.h">
       <Filter>Components\Character</Filter>
     </ClInclude>
-    <ClInclude Include="CaughtState.h">
-      <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="BlowingState.h">
-      <Filter>States</Filter>
+      <Filter>States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="DiggingState.h">
+      <Filter>States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootingState.h">
+      <Filter>States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CaughtState.h">
+      <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseState.h">
+      <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>States\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="GhostState.h">
-      <Filter>States</Filter>
+      <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="RoamingState.h">
+      <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySquashedState.h">
+      <Filter>States\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

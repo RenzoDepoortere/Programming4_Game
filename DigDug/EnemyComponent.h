@@ -51,6 +51,7 @@ public:
 
 	// Functionality
 	virtual void Update(float deltaTime) override;
+	virtual void Render() const override;
 
 	bool IsInsideEnemy(const glm::vec3 position) const;
 	
@@ -58,6 +59,8 @@ public:
 	bool GetCaught() const { return m_IsCaught; }
 	void SetBlow(bool blow) { m_Blown = blow; }
 	bool GetBlown() const { return m_Blown; }
+
+	void SetSquashed();
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }

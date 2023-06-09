@@ -42,6 +42,7 @@ public:
 
 	// Functionality
 	virtual void Update(float deltaTime) override;
+	virtual void Render() const override;
 
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	grid::GridComponent* GetGrid() const { return m_pGrid; }
