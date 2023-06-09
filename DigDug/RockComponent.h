@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "MoveCommand.h"
+#include "Subject.h"
 
 #include <vector>
 
@@ -35,6 +36,9 @@ public:
 	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 
+	template<typename... Args>
+	dae::Subject<>* GetSubject() { return &m_HasBeenDestroyed; }
+
 private:
 	// Enums
 	// -----
@@ -53,6 +57,7 @@ private:
 	float m_CurrentRumbleTime{};
 
 	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
+	dae::Subject<> m_HasBeenDestroyed{};
 
 	// Member functions
 	// ----------------

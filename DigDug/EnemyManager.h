@@ -41,7 +41,6 @@ public:
 	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters);
 	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
 
-
 	bool CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const;
 
 private:

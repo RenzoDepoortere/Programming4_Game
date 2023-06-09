@@ -3,6 +3,7 @@
 #include "MoveCommand.h"
 #include "EnemyState.h"
 #include "EnemyManager.h"
+#include "Observer.h"
 
 #include <array>
 
@@ -37,7 +38,7 @@ namespace dae
 	class AnimationComponent;
 }
 
-class EnemyComponent final : public Component
+class EnemyComponent final : public Component, public dae::Observer<>
 {
 public:
 	// Rule of Five
@@ -77,6 +78,10 @@ public:
 	void SetControl(unsigned long controllerID = -1);
 	bool GetIsControlled() const { return m_IsControlled; }
 	unsigned long GetControllerID() const { return m_ControllerID; }
+
+	// Observer
+	virtual void HandleEvent(unsigned int eventID) override;
+	virtual void OnSubjectDestroy() override;
 
 private:
 	// Member variables

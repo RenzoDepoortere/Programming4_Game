@@ -38,20 +38,20 @@ void CharacterComponent::Update(float deltaTime)
 }
 void CharacterComponent::Render() const
 {
-	const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
-	const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
+	//const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
+	//const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
 
-	// Draw boundingRect
-	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
-	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
+	//// Draw boundingRect
+	//auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
+	//SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
 
-	SDL_Rect rect{};
-	rect.x = static_cast<int>(boundingRect.x);
-	rect.y = static_cast<int>(boundingRect.y);
-	rect.w = static_cast<int>(boundingRect.width);
-	rect.h = static_cast<int>(boundingRect.height);
+	//SDL_Rect rect{};
+	//rect.x = static_cast<int>(boundingRect.x);
+	//rect.y = static_cast<int>(boundingRect.y);
+	//rect.w = static_cast<int>(boundingRect.width);
+	//rect.h = static_cast<int>(boundingRect.height);
 
-	SDL_RenderDrawRect(pRenderer, &rect);
+	//SDL_RenderDrawRect(pRenderer, &rect);
 }
 
 void CharacterComponent::SetLookingDirection(player::LookingDirection lookingDirection)

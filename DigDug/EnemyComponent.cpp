@@ -11,12 +11,18 @@
 #include "EnemySquashedState.h"
 #include "AnimationComponent.h"
 
+#include "ServiceLocator.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
 #include "InputManager.h"
 #include "Renderer.h"
 
 EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
+	// Get SFX ID
+	const std::string fileName{ "Sound/Characters/Enemies/Squashed.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
 }
 
 void EnemyComponent::Update(float deltaTime)
@@ -43,20 +49,20 @@ void EnemyComponent::Update(float deltaTime)
 }
 void EnemyComponent::Render() const
 {
-	const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
-	const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
+	//const glm::vec3 worldPos{ GetGameObject()->GetWorldPosition() };
+	//const utils::Rect boundingRect{ m_pAnimationComponent->GetBoundingRect() };
 
-	// Draw boundingRect
-	auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
-	SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
+	//// Draw boundingRect
+	//auto pRenderer{ dae::Renderer::GetInstance().GetSDLRenderer() };
+	//SDL_SetRenderDrawColor(pRenderer, static_cast<Uint8>(0), static_cast<Uint8>(0), static_cast<Uint8>(255), static_cast<Uint8>(255));
 
-	SDL_Rect rect{};
-	rect.x = static_cast<int>(boundingRect.x);
-	rect.y = static_cast<int>(boundingRect.y);
-	rect.w = static_cast<int>(boundingRect.width);
-	rect.h = static_cast<int>(boundingRect.height);
+	//SDL_Rect rect{};
+	//rect.x = static_cast<int>(boundingRect.x);
+	//rect.y = static_cast<int>(boundingRect.y);
+	//rect.w = static_cast<int>(boundingRect.width);
+	//rect.h = static_cast<int>(boundingRect.height);
 
-	SDL_RenderDrawRect(pRenderer, &rect);
+	//SDL_RenderDrawRect(pRenderer, &rect);
 }
 
 bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
@@ -98,6 +104,20 @@ void EnemyComponent::SetControl(unsigned long controllerID)
 		m_IsControlled = true;
 		m_ControllerID = controllerID;
 	}
+}
+
+// Only gets called when got hit by rock 
+void EnemyComponent::HandleEvent(unsigned int /*eventID*/)
+{
+	// Play squashed SFX
+	const int volume{ 100 };
+	const int loops{ 0 };
+
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
+}
+
+void EnemyComponent::OnSubjectDestroy()
+{
 }
 
 void EnemyComponent::InitStates()
