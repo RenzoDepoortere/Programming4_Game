@@ -65,7 +65,7 @@ void InGameUIScene::InitLives()
 
 	// Add components
 	m_pLivesComponent = pGameObject->AddComponent<LivesComponent>();
-	m_pLivesComponent->SetMaxNrLives(3);
+	m_pLivesComponent->SetMaxNrLives(4);
 	m_pLivesComponent->ResetLives();
 
 	// Add to root
