@@ -26,10 +26,25 @@ RockComponent::RockComponent(dae::GameObject* pParentObject)
 	dae::ServiceLocator::GetSoundSystem().SetID(event::RockBreak, fileName);
 }
 
+void RockComponent::Reset()
+{
+	dae::GameObject* pGameObject{ GetGameObject() };
+
+	// Set active again
+	pGameObject->SetIsActive(true);
+	pGameObject->SetIsHidden(false);
+
+	// Reset state
+	m_CurrentRockState = Passive;
+	m_CurrentRumbleTime = 0.f;
+
+	// Remove observers and children
+	m_HasBeenDestroyed.RemoveAllObservers();
+	pGameObject->RemoveAllChildren();
+}
+
 void RockComponent::Update(float deltaTime)
 {
-	if (m_pGrid == nullptr) return;
-
 	switch (m_CurrentRockState)
 	{
 	case RockComponent::Passive:

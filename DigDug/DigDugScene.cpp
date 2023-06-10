@@ -66,7 +66,7 @@ void digdug::DigDugScene::Reset(bool deleteObjects)
 	else
 	{
 		// Call Reset on main components
-
+		m_pGrid->Reset();
 	}
 }
 

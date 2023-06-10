@@ -71,4 +71,7 @@ void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 
 	// Set level
 	m_pCurrentScene->SetLevel(m_LevelNames[0]);
+
+	// Reset
+	//m_pCurrentScene->Reset(false);
 }

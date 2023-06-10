@@ -32,6 +32,10 @@ namespace dae
 		{
 			m_pObservers.erase(std::remove(m_pObservers.begin(), m_pObservers.end(), pObserver), m_pObservers.end());
 		}
+		void RemoveAllObservers()
+		{
+			m_pObservers.clear();
+		}
 		void Notify(Args... args)
 		{
 			for (auto& currentObserver : m_pObservers)

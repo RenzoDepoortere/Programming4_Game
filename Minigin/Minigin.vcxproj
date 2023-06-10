@@ -295,7 +295,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="AudioFile.cpp" />
-    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />

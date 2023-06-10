@@ -14,6 +14,8 @@ namespace dae
 	class RenderTextureComponent;
 }
 
+class RockComponent;
+
 namespace grid
 {
 	struct Cell
@@ -44,6 +46,8 @@ namespace grid
 		GridComponent& operator=(GridComponent&& other) = delete;
 
 		// Functionality
+		void Reset();
+
 		Cell* GetCell(int index) const;
 		Cell* GetCell(const glm::vec3& worldPos) const;
 		Cell* GetCell(float x, float y, float z) const;
@@ -61,9 +65,18 @@ namespace grid
 		int GetCellWidth() const { return m_CellWidth; }
 		int GetCellHeight() const { return m_CellHeight; }
 
-		const std::vector<std::pair<glm::vec3, unsigned int>>& GetEnemySpawnData() const { return m_EnemySpawnData; }
+		const std::vector<std::pair<glm::vec3, unsigned int>>& GetEnemySpawnData() const { return m_pCurrentFileData->enemySpawnData; }
 
 	private:
+		// Enum
+		// ----
+		struct FileData
+		{
+			std::vector<std::pair<int, bool>> cellSpawnData{};
+			std::vector<glm::vec3> rockSpawnData{};
+			std::vector<std::pair<glm::vec3, unsigned int>> enemySpawnData{};
+		};
+
 		// Member variables
 		// ---------------
 
@@ -77,12 +90,14 @@ namespace grid
 		int m_CellWidth{};
 		int m_CellHeight{};
 
-		// Renderer
-		dae::RenderTextureComponent* m_pRenderer{ nullptr };
-
-		// Others
+		// Rocks
 		std::shared_ptr<dae::Texture2D> m_pRockTexture{ nullptr };
-		std::vector<std::pair<glm::vec3, unsigned int>> m_EnemySpawnData{};
+		std::vector<RockComponent*> m_pRocks{};
+
+		// Other
+		std::unique_ptr<FileData> m_pCurrentFileData{};
+		dae::RenderTextureComponent* m_pRenderer{ nullptr };
+		
 
 		// Member functions
 		// ----------------

@@ -30,6 +30,8 @@ public:
 	RockComponent& operator=(RockComponent&& other) = delete;
 
 	// Functionality
+	void Reset();
+
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 

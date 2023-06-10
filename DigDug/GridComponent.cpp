@@ -34,6 +34,43 @@ GridComponent::GridComponent(dae::GameObject* pParentObject)
 	if (m_pRenderer == nullptr) std::cout << "Warning: the grid component needs a renderTextureComponent!" << std::endl;
 }
 
+void GridComponent::Reset()
+{
+	// Reset cells
+	// -----------
+	Cell* pCell{};
+	for (int idx{}; idx < m_pCells.size(); ++idx)
+	{
+		pCell = m_pCells[idx].get();
+
+		// Reset texture
+		pCell->textureID = m_pCurrentFileData->cellSpawnData[idx].first;
+
+		// Reset contains rock
+		pCell->containsRock = m_pCurrentFileData->cellSpawnData[idx].second;
+
+		// Reset connections
+		pCell->pConnectedCells.clear();
+	}
+
+	// Create connections
+	InitCellConnections();
+
+	// Reset rocks
+	// -----------
+	RockComponent* pRock{};
+	for (int idx{}; idx < m_pRocks.size(); ++idx)
+	{
+		pRock = m_pRocks[idx];
+
+		// Reset component
+		pRock->Reset();
+
+		// Set back to position
+		pRock->GetGameObject()->SetWorldPosition(m_pCurrentFileData->rockSpawnData[idx]);
+	}
+}
+
 Cell* GridComponent::GetCell(int index) const
 {
 	if (0 <= index && index < m_pCells.size())
@@ -145,6 +182,15 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 	// ---------
 	InitGridCells();
 
+	// Assign data
+	// -----------
+	m_pCurrentFileData = std::make_unique<FileData>();
+	m_pCurrentFileData->cellSpawnData.resize(m_pCells.size());
+	m_pCurrentFileData->rockSpawnData.reserve(rockArray.Size());
+	m_pCurrentFileData->enemySpawnData.reserve(enemiesArray.Size());
+
+	m_pRocks.clear();
+
 	glm::vec3 cellPosition{};
 	int arrayID{};
 	std::pair<glm::vec3, unsigned int> enemySpawnInfo{};
@@ -156,12 +202,16 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 		cellPosition.y = m_pCells[idx]->centerPosition.y;
 
 		// Texture
-		m_pCells[idx]->textureID = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		m_pCurrentFileData->cellSpawnData[idx].first = textureIdArray[static_cast<rapidjson::SizeType>(idx)].GetInt();
+		m_pCells[idx]->textureID = m_pCurrentFileData->cellSpawnData[idx].first;
 		
 		// Rocks
 		if (rockArray[static_cast<rapidjson::SizeType>(idx)].GetInt() != 0)
 		{
+			m_pCurrentFileData->rockSpawnData.emplace_back(cellPosition);
+			m_pCurrentFileData->cellSpawnData[idx].second = true;
 			m_pCells[idx]->containsRock = true;
+
 			CreateRock(cellPosition);
 		}
 
@@ -170,7 +220,7 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 		if (arrayID != 0)
 		{
 			enemySpawnInfo = std::make_pair(cellPosition, arrayID - enemyID_Offset);
-			m_EnemySpawnData.emplace_back(enemySpawnInfo);
+			m_pCurrentFileData->enemySpawnData.emplace_back(enemySpawnInfo);
 		}
 	}
 
@@ -254,6 +304,8 @@ void GridComponent::CreateRock(const glm::vec3& rockPosition)
 
 	// Add as child
 	// ------------
+	m_pRocks.emplace_back(pRockComponent);
+
 	pRock->SetWorldPosition(rockPosition);
 	pRock->SetParent(GetGameObject(), true);
 }
@@ -270,6 +322,7 @@ void GridComponent::InitCellConnections()
 		{
 			// Get currentCell
 			pCurrentCell = m_pCells[rowIdx * m_NrCols + colIdx].get();
+			
 			bool isValidCell = pCurrentCell->textureID == 0 && pCurrentCell->containsRock == false;
 			if (isValidCell == false) continue;
 
