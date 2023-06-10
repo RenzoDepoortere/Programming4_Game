@@ -15,7 +15,7 @@ namespace dae
 		AudioFile& operator= (AudioFile&& rhs) = delete;
 
 		// Functionality
-		void Play(int loops = -1);
+		void Play(int loops = -1, int channel = 0);
 		bool IsPlaying();
 		void Pause();
 		bool IsPaused();

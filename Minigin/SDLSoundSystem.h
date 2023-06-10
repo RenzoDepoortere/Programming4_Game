@@ -25,7 +25,7 @@ namespace dae
 		SDLSoundSystem& operator= (SDLSoundSystem&& rhs) = delete;
 
 		// Functionality
-		void PlayAudio(unsigned int ID, int volume, int loops = -1) override;
+		void PlayAudio(unsigned int ID, int volume, int loops = -1, int channel = 0) override;
 		bool IsPlayingAudio(unsigned int ID) override;
 		void PauseAudio(unsigned int ID) override;
 		bool IsPausedAudio(unsigned int ID) override;
@@ -56,6 +56,7 @@ namespace dae
 
 			int volume{};
 			int loops{};
+			int channel{};
 		};
 		std::queue<AudioInfo> m_AudioQueue{};
 
@@ -71,7 +72,7 @@ namespace dae
 		bool IsValid(unsigned int ID, bool printError = true);
 		
 		void Load(unsigned int ID, const std::string& resourceName);
-		void Play(unsigned int ID, int volume, int loops);
+		void Play(unsigned int ID, int volume, int loops, int channel);
 		void Pause(unsigned int ID);
 		void Resume(unsigned int ID);
 		void SetVolume(unsigned int ID, int volume);

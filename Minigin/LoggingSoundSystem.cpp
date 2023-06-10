@@ -17,9 +17,9 @@ dae::LoggingSoundSystem::~LoggingSoundSystem()
 }
 
 #pragma region AudioFunctionality
-void dae::LoggingSoundSystem::PlayAudio(unsigned int ID, int volume, int loops)
+void dae::LoggingSoundSystem::PlayAudio(unsigned int ID, int volume, int loops, int channel)
 {
-	m_pRealSystem->PlayAudio(ID, volume, loops);
+	m_pRealSystem->PlayAudio(ID, volume, loops, channel);
 	std::cout << "Sound ID: " << ID << " Played at Sound Volume: " << volume << std::endl;
 }
 bool dae::LoggingSoundSystem::IsPlayingAudio(unsigned int ID)

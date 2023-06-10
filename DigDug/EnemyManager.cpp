@@ -102,7 +102,7 @@ void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, 
 		// Play SFX
 		const int volume{ 100 };
 		const int loops{ 0 };
-		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::FinalEnemy, volume, loops);
+		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::FinalEnemy, volume, loops, 1);
 	}
 
 	// If there's no enemies left

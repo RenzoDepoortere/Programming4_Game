@@ -11,7 +11,7 @@ namespace dae
 		~LoggingSoundSystem();
 
 		// Functionality
-		void PlayAudio(unsigned int ID, int volume, int loops = -1) override;
+		void PlayAudio(unsigned int ID, int volume, int loops = -1, int channel = 0) override;
 		bool IsPlayingAudio(unsigned int ID) override;
 		void PauseAudio(unsigned int ID) override;
 		bool IsPausedAudio(unsigned int ID) override;

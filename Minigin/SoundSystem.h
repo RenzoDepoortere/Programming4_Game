@@ -18,7 +18,7 @@ namespace dae
 		SoundSystem& operator=(SoundSystem&& rhs) = delete;
 
 		// Funtionality
-		virtual void PlayAudio(unsigned int ID, int volume, int loops = -1) = 0;
+		virtual void PlayAudio(unsigned int ID, int volume, int loops = -1, int channel = 0) = 0;
 		
 		// Warning: This can be a blocking call since it has to wait until the thread is done processing all the audioFiles
 		virtual bool IsPlayingAudio(unsigned int ID) = 0;
@@ -38,7 +38,7 @@ namespace dae
 	public:
 		~nullSoundSystem() override = default;
 
-		void PlayAudio(unsigned int, int, int) override {};
+		void PlayAudio(unsigned int, int, int, int) override {};
 		bool IsPlayingAudio(unsigned int) override { return false; };
 		void PauseAudio(unsigned int) override {};
 		bool IsPausedAudio(unsigned int) override {return false; };

@@ -18,7 +18,7 @@ dae::SDLSoundSystem::~SDLSoundSystem()
 }
 
 #pragma region AudioFunctionality
-void dae::SDLSoundSystem::PlayAudio(unsigned int ID, int volume, int loops)
+void dae::SDLSoundSystem::PlayAudio(unsigned int ID, int volume, int loops, int channel)
 {
 	// Lock mutex
 	{
@@ -29,6 +29,7 @@ void dae::SDLSoundSystem::PlayAudio(unsigned int ID, int volume, int loops)
 		info.soundID = ID;
 		info.volume = volume;
 		info.loops = loops;
+		info.channel = channel;
 		info.threadInstruction = PlaySFX;
 
 		m_AudioQueue.push(info);
@@ -144,14 +145,14 @@ void dae::SDLSoundSystem::Load(unsigned int ID, const std::string& resourceName)
 {
 	m_AudioFiles[ID] = ResourceManager::GetInstance().LoadSound(resourceName);
 }
-void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops)
+void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops, int channel)
 {
 	// Check validity
 	if (IsValid(ID) == false) return;
 
 	// Set volume and play
 	m_AudioFiles[ID]->SetVolume(volume);
-	m_AudioFiles[ID]->Play(loops);
+	m_AudioFiles[ID]->Play(loops, channel);
 }
 void dae::SDLSoundSystem::Pause(unsigned int ID)
 {
@@ -196,7 +197,7 @@ void dae::SDLSoundSystem::AudioThread()
 				break;
 			
 			case dae::SDLSoundSystem::PlaySFX:
-				Play(currentAudioFile.soundID, currentAudioFile.volume, currentAudioFile.loops);
+				Play(currentAudioFile.soundID, currentAudioFile.volume, currentAudioFile.loops, currentAudioFile.channel);
 				break;
 
 			case dae::SDLSoundSystem::PauseSFX:

@@ -13,9 +13,9 @@ dae::AudioFile::~AudioFile()
 
 // Note: give each chunk their own channel if necessary (max 8 channels in mixer)
 
-void dae::AudioFile::Play(int loops)
+void dae::AudioFile::Play(int loops, int channel)
 {
-	Mix_PlayChannel(0, static_cast<Mix_Chunk*>(m_pChunk), loops);
+	Mix_PlayChannel(channel, static_cast<Mix_Chunk*>(m_pChunk), loops);
 }
 bool dae::AudioFile::IsPlaying()
 {
