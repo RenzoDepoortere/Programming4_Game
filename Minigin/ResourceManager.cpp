@@ -19,8 +19,13 @@ void dae::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string& file) const
+std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string& file)
 {
+	// Check if already has texture
+	auto textureIt{ m_pTextures.find(file) };
+	if (textureIt != m_pTextures.end()) return (*textureIt).second;
+
+	// Load texture
 	const auto fullPath = m_dataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
@@ -28,7 +33,9 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
 
-	return std::make_shared<dae::Texture2D>(texture);
+	// Store and return
+	m_pTextures[file] = std::make_shared<dae::Texture2D>(texture);
+	return m_pTextures[file];
 }
 
 std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
@@ -41,8 +48,13 @@ std::shared_ptr<std::ifstream> dae::ResourceManager::LoadFile(const std::string&
 	return std::make_shared<std::ifstream>(m_dataPath + file);
 }
 
-std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::string& file) const
+std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::string& file)
 {
+	// Check if already has sound
+	auto audioIt{ m_pAudioFiles.find(file) };
+	if (audioIt != m_pAudioFiles.end()) return (*audioIt).second;
+
+	// Load sound
 	const auto fullPath = m_dataPath + file;
 	Mix_Chunk* pChunk{ Mix_LoadWAV(fullPath.c_str()) };
 	if (pChunk == nullptr)
@@ -50,6 +62,8 @@ std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::strin
 		throw std::runtime_error(std::string("Failed to load audio: ") + SDL_GetError());
 	}
 
-	return std::make_shared<dae::AudioFile>(pChunk);
+	// Store and return
+	m_pAudioFiles[file] = std::make_shared<dae::AudioFile>(pChunk);
+	return m_pAudioFiles[file];
 }
 
