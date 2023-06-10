@@ -264,6 +264,9 @@ enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();
 		pCharacterCell = pGrid->GetCell(characterPos);
 
+		// Check if valid cell
+		if (pCharacterCell == nullptr) continue;
+
 		// Check if in same cell
 		if (pCharacterCell == pCurrentCell) return Chase;
 

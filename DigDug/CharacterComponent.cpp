@@ -126,7 +126,7 @@ void CharacterComponent::SetHit()
 }
 
 // Only gets called when got hit by rock 
-void CharacterComponent::HandleEvent(unsigned int /*eventID*/)
+void CharacterComponent::HandleEvent(unsigned int /*eventID*/, void* /*extraInfo*/)
 {
 	//// Play squashed SFX
 	//const int volume{ 100 };

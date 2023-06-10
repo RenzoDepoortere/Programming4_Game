@@ -193,8 +193,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
   <ItemGroup>
     <ClCompile Include="..\Minigin\FPSCounter.cpp" />
     <ClCompile Include="..\Minigin\MoveCommand.cpp" />
-    <ClCompile Include="..\Minigin\PointCommand.cpp" />
-    <ClCompile Include="..\Minigin\PointComponent.cpp" />
+    <ClCompile Include="..\Minigin\ScoreComponent.cpp" />
     <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
     <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
     <ClCompile Include="AttackState.cpp" />
@@ -228,8 +227,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
   <ItemGroup>
     <ClInclude Include="..\Minigin\FPSCounter.h" />
     <ClInclude Include="..\Minigin\MoveCommand.h" />
-    <ClInclude Include="..\Minigin\PointCommand.h" />
-    <ClInclude Include="..\Minigin\PointComponent.h" />
+    <ClInclude Include="..\Minigin\ScoreComponent.h" />
     <ClInclude Include="..\Minigin\RotatingMovement.h" />
     <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="AttackState.h" />

@@ -39,7 +39,7 @@ namespace dae
 	class AnimationComponent;
 }
 
-class EnemyComponent final : public Component, public dae::Observer<>
+class EnemyComponent final : public Component, public dae::Observer<void*>
 {
 public:
 	// Rule of Five
@@ -79,7 +79,7 @@ public:
 	unsigned long GetControllerID() const { return m_ControllerID; }
 
 	// Observer
-	virtual void HandleEvent(unsigned int eventID) override;
+	virtual void HandleEvent(unsigned int eventID, void* extraInfo) override;
 	virtual void OnSubjectDestroy() override;
 
 private:

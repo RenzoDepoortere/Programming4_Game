@@ -158,7 +158,7 @@ void EnemyComponent::SetControl(unsigned long controllerID)
 }
 
 // Only gets called when got hit by rock 
-void EnemyComponent::HandleEvent(unsigned int /*eventID*/)
+void EnemyComponent::HandleEvent(unsigned int /*eventID*/, void* /*extraInfo*/)
 {
 	// Play squashed SFX
 	const int volume{ 100 };
@@ -190,15 +190,15 @@ void EnemyComponent::OnInactive()
 	// Return if is changing level
 	if (digdug::DigDugSceneManager::GetInstance().GetIsChangingLevel()) return;
 
+	const bool isBeingKilled{ m_CurrentStateID == enemy::Squashed || m_CurrentStateID == enemy::Caught };
+	if (isBeingKilled == false) return;
+
 	// Send event
 	// ----------
 
 	// Check if squashed
 	bool isInSquashedState{ false };
-	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState))
-	{
-		isInSquashedState = true;
-	}
+	if (m_CurrentStateID == enemy::Squashed) isInSquashedState = true;
 
 	// Get cell
 	auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
@@ -206,7 +206,7 @@ void EnemyComponent::OnInactive()
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 	
 	// Send event
-	dae::EventManager<grid::Cell*, bool>::GetInstance().SendEvent(event::EnemyDeath, pCurrentCell, isInSquashedState);
+	dae::EventManager<grid::Cell*, void*, void*>::GetInstance().SendEvent(event::EnemyDeath, pCurrentCell, &m_EnemyBehavior, &isInSquashedState);
 }
 
 void EnemyComponent::UpdateStates(float deltaTime)

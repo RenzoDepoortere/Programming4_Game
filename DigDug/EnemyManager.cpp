@@ -18,14 +18,14 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
 	// Subscribe to enemyDeath event
-	dae::EventManager<grid::Cell*, bool>::GetInstance().Subscribe(event::EnemyDeath, this);
+	dae::EventManager<grid::Cell*, void*, void*>::GetInstance().Subscribe(event::EnemyDeath, this);
 }
 EnemyManager::~EnemyManager()
 {
 	// Unsubscribe to enemyDeath event
 	if (dae::EventManager<>::GetIsDestroyed() == false)
 	{
-		dae::EventManager<grid::Cell*, bool>::GetInstance().Unsubscribe(event::EnemyDeath, this);
+		dae::EventManager<grid::Cell*, void*, void*>::GetInstance().Unsubscribe(event::EnemyDeath, this);
 	}
 }
 
@@ -76,7 +76,7 @@ void EnemyManager::ControlEnemy(unsigned long controllerID, enemy::EnemyTypes en
 	std::cout << "Error: Requested enemyType not found" << std::endl;
 }
 
-void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, bool /*wasSquashed*/)
+void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, void* /*behaviorData*/, void* /*wasSquashed*/)
 {
 	auto isAlive = [](EnemyComponent* pEnemy)
 	{

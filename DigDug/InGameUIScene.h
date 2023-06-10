@@ -29,7 +29,9 @@ private:
 	dae::GameObject* m_pSceneRootObject{ nullptr };
 	LivesComponent* m_pLivesComponent{ nullptr };
 
+
 	// Member functions
 	// ----------------
+	void InitScore();
 	void InitLives();
 };

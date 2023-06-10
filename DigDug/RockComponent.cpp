@@ -230,7 +230,7 @@ void RockComponent::Fall(float deltaTime)
 		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::RockBreak, volume, loops);
 
 		// Send event
-		m_HasBeenDestroyed.Notify();
+		m_HasBeenDestroyed.Notify(GetGameObject());
 	}
 }
 void RockComponent::Destroy(float /*deltaTime*/)

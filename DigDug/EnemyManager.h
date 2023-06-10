@@ -23,7 +23,7 @@ namespace enemy
 class CharacterComponent;
 class EnemyComponent;
 
-class EnemyManager final : public Component, public dae::Observer<grid::Cell*, bool>
+class EnemyManager final : public Component, public dae::Observer<grid::Cell*, void*, void*>
 {
 public:
 	// Rule of Five
@@ -44,7 +44,7 @@ public:
 	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
 
 	// Observer
-	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, bool wasSquashed) override;
+	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, void* behaviorData, void* wasSquashed) override;
 	virtual void OnSubjectDestroy() override;
 
 private:

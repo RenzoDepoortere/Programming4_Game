@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "RenderTextureComponent.h"
 #include "TextComponent.h"
+#include "ScoreComponent.h"
 
 #include "ResourceManager.h"
 
@@ -20,6 +21,7 @@ InGameUIScene::InGameUIScene(dae::Scene* pScene)
 	pScene->Add(pRoot);
 
 	// Init HUD
+	InitScore();
 	InitLives();
 }
 
@@ -36,6 +38,26 @@ void InGameUIScene::SetActive(bool isActive)
 	}
 }
 
+void InGameUIScene::InitScore()
+{
+	// Highscore
+	// ---------
+
+	// Current score
+	// -------------
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	pGameObject->AddComponent<ScoreComponent>();
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+
+	// Set position
+	pGameObject->SetWorldPosition(560.f, 120.f, 0.f);
+}
 void InGameUIScene::InitLives()
 {
 	// Create gameObject

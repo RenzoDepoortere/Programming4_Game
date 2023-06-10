@@ -42,7 +42,7 @@ public:
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 
 	template<typename... Args>
-	dae::Subject<>* GetSubject() { return &m_HasBeenDestroyed; }
+	dae::Subject<void*>* GetSubject() { return &m_HasBeenDestroyed; }
 
 private:
 	// Enums
@@ -62,7 +62,7 @@ private:
 	float m_CurrentRumbleTime{};
 
 	std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
-	dae::Subject<> m_HasBeenDestroyed{};
+	dae::Subject<void*> m_HasBeenDestroyed{};
 
 	// Member functions
 	// ----------------

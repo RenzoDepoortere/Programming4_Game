@@ -1,6 +1,7 @@
 #pragma once
 #include "GridComponent.h"
 
+#include <iostream>
 #include <deque>
 
 namespace grid
@@ -80,6 +81,12 @@ namespace grid
 		// ---------
 		grid::Cell* pStartCell{ pGrid->GetCell(currentPos) };
 		grid::Cell* pPlayerCell{ pGrid->GetCell(desiredPos) };
+
+		if (pStartCell == nullptr || pPlayerCell == nullptr)
+		{
+			std::cout << "Error: tried to calculate path to invalid cell" << std::endl;
+			return{};
+		}
 
 		// StartVariables
 		// --------------

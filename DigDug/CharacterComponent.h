@@ -29,7 +29,7 @@ namespace player
 class EnemyManager;
 class EnemyComponent;
 
-class CharacterComponent final : public Component, public dae::Observer<>
+class CharacterComponent final : public Component, public dae::Observer<void*>
 {
 public:
 	// Rule of five
@@ -64,7 +64,7 @@ public:
 	player::PlayerStates GetCurrentStateID() const { return m_CurrentStateID; }
 
 	// Observer
-	virtual void HandleEvent(unsigned int eventID) override;
+	virtual void HandleEvent(unsigned int eventID, void* extraInfo) override;
 	virtual void OnSubjectDestroy() override;
 
 private:
