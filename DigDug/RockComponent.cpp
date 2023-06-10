@@ -42,6 +42,9 @@ void RockComponent::Reset()
 	m_pAnimationComponent->SetFrame(0);
 	m_pAnimationComponent->SetPaused(true);
 
+	// Reset rotation
+	pGameObject->SetRotation(0.f);
+
 	// Remove observers
 	m_HasBeenDestroyed.RemoveAllObservers();
 

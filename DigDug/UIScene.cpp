@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "RenderTextureComponent.h"
 #include "TextComponent.h"
+#include "SelectionComponent.h"
 
 #include "ResourceManager.h"
 
@@ -18,6 +19,7 @@ UIScene::UIScene(dae::Scene* pScene)
 
 	// Init widgets
 	InitWidgets();
+	InitArrow();
 }
 
 void UIScene::SetActive(bool isActive)
@@ -65,5 +67,30 @@ void UIScene::InitWidgets()
 	pGameObject->SetParent(m_pSceneRootObject, false);
 
 	// Set Position
-	pGameObject->SetWorldPosition(260, 260, 0);
+	const float yPos{ 260 };
+	pGameObject->SetWorldPosition(260, yPos, 0);
+
+	m_ButtonYPos.emplace_back(yPos);
+}
+void UIScene::InitArrow()
+{
+	// Arrow
+	// -----
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	auto pTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Menu/Arrow.png");
+	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
+	pTextureComponent->SetTexture(pTexture);
+
+	auto pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
+	pSelectionComponent->SetPositions(m_ButtonYPos);
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+
+	// Set positions
+	pGameObject->SetWorldPosition({ 180, m_ButtonYPos[0] });
 }

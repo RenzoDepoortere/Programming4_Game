@@ -39,10 +39,17 @@ void DigDugSceneManager::NextLevel()
 	++m_CurrentLevel;
 	if (m_LevelNames.size() <= m_CurrentLevel)
 	{
+		// Deactive currentScene
+		m_pCurrentScene->SetActive(false);
+
 		// Go back to main menu when over
+		m_pUIScene->SetActive(true);
 
 		return;
 	}
+
+	// Hide UI
+	m_pUIScene->SetActive(false);
 
 	// Set levelName
 	m_pCurrentScene->SetLevel(m_LevelNames[0]);

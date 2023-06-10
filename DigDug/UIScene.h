@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 namespace dae
 {
@@ -25,9 +26,11 @@ private:
 	// Member variables
 	// ----------------
 	dae::GameObject* m_pSceneRootObject{ nullptr };
+	std::vector<float> m_ButtonYPos{};
 
 	// Member functions
 	// ----------------
 	void InitWidgets();
+	void InitArrow();
 };
 

@@ -140,6 +140,9 @@
     <ClCompile Include="UIScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="SelectionComponent.cpp">
+      <Filter>Components\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="UIScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionComponent.h">
+      <Filter>Components\Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
