@@ -18,6 +18,7 @@
 void load()
 {
 	std::vector<dae::Scene*> pScenes{};
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("UIScene"));
 	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("MainGameScene"));
 	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("LevelScene"));
 

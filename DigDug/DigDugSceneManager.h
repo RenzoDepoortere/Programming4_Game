@@ -1,4 +1,5 @@
 #pragma once
+#include "UIScene.h"
 #include "DigDugScene.h"
 #include "Observer.h"
 
@@ -47,10 +48,12 @@ namespace digdug
 
 	private:
 		friend class Singleton<DigDugSceneManager>;
-		DigDugSceneManager() = default;
+		DigDugSceneManager();
 
 		// Member Variables
 		// ----------------
+		std::unique_ptr<UIScene> m_pUIScene{ nullptr };
+
 		std::unique_ptr<DigDugScene> m_pCurrentScene{ nullptr };
 		std::array<std::string, 3> m_LevelNames{};
 		int m_CurrentLevel{};
@@ -61,6 +64,7 @@ namespace digdug
 		// Member Functions
 		// ----------------
 		void InitSystems();
+		void InitMenu(const std::vector<dae::Scene*>& pScenes);
 		void InitMainGame(const std::vector<dae::Scene*>& pScenes);
 		void InitScenes(const std::vector<dae::Scene*>& pScenes);
 	};

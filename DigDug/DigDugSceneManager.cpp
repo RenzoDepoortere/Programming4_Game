@@ -17,6 +17,10 @@
 
 using namespace digdug;
 
+DigDugSceneManager::DigDugSceneManager()
+	: m_CurrentLevel{ -1 }
+{
+}
 DigDugSceneManager::~DigDugSceneManager()
 {
 	dae::ServiceLocator::Shutdown();
@@ -25,6 +29,7 @@ DigDugSceneManager::~DigDugSceneManager()
 void DigDugSceneManager::Initialize(const std::vector<dae::Scene*>& pScenes)
 {
 	InitSystems();
+	InitMenu(pScenes);
 	InitMainGame(pScenes);
 	InitScenes(pScenes);
 }
@@ -71,6 +76,13 @@ void DigDugSceneManager::InitSystems()
 
 
 }
+
+void DigDugSceneManager::InitMenu(const std::vector<dae::Scene*>& pScenes)
+{
+	// Create UI scene
+	m_pUIScene = std::make_unique<UIScene>(pScenes[1]);
+}
+
 void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& /*pScenes*/)
 {
 	// Subscribe to events
@@ -83,11 +95,8 @@ void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& /*pScenes*
 void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 {
 	// Create main level
-	m_pCurrentScene = std::make_unique<DigDugScene>(pScenes[1]);
+	m_pCurrentScene = std::make_unique<DigDugScene>(pScenes[2]);
 
 	// Get level names
 	m_LevelNames[0] = "Tiles/Level_1.tmj";
-
-	// Set level
-	m_pCurrentScene->SetLevel(m_LevelNames[0]);
 }
