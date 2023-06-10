@@ -40,6 +40,8 @@ namespace enemy
 		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
 		std::deque<grid::Cell*> m_pPathToFollow{};
 
+		float m_CurrentTime{};
+
 		// Member functions
 		// ----------------
 		void FollowPath(EnemyComponent* pEnemy, float deltaTime);

@@ -44,7 +44,9 @@ void ScoreComponent::StoreScore()
 {
 	// Ask for 3 letters
 
+
 	// Set score to file
+
 
 	// Reset score
 	m_CurrentScore = 0;

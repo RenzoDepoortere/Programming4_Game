@@ -92,10 +92,18 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 	m_CommandInitialized = true;
 
 	// Variables
-	glm::vec2 movementDirection{};
-	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
-	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
+	// ---------
 	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
+	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
+
+	const bool isBeingControlled{ pEnemy->GetIsControlled() };
+
+	glm::vec2 movementDirection{};
+	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
+
+
+	// Create commands
+	// ---------------
 
 	// Left
 	movementDirection = glm::vec2{ -1, 0 };
@@ -115,7 +123,7 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 
 	// Check if controlled or not
 	// --------------------------
-	if (pEnemy->GetIsControlled() == false)
+	if (isBeingControlled == false)
 	{
 		// Store commands
 		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)] = std::move(pLeftMoveCommand);

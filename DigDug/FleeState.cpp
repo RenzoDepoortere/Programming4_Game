@@ -56,6 +56,7 @@ void enemy::FleeState::OnEnter(EnemyComponent* pEnemy)
 	const glm::vec3 desiredPos{ centerPos.x, centerPos.y, 0.f };
 
 	m_pPathToFollow = grid::CalculatePath(currentPos, desiredPos, pGrid);
+	m_CurrentTime = 0.f;
 }
 void enemy::FleeState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
@@ -63,6 +64,23 @@ void enemy::FleeState::OnLeave(EnemyComponent* /*pEnemy*/)
 
 enemy::EnemyStates enemy::FleeState::Update(EnemyComponent* pEnemy, float deltaTime)
 {
+	// Increase time
+	m_CurrentTime += deltaTime;
+	const float treshold{ 1.f };
+	if (treshold <= m_CurrentTime)
+	{
+		m_CurrentTime = 0.f;
+
+		// Re-calculate path
+		auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
+		auto currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
+		const glm::vec2 centerPos{ pGrid->GetCell(0)->centerPosition };
+		const glm::vec3 desiredPos{ centerPos.x, centerPos.y, 0.f };
+
+		m_pPathToFollow = grid::CalculatePath(currentPos, desiredPos, pGrid);
+	}
+
+	// Follow path
 	FollowPath(pEnemy, deltaTime);
 
 	return NR_STATES;
@@ -134,5 +152,5 @@ void enemy::FleeState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 
 void enemy::FleeState::HandleReachingFinish(EnemyComponent* /*pEnemy*/)
 {
-
+	// Restart level
 }
