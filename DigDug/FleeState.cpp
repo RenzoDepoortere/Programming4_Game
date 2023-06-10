@@ -95,12 +95,11 @@ void enemy::FleeState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 	// ---------
 	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
-	// Own
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 
-	// Next cell
 	grid::Cell* pNextCell{ m_pPathToFollow[0] };
+	grid::Cell* pDesiredCell{ pGrid->GetCell(0) };
 
 	// Check if cell reached
 	// ---------------------
@@ -109,10 +108,25 @@ void enemy::FleeState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 		// Remove first cell
 		m_pPathToFollow.pop_front();
 
-		// If no more path, handle it
-		if (m_pPathToFollow.size() == 0)
+		// If reached end, handle
+		const bool reachedEnd{ pCurrentCell == pDesiredCell };
+		if (reachedEnd)
 		{
 			HandleReachingFinish(pEnemy);
+			return;
+		}
+
+		// If no more cells, calculate new path
+		if (m_pPathToFollow.size() == 0)
+		{
+			m_CurrentTime = 0.f;
+
+			// Re-calculate path
+			const glm::vec2 centerPos{ pDesiredCell->centerPosition };
+			const glm::vec3 desiredPos{ centerPos.x, centerPos.y, 0.f };
+
+			m_pPathToFollow = grid::CalculatePath(currentPos, desiredPos, pGrid);
+
 			return;
 		}
 
@@ -153,4 +167,5 @@ void enemy::FleeState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 void enemy::FleeState::HandleReachingFinish(EnemyComponent* /*pEnemy*/)
 {
 	// Restart level
+	digdug::DigDugSceneManager::GetInstance().ResetLevel();
 }

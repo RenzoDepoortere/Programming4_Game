@@ -37,6 +37,7 @@ namespace digdug
 		// Functionality
 		void Initialize(const std::vector<dae::Scene*>& pScenes);
 		void NextLevel();
+		void ResetLevel() { m_pCurrentScene->Reset(false); }
 
 		grid::GridComponent* GetGrid() const { return m_pCurrentScene->GetGrid(); }
 		const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCurrentScene->GetCharacters(); }
