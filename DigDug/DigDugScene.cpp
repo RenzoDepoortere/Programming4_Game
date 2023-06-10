@@ -1,23 +1,16 @@
 #include "DigDugScene.h"
 
-#include "Font.h"
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "DigDugSceneManager.h"
 
 #include "ResourceManager.h"
-#include "InputManager.h"
-#include "InputMapper.h"
 
-#include "TextComponent.h"
 #include "RenderTextureComponent.h"
-#include "AnimationComponent.h"
 #include "EnemyManager.h"
 #include "GridComponent.h"
-#include "CharacterComponent.h"
-
-#include "PauseCommand.h"
+#include "PlayerManager.h"
 
 #include <iostream>
 
@@ -67,7 +60,7 @@ void digdug::DigDugScene::Reset(bool deleteObjects)
 	{
 		// Call Reset on main components
 		m_pGrid->Reset();
-		
+		m_pPlayerManager->Reset();
 		m_pEnemyManager->Reset();
 	}
 }
@@ -104,34 +97,19 @@ void digdug::DigDugScene::Grid()
 void digdug::DigDugScene::MainCharacter()
 {
 	// Create gameObject
-	// -----------------
-	std::shared_ptr<dae::GameObject> pMainCharacter{ std::make_shared<dae::GameObject>() };
+	std::shared_ptr<dae::GameObject> pPlayers{ std::make_shared<dae::GameObject>() };
 
-	// Add texture
-	// -----------	
-	dae::AnimationComponent* pObjectTexture{ pMainCharacter->AddComponent<dae::AnimationComponent>() };
-	pObjectTexture->CenterTexture(true);
+	// Add components
+	// --------------
 
-	pObjectTexture->SetSingleSpriteSize(25.f);
-	pObjectTexture->SetMaxFrames(2);
-	pObjectTexture->SetFramesPerSecond(12);
-
-	pObjectTexture->SetPaused(true);
-
-	// Add characterComponent
-	// ----------------------
-	CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
-	pCharacterComponent->SetAnimationComponent(pObjectTexture);
+	// PlayerManager
+	m_pPlayerManager = pPlayers->AddComponent<PlayerManager>();
+	m_pPlayerManager->SetNrPlayers(1);
+	m_pPlayerManager->SpawnPlayers();
 
 	// Add to root
 	// -----------
-	m_pCharacters.emplace_back(pCharacterComponent);
-	pMainCharacter->SetParent(m_pSceneRootObject, true);
-
-	// Transform
-	// ---------
-	grid::Cell* pCell{ m_pGrid->GetCell(0) };
-	pMainCharacter->SetWorldPosition(pCell->centerPosition);
+	pPlayers->SetParent(m_pSceneRootObject, true);
 }
 
 void digdug::DigDugScene::Enemies()

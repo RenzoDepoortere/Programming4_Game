@@ -42,11 +42,13 @@ public:
 	CharacterComponent& operator=(CharacterComponent&& other) = delete;
 
 	// Functionality
+	void Reset();
+	void StoreParent(dae::GameObject* pParent) { m_pParent = pParent; }
+
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 
-	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
-	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
+	dae::AnimationComponent* GetAnimationComponent();
 
 	void SetControllerID(unsigned long controllerID) { m_ControllerID = controllerID; }
 
@@ -69,13 +71,14 @@ private:
 	// Member variables
 	// ----------------
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
+	dae::GameObject* m_pParent{ nullptr };
 
 	unsigned long m_ControllerID{};
 
 	player::CharacterState* m_pCurrentState{};
 	player::PlayerStates m_CurrentStateID{};
 	std::array<std::unique_ptr<player::CharacterState>, player::NR_STATES> m_pPlayerStates{};
-	bool m_InitializedStates{ false };
+	bool m_StateInitialized{};
 
 	player::LookingDirection m_CurrentLookingDirection{ player::Right };
 

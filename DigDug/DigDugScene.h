@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerManager.h"
 #include "EnemyManager.h"
 
 #include <vector>
@@ -36,7 +37,7 @@ namespace digdug
 		void Reset(bool deleteObjects);
 
 		grid::GridComponent* GetGrid() const  { return m_pGrid; }
-		const std::vector<CharacterComponent*>& GetCharacters() const  { return m_pCharacters; }
+		const std::vector<CharacterComponent*>& GetCharacters() const  { return m_pPlayerManager->GetCharacters(); }
 		const std::vector<EnemyComponent*>& GetEnemies() const  { return m_pEnemyManager->GetEnemies(); }
 
 	private:
@@ -47,8 +48,9 @@ namespace digdug
 		std::string m_LevelName{};
 
 		grid::GridComponent* m_pGrid{ nullptr };
-		std::vector<CharacterComponent*> m_pCharacters{};
+		PlayerManager* m_pPlayerManager{ nullptr };
 		EnemyManager* m_pEnemyManager{ nullptr };
+
 
 		unsigned long m_ControllerIdx{};
 

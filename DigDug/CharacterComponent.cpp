@@ -17,15 +17,49 @@ CharacterComponent::CharacterComponent(dae::GameObject* pParentObject)
 {
 	// Set inactive function
 	GetGameObject()->SetInActiveFunction(std::bind(&CharacterComponent::OnInactive, this));
+
+	// Init state
+	InitStates();
+}
+
+void CharacterComponent::Reset()
+{
+	dae::GameObject* pGameObject{ GetGameObject() };
+
+	// Set default state
+	// -----------------
+
+	// Reset variables
+	m_CurrentLookingDirection = player::Right;
+	m_pCaughtEnemy = nullptr;
+
+	// Set state
+	m_pCurrentState->OnLeave(this);
+	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();
+	m_pCurrentState->OnEnter(this);
+
+	m_CurrentStateID = player::Digging;
+
+	// Set parent
+	// ----------
+	if (pGameObject->GetParent() != m_pParent)
+	{
+		pGameObject->SetParent(m_pParent, false);
+	}
+
+	// Set active
+	// ----------
+	pGameObject->SetIsActive(true);
+	pGameObject->SetIsHidden(false);
 }
 
 void CharacterComponent::Update(float deltaTime)
 {
-	// Init states if necessary
-	if (m_InitializedStates == false)
+	// On first update, call onEnter
+	if (m_StateInitialized == false)
 	{
-		m_InitializedStates = true;
-		InitStates();
+		m_StateInitialized = true;
+		m_pCurrentState->OnEnter(this);
 	}
 
 	// Update currentState
@@ -58,6 +92,16 @@ void CharacterComponent::Render() const
 	//rect.h = static_cast<int>(boundingRect.height);
 
 	//SDL_RenderDrawRect(pRenderer, &rect);
+}
+
+dae::AnimationComponent* CharacterComponent::GetAnimationComponent()
+{
+	// Return component if available
+	if (m_pAnimationComponent) return m_pAnimationComponent;
+
+	// Else, get component
+	m_pAnimationComponent = GetGameObject()->GetComponent<dae::AnimationComponent>();
+	return m_pAnimationComponent;
 }
 
 void CharacterComponent::SetSquashed()
@@ -133,7 +177,6 @@ void CharacterComponent::InitStates()
 	// Set default state
 	m_CurrentStateID = player::Digging;
 	m_pCurrentState = m_pPlayerStates[static_cast<int>(player::Digging)].get();
-	m_pCurrentState->OnEnter(this);
 }
 
 void CharacterComponent::OnInactive()
