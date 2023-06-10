@@ -5,9 +5,17 @@
 #include "GameObject.h"
 
 #include "ResourceManager.h"
+#include "InputManager.h"
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 enemy::CaughtState::CaughtState()
 {
+	// Create SFX
+	// ----------
+	const std::string fileName{ "Sound/Characters/Enemies/Popped.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::EnemyPopped, fileName);
+
 	// Create caught textures
 	// ----------------------
 
@@ -51,6 +59,7 @@ void enemy::CaughtState::OnEnter(EnemyComponent* pEnemy)
 	// Set variables
 	m_CurrentState = 0;
 	m_CurrentTime = 0;
+	m_PlayedSound = false;
 
 	// Set caught texture
 	m_pAnimationComponent = pEnemy->GetAnimationComponent();
@@ -96,6 +105,16 @@ enemy::EnemyStates enemy::CaughtState::HandleCaughtGrading(EnemyComponent* pEnem
 			// Set inactive
 			pEnemy->GetGameObject()->SetIsActive(false);
 			pEnemy->GetGameObject()->SetIsHidden(true);
+		}
+
+		// Play SFX
+		if (m_PlayedSound == false)
+		{
+			m_PlayedSound = true;
+
+			const int volume{ 100 };
+			const int loops{ 0 };
+			dae::ServiceLocator::GetSoundSystem().PlayAudio(event::EnemyPopped, volume, loops);
 		}
 
 		// Return

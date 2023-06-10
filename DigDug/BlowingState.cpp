@@ -7,6 +7,8 @@
 
 #include "ResourceManager.h"
 #include "InputManager.h"
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 #include <string>
 
@@ -15,6 +17,10 @@ player::BlowingState::BlowingState()
 	// Create blow textures
 	std::string textureString{ "Sprites/Characters/MainCharacter/Pump_Animation.png" };
 	m_pBlowingSprite = dae::ResourceManager::GetInstance().LoadTexture(textureString);
+
+	// SFX ID
+	const std::string fileName{ "Sound/Characters/Player/Blow.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::PlayerBlow, fileName);
 }
 
 void player::BlowingState::OnEnter(CharacterComponent* pPlayer)
@@ -85,6 +91,11 @@ player::PlayerStates player::BlowingState::HandleInput(CharacterComponent* pPlay
 	// Change Animation sprite
 	m_PumpSprite = !m_PumpSprite;
 	m_pAnimationComponent->SetFrame(static_cast<int>(m_PumpSprite));
+
+	// Play SFX
+	const int volume{ 100 };
+	const int loops{ 0 };
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerBlow, volume, loops);
 
 	// Return
 	return NR_STATES;

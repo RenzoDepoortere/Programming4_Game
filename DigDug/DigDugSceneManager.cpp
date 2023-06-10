@@ -88,13 +88,13 @@ void DigDugSceneManager::InitSystems()
 	// ***************
 
 	// Sound
-#ifdef _DEBUG
-	dae::ServiceLocator::RegisterSoundSystem(new dae::LoggingSoundSystem{ new dae::SDLSoundSystem{} });
-#else
+//#ifdef _DEBUG
+//	dae::ServiceLocator::RegisterSoundSystem(new dae::LoggingSoundSystem{ new dae::SDLSoundSystem{} });
+//#else
+//	dae::ServiceLocator::RegisterSoundSystem(new dae::SDLSoundSystem{});
+//#endif // DEBUG
+
 	dae::ServiceLocator::RegisterSoundSystem(new dae::SDLSoundSystem{});
-#endif // DEBUG
-
-
 }
 void DigDugSceneManager::InitMenu(const std::vector<dae::Scene*>& pScenes)
 {

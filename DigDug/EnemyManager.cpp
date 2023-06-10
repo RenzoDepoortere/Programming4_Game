@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "EventManager.h"
 #include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 #include <algorithm>
 
@@ -19,6 +20,10 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 {
 	// Subscribe to enemyDeath event
 	dae::EventManager<grid::Cell*, void*, void*>::GetInstance().Subscribe(event::EnemyDeath, this);
+
+	// Create SFX
+	const std::string fileName{ "Sound/Characters/Enemies/FinalEnemy.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::FinalEnemy, fileName);
 }
 EnemyManager::~EnemyManager()
 {
@@ -93,6 +98,11 @@ void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, 
 
 		// Set enemy to flee state
 		pEnemy->SetFlee();
+
+		// Play SFX
+		const int volume{ 100 };
+		const int loops{ 0 };
+		dae::ServiceLocator::GetSoundSystem().PlayAudio(event::FinalEnemy, volume, loops);
 	}
 
 	// If there's no enemies left

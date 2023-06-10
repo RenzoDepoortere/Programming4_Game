@@ -8,6 +8,8 @@
 
 #include "DigDugSceneManager.h"
 
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 #include "ResourceManager.h"
 
 player::ShootingState::ShootingState()
@@ -15,6 +17,10 @@ player::ShootingState::ShootingState()
 	// Player texture
 	std::string textureString{ "Sprites/Characters/MainCharacter/Shoot_Stance.png" };
 	m_pShootingSprite = dae::ResourceManager::GetInstance().LoadTexture(textureString);	
+
+	// SFX ID
+	const std::string fileName{ "Sound/Characters/Player/Shoot.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::PlayerShoot, fileName);
 }
 
 void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
@@ -28,6 +34,11 @@ void player::ShootingState::OnEnter(CharacterComponent* pPlayer)
 	pAnimationComponent->SetMaxFrames(1);
 	pAnimationComponent->SetPaused(true);
 
+	// Play SFX
+	// --------
+	const int volume{ 100 };
+	const int loops{ 0 };
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerShoot, volume, loops);
 
 	// Rope
 	// ----

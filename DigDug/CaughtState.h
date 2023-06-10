@@ -41,6 +41,7 @@ namespace enemy
 		int m_CurrentState{};
 		float m_CurrentTime{};
 
+		bool m_PlayedSound{ false };
 
 		// Member functions
 		// ----------------

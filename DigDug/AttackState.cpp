@@ -46,6 +46,7 @@ void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
 
 void enemy::AttackState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
+	m_pFireComponent->SetActive(false, nullptr);
 }
 
 enemy::EnemyStates enemy::AttackState::Update(EnemyComponent* pEnemy, float deltaTime)
