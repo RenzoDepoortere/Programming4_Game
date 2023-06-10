@@ -20,7 +20,7 @@ namespace enemy
 		float ghostTime{};			// How long it takes before the enemy turns into a ghost
 		float maxGhostTime{};		// How long the enemy can be in ghost mode
 
-		int attackRange{};			// How many cells the enemy needs before it will attack
+		float attackTime{};			// How long it will take before the enemy randomly attack
 		float attackCharge{};		// How long it will take the enemy before actually attacking
 		float attackStun{};			// How long the enemy will be stunend after it attacks
 
@@ -73,6 +73,7 @@ public:
 	enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
 	dae::AnimationComponent* GetAnimationComponent();
+	bool GetIsLookingLeft() const { return m_IsLookingLeft; }
 
 	void SetControl(unsigned long controllerID = -1);
 	bool GetIsControlled() const { return m_IsControlled; }
@@ -97,6 +98,9 @@ private:
 	bool m_IsFleeing{ false };
 	bool m_IsDead{ false };
 
+	bool m_IsLookingLeft{ false };
+	float m_PreviousX{};
+
 	enemy::BehaviorData m_EnemyBehavior{};
 	enemy::EnemyState* m_pCurrentState{};
 	enemy::EnemyStates m_CurrentStateID{};
@@ -109,4 +113,5 @@ private:
 
 	void UpdateStates(float deltaTime);
 	void CheckPlayer();
+	void HandleRotating();
 };

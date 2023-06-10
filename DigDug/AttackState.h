@@ -30,11 +30,26 @@ namespace enemy
 		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
 	private:
+		// Enums
+		// -----
+		enum AttackPhase
+		{
+			Prepare, Attack, Stun
+		};
+
 		// Member variables
 		// ----------------
+		std::shared_ptr<dae::Texture2D> m_pPrepareTexture{ nullptr };
 		std::shared_ptr<dae::Texture2D> m_pFygarFireTexture{ nullptr };
 		dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
+		AttackPhase m_CurrentPhase{};
 		float m_CurrentTime{};
+
+		// Member functions
+		// ----------------
+		void PrepareAttack(EnemyComponent* pEnemy, float deltaTime);
+		void HandleAttack(float deltaTime);
+		EnemyStates HoldStun(EnemyComponent* pEnemy, float deltaTime);
 	};
 }

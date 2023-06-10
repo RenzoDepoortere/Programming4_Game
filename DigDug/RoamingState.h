@@ -48,12 +48,14 @@ namespace enemy
 		grid::Cell* m_pNextCell{ nullptr };
 
 		float m_CurrentRoamTime{};
+		float m_CurrentAttackTime{};
 
 		// Member functions
 		// ----------------
 		void InitMovementCommands(EnemyComponent* pEnemy);
 
 		EnemyStates CheckGhostTimer(EnemyComponent* pEnemy, float deltaTime);
+		EnemyStates HandleAttack(EnemyComponent* pEnemy, float deltaTime);
 		void HandlePathing(EnemyComponent* pEnemy, float deltaTime);
 		void FindNextCell(grid::Cell* pCurrentCell);
 

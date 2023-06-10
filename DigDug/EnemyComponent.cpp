@@ -5,6 +5,7 @@
 
 #include "Utils.h"
 #include "RoamingState.h"
+#include "AttackState.h"
 #include "GhostState.h"
 #include "ChaseState.h"
 #include "CaughtState.h"
@@ -72,6 +73,7 @@ void EnemyComponent::Update(float deltaTime)
 {
 	UpdateStates(deltaTime);
 	CheckPlayer();
+	HandleRotating();
 }
 void EnemyComponent::Render() const
 {
@@ -175,6 +177,7 @@ void EnemyComponent::InitStates()
 {
 	// Create states
 	m_pEnemyStates[static_cast<int>(enemy::Roaming)] = std::make_unique<enemy::RoamingState>();
+	m_pEnemyStates[static_cast<int>(enemy::Attack)] = std::make_unique<enemy::AttackState>();
 	m_pEnemyStates[static_cast<int>(enemy::Ghost)] = std::make_unique<enemy::GhostState>();
 	m_pEnemyStates[static_cast<int>(enemy::Chase)] = std::make_unique<enemy::ChaseState>();
 	m_pEnemyStates[static_cast<int>(enemy::Caught)] = std::make_unique<enemy::CaughtState>();
@@ -261,4 +264,29 @@ void EnemyComponent::CheckPlayer()
 			currentPlayer->SetHit();
 		}
 	}
+}
+
+void EnemyComponent::HandleRotating()
+{
+	if (m_EnemyBehavior.enemyType != enemy::Fygar) return;
+
+	// Get data
+	const auto currentPos{ GetGameObject()->GetWorldPosition() };
+
+	// Compare cells and flip if necessary
+	const bool wentForward{ m_PreviousX < currentPos.x };
+	const bool wentBackward{ currentPos.x < m_PreviousX };
+	if (wentForward)
+	{
+		m_IsLookingLeft = false;
+		m_pAnimationComponent->SetFlip(false);
+	}
+	else if (wentBackward)
+	{
+		m_IsLookingLeft = true;
+		m_pAnimationComponent->SetFlip(true);
+	}
+
+	// Store last cell
+	m_PreviousX = currentPos.x;
 }

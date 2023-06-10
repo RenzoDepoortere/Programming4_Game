@@ -24,6 +24,7 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 	// Reset variables
 	// ---------------
 	m_CurrentRoamTime = 0.f;
+	m_CurrentAttackTime = 0.f;
 
 	// Create move commands
 	// --------------------
@@ -67,9 +68,18 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 	// Update if not controlled
 	if (isControlled == false)
 	{
+		// Check ghost timer
 		state = CheckGhostTimer(pEnemy, deltaTime);
 		if (state != NR_STATES) return state;
 
+		// Check attack
+		if (pEnemy->GetBehaviorData().enemyType == enemy::Fygar)
+		{
+			state = HandleAttack(pEnemy, deltaTime);
+			if (state != NR_STATES) return state;
+		}
+
+		// Path
 		HandlePathing(pEnemy, deltaTime);
 		state = LookForPlayer(pEnemy, deltaTime);
 	}
@@ -175,6 +185,19 @@ enemy::EnemyStates enemy::RoamingState::CheckGhostTimer(EnemyComponent* pEnemy, 
 		return Ghost;
 	}
 
+	return NR_STATES;
+}
+enemy::EnemyStates enemy::RoamingState::HandleAttack(EnemyComponent* pEnemy, float deltaTime)
+{
+	// Increase timer
+	m_CurrentAttackTime += deltaTime;
+	if (pEnemy->GetBehaviorData().attackTime <= m_CurrentAttackTime)
+	{
+		// Attack
+		return Attack;
+	}
+
+	// Return
 	return NR_STATES;
 }
 
