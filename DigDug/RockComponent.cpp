@@ -38,6 +38,10 @@ void RockComponent::Reset()
 	m_CurrentRockState = Passive;
 	m_CurrentRumbleTime = 0.f;
 
+	// Reset animation
+	m_pAnimationComponent->SetFrame(0);
+	m_pAnimationComponent->SetPaused(true);
+
 	// Remove observers
 	m_HasBeenDestroyed.RemoveAllObservers();
 
