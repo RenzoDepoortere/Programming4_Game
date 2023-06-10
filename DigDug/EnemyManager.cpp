@@ -20,6 +20,14 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	// Subscribe to enemyDeath event
 	dae::EventManager<grid::Cell*, bool>::GetInstance().Subscribe(event::EnemyDeath, this);
 }
+EnemyManager::~EnemyManager()
+{
+	// Unsubscribe to enemyDeath event
+	if (dae::EventManager<>::GetIsDestroyed() == false)
+	{
+		dae::EventManager<grid::Cell*, bool>::GetInstance().Unsubscribe(event::EnemyDeath, this);
+	}
+}
 
 void EnemyManager::Reset()
 {
@@ -85,6 +93,13 @@ void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, 
 
 		// Set enemy to flee state
 		pEnemy->SetFlee();
+	}
+
+	// If there's no enemies left
+	if (nrAliveEnemies == 0)
+	{
+		// Go to next level
+		digdug::DigDugSceneManager::GetInstance().NextLevel();
 	}
 }
 void EnemyManager::OnSubjectDestroy()

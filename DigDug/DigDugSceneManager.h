@@ -5,7 +5,6 @@
 
 #include <Singleton.h>
 #include <vector>
-#include <array>
 #include <memory>
 
 namespace dae
@@ -42,6 +41,8 @@ namespace digdug
 		const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCurrentScene->GetCharacters(); }
 		const std::vector<EnemyComponent*>& GetEnemies() const { return m_pCurrentScene->GetEnemies(); }
 
+		bool GetIsChangingLevel() const { return m_IsChangingLevel; }
+
 		// Observer
 		virtual void HandleEvent(unsigned int eventID) override;
 		virtual void OnSubjectDestroy() override;
@@ -55,8 +56,10 @@ namespace digdug
 		std::unique_ptr<UIScene> m_pUIScene{ nullptr };
 
 		std::unique_ptr<DigDugScene> m_pCurrentScene{ nullptr };
-		std::array<std::string, 3> m_LevelNames{};
+		std::vector<std::string> m_LevelNames{};
 		int m_CurrentLevel{};
+
+		bool m_IsChangingLevel{};
 
 		unsigned long m_FirstControllerIdx{};
 		unsigned long m_SecondControllerIdx{};

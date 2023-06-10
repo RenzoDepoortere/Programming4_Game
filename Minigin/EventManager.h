@@ -4,6 +4,7 @@
 
 #include <map>
 #include <list>
+#include <iostream>
 
 namespace dae
 {
@@ -11,6 +12,8 @@ namespace dae
 	class EventManager final : public Singleton<EventManager<Args...>>
 	{
 	public:
+		// Functionality
+		// -------------
 		void Subscribe(unsigned int eventID, Observer<Args...>* pObserver)
 		{
 			// Add to list
@@ -18,6 +21,9 @@ namespace dae
 		}
 		void Unsubscribe(unsigned int eventID, Observer<Args...>* pObserver)
 		{
+			// If no subcribers to event, return
+			if (m_pSubscribers.find(eventID) == m_pSubscribers.end()) return;
+
 			// Remove from list
 			auto& subscribers{ m_pSubscribers[eventID] };
 			subscribers.remove(pObserver);

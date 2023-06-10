@@ -23,6 +23,13 @@ DigDugSceneManager::DigDugSceneManager()
 }
 DigDugSceneManager::~DigDugSceneManager()
 {
+	// Unsubscribe to events
+	if (dae::EventManager<>::GetIsDestroyed() == false)
+	{
+		dae::EventManager<>::GetInstance().Unsubscribe(event::PlayerDeath, this);
+	}
+
+	// Shutdown services
 	dae::ServiceLocator::Shutdown();
 }
 
@@ -35,6 +42,9 @@ void DigDugSceneManager::Initialize(const std::vector<dae::Scene*>& pScenes)
 }
 void DigDugSceneManager::NextLevel()
 {
+	// Set changingLevel to true
+	m_IsChangingLevel = true;
+
 	// Go up a level
 	++m_CurrentLevel;
 	if (m_LevelNames.size() <= m_CurrentLevel)
@@ -45,6 +55,9 @@ void DigDugSceneManager::NextLevel()
 		// Go back to main menu when over
 		m_pUIScene->SetActive(true);
 
+		// Reset currentLevel
+		m_CurrentLevel = -1;
+
 		return;
 	}
 
@@ -52,7 +65,10 @@ void DigDugSceneManager::NextLevel()
 	m_pUIScene->SetActive(false);
 
 	// Set levelName
-	m_pCurrentScene->SetLevel(m_LevelNames[0]);
+	m_pCurrentScene->SetLevel(m_LevelNames[m_CurrentLevel]);
+
+	// Set changingLevel to false
+	m_IsChangingLevel = false;
 }
 
 void DigDugSceneManager::HandleEvent(unsigned int eventID)
@@ -105,5 +121,5 @@ void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 	m_pCurrentScene = std::make_unique<DigDugScene>(pScenes[2]);
 
 	// Get level names
-	m_LevelNames[0] = "Tiles/Level_1.tmj";
+	m_LevelNames.emplace_back("Tiles/Level_1.tmj");
 }

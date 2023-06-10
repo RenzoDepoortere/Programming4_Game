@@ -187,6 +187,9 @@ void EnemyComponent::InitStates()
 
 void EnemyComponent::OnInactive()
 {
+	// Return if is changing level
+	if (digdug::DigDugSceneManager::GetInstance().GetIsChangingLevel()) return;
+
 	// Send event
 	// ----------
 

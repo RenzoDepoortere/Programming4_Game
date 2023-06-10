@@ -9,6 +9,8 @@
 #include "HitState.h"
 #include "PlayerManager.h"
 
+#include "DigDugSceneManager.h"
+
 #include "EventManager.h"
 #include "EventsEnum.h"
 #include "Renderer.h"
@@ -182,6 +184,9 @@ void CharacterComponent::InitStates()
 
 void CharacterComponent::OnInactive()
 {
+	// Return if is changing level
+	if (digdug::DigDugSceneManager::GetInstance().GetIsChangingLevel()) return;
+
 	// Notify parent
 	m_pParent->GetComponent<PlayerManager>()->PlayerDeath();
 }

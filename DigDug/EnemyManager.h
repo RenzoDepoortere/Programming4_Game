@@ -28,7 +28,7 @@ class EnemyManager final : public Component, public dae::Observer<grid::Cell*, b
 public:
 	// Rule of Five
 	explicit EnemyManager(dae::GameObject* pParentObject);
-	virtual ~EnemyManager() override = default;
+	virtual ~EnemyManager() override;
 
 	EnemyManager(const EnemyManager& other) = delete;
 	EnemyManager(EnemyManager&& other) = delete;
