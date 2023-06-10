@@ -9,6 +9,8 @@ namespace dae
 	class AnimationComponent;
 }
 
+class FireComponent;
+
 namespace enemy
 {
 	class AttackState final : public EnemyState
@@ -40,14 +42,18 @@ namespace enemy
 		// Member variables
 		// ----------------
 		std::shared_ptr<dae::Texture2D> m_pPrepareTexture{ nullptr };
-		std::shared_ptr<dae::Texture2D> m_pFygarFireTexture{ nullptr };
 		dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
 		AttackPhase m_CurrentPhase{};
 		float m_CurrentTime{};
 
+		bool m_FireInitialized{ false };
+		FireComponent* m_pFireComponent{ nullptr };
+
 		// Member functions
 		// ----------------
+		void InitFire(EnemyComponent* pEnemy);
+
 		void PrepareAttack(EnemyComponent* pEnemy, float deltaTime);
 		void HandleAttack(float deltaTime);
 		EnemyStates HoldStun(EnemyComponent* pEnemy, float deltaTime);

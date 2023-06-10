@@ -43,9 +43,11 @@ namespace enemy
 		std::deque<grid::Cell*> m_DesiredPath{};
 		float m_CheckInterval{};	// Each X seconds, the AI will recalculate it's path
 		float m_CurrentTime{};
+		float m_CurrentAttackTime{};
 
 		// Member functions
 		// ----------------
 		void FollowPath(EnemyComponent* pEnemy, float deltaTime);
+		EnemyStates HandleAttack(EnemyComponent* pEnemy, float deltaTime);
 	};
 }

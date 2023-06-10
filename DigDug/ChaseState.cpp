@@ -55,6 +55,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 
 	m_CheckInterval = behaviorData.detectionInterval;
 	m_CurrentTime = m_CheckInterval;
+	m_CurrentAttackTime = 0.f;
 }
 void enemy::ChaseState::OnLeave(EnemyComponent* /*pEnemy*/)
 {
@@ -69,8 +70,6 @@ enemy::EnemyStates enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 	{
 		m_CurrentTime = m_CheckInterval;
 
-		// Check if should still chase
-
 		// Calculate path
 		auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 		auto currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
@@ -80,6 +79,14 @@ enemy::EnemyStates enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 
 	// Follow path
 	FollowPath(pEnemy, deltaTime);
+
+	// Check attack
+	EnemyStates state{ NR_STATES };
+	if (pEnemy->GetBehaviorData().enemyType == enemy::Fygar)
+	{
+		state = HandleAttack(pEnemy, deltaTime);
+		return state;
+	}
 
 	// Return
 	return NR_STATES;
@@ -144,4 +151,18 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 	// Set movementDirection and move
 	m_pMoveCommand->SetMovementDirection(moveDirection);
 	m_pMoveCommand->Execute(deltaTime);
+}
+
+enemy::EnemyStates enemy::ChaseState::HandleAttack(EnemyComponent* pEnemy, float deltaTime)
+{
+	// Increase timer
+	m_CurrentAttackTime += deltaTime;
+	if (pEnemy->GetBehaviorData().attackTime <= m_CurrentAttackTime)
+	{
+		// Attack
+		return Attack;
+	}
+
+	// Return
+	return NR_STATES;
 }

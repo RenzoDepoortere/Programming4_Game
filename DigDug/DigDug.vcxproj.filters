@@ -136,6 +136,9 @@
     <ClCompile Include="LivesComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
+    <ClCompile Include="FireComponent.cpp">
+      <Filter>Components\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="LivesComponent.h">
       <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="FireComponent.h">
+      <Filter>Components\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

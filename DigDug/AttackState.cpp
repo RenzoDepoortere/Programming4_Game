@@ -2,6 +2,10 @@
 
 #include "EnemyComponent.h"
 #include "AnimationComponent.h"
+#include "GameObject.h"
+#include "FireComponent.h"
+#include "RenderTextureComponent.h"
+#include "Texture2D.h"
 
 #include "ResourceManager.h"
 
@@ -10,10 +14,6 @@ enemy::AttackState::AttackState()
 	// Create textures
 	// ---------------
 	m_pPrepareTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Attacking.png");
-	m_pFygarFireTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Fire.png");
-
-	// Create fire object
-	// ------------------
 }
 
 void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
@@ -29,6 +29,14 @@ void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
 	m_pAnimationComponent->SetFramesPerSecond(8);
 
 	m_pAnimationComponent->SetPaused(false);
+
+	// Init fire
+	// ---------
+	if (m_FireInitialized == false)
+	{
+		m_FireInitialized = true;
+		InitFire(pEnemy);
+	}
 
 	// Reset phase
 	// -----------
@@ -60,6 +68,27 @@ enemy::EnemyStates enemy::AttackState::Update(EnemyComponent* pEnemy, float delt
 	return state;
 }
 
+void enemy::AttackState::InitFire(EnemyComponent* pEnemy)
+{
+	// Create gameObject
+	auto pGameObject{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	auto pTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Fire.png");
+
+	dae::RenderTextureComponent* pObjectTexture{ pGameObject->AddComponent<dae::RenderTextureComponent>() };
+	pObjectTexture->SetTexture(pTexture);
+	pObjectTexture->CenterTexture(true);
+
+	m_pFireComponent = pGameObject->AddComponent<FireComponent>();
+	m_pFireComponent->SetRenderTextureComponent(pObjectTexture);
+
+	// Add as child
+	pGameObject->SetParent(pEnemy->GetGameObject(), false);
+	pGameObject->SetIsActive(false);
+	pGameObject->SetIsHidden(true);
+}
+
 void enemy::AttackState::PrepareAttack(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Prepare
@@ -73,6 +102,7 @@ void enemy::AttackState::PrepareAttack(EnemyComponent* pEnemy, float deltaTime)
 		m_pAnimationComponent->SetPaused(true);
 
 		// Enable fire
+		m_pFireComponent->SetActive(true, pEnemy);
 
 		// Set to attacking
 		m_CurrentPhase = Attack;
@@ -91,6 +121,7 @@ void enemy::AttackState::HandleAttack(float deltaTime)
 		m_pAnimationComponent->SetFrame(0);
 
 		// Disable fire
+		m_pFireComponent->SetActive(false, nullptr);
 
 		// Set to stun
 		m_CurrentPhase = Stun;
