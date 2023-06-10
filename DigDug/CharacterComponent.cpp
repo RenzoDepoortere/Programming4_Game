@@ -8,6 +8,8 @@
 #include "PlayerSquashedState.h"
 #include "HitState.h"
 
+#include "EventManager.h"
+#include "EventsEnum.h"
 #include "Renderer.h"
 
 CharacterComponent::CharacterComponent(dae::GameObject* pParentObject)
@@ -136,5 +138,6 @@ void CharacterComponent::InitStates()
 
 void CharacterComponent::OnInactive()
 {
-
+	// Send death event
+	dae::EventManager<>::GetInstance().SendEvent(event::PlayerDeath);
 }

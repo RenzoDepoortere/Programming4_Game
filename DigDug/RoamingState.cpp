@@ -6,7 +6,7 @@
 #include "GridHelpers.h"
 #include "AnimationComponent.h"
 
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 #include "GameObject.h"
 #include "InputMapper.h"
@@ -95,7 +95,7 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 	glm::vec2 movementDirection{};
 	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
 	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	// Left
 	movementDirection = glm::vec2{ -1, 0 };
@@ -174,7 +174,7 @@ void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get current cell
 	glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
-	grid::Cell* pStartCell{ FirstScene::GetInstance().GetGrid()->GetCell(currentPos)};
+	grid::Cell* pStartCell{ digdug::DigDugSceneManager::GetInstance().GetGrid()->GetCell(currentPos)};
 
 	// Search next cell
 	// ----------------
@@ -244,7 +244,7 @@ enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 	// Get currentCell
 	// ---------------
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 
 	const int detectionRange{ pEnemy->GetBehaviorData().detectionRange };
@@ -258,7 +258,7 @@ enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, fl
 	bool sameRow{}, sameCol{};
 	int cellsBetween{};
 
-	for (const auto& currentCharacter : FirstScene::GetInstance().GetCharacters())
+	for (const auto& currentCharacter : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
 		// Get cell
 		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();

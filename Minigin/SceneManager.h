@@ -10,7 +10,7 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name);
+		Scene* CreateScene(const std::string& name);
 
 		void Update(float deltaTime);
 		void FixedUpdate(float deltaTime);

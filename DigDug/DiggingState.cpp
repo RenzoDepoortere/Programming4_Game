@@ -5,6 +5,8 @@
 #include "GridComponent.h"
 #include "AnimationComponent.h"
 
+#include "DigDugSceneManager.h"
+
 #include "InputMapper.h"
 #include "ResourceManager.h"
 
@@ -22,7 +24,7 @@ void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 		float movementSpeed{ 100.f };
 		glm::vec2 movementDirection{};
 
-		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pPlayer->GetGameObject(), movementDirection, movementSpeed, pPlayer->GetGrid(), false);
+		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pPlayer->GetGameObject(), movementDirection, movementSpeed, digdug::DigDugSceneManager::GetInstance().GetGrid(), false);
 	}
 
 	// Set playerTexture
@@ -108,7 +110,7 @@ player::PlayerStates player::DiggingState::HandleInput(CharacterComponent* pPlay
 void player::DiggingState::RemoveDirt(CharacterComponent* pPlayer)
 {
 	// Get currentCell
-	grid::GridComponent* pGrid{ pPlayer->GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 	const glm::vec3 objectPos{ pPlayer->GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(objectPos) };
 

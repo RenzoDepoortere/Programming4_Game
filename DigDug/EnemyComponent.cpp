@@ -13,7 +13,7 @@
 #include "AnimationComponent.h"
 #include "CharacterComponent.h"
 
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 #include "ServiceLocator.h"
 #include "EventManager.h"
@@ -160,7 +160,7 @@ void EnemyComponent::OnInactive()
 	}
 
 	// Get cell
-	auto pGrid{ FirstScene::GetInstance().GetGrid() };
+	auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 	const glm::vec3 currentPos{ GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };
 	
@@ -200,7 +200,7 @@ void EnemyComponent::CheckPlayer()
 	const utils::Rect ownBoundingRect{ m_pAnimationComponent->GetBoundingRect() };
 	utils::Rect boundingRect{};
 
-	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
 		// If in hitState, continue
 		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;

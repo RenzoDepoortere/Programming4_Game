@@ -1,5 +1,6 @@
 #pragma once
-#include <Singleton.h>
+#include "DigDugScene.h"
+
 #include <vector>
 
 namespace dae
@@ -15,43 +16,43 @@ namespace grid
 class CharacterComponent;
 class EnemyComponent;
 
-class FirstScene final : public dae::Singleton<FirstScene>
+namespace digdug
 {
-public:
-	// Destructor and rule of five
-	~FirstScene();
+	class FirstScene final : public DigDugScene
+	{
+	public:
+		// Rule of five
+		FirstScene(dae::Scene* pScene);
+		~FirstScene() = default;
 
-	FirstScene(const FirstScene& other) = delete;
-	FirstScene(FirstScene&& other) = delete;
-	FirstScene& operator=(const FirstScene& other) = delete;
-	FirstScene& operator=(FirstScene&& other) = delete;
+		FirstScene(const FirstScene& other) = delete;
+		FirstScene(FirstScene&& other) = delete;
+		FirstScene& operator=(const FirstScene& other) = delete;
+		FirstScene& operator=(FirstScene&& other) = delete;
 
-	// Functionality
-	void CreateGameObjects(dae::Scene& scene);
+		// Functionality
+		virtual void SetActive(bool isActive);
 
-	grid::GridComponent* GetGrid() const { return m_pGrid; }
-	const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCharacters; }
-	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
+		virtual grid::GridComponent* GetGrid() const override { return m_pGrid; }
+		virtual const std::vector<CharacterComponent*>& GetCharacters() const override { return m_pCharacters; }
+		virtual const std::vector<EnemyComponent*>& GetEnemies() const override { return m_pEnemies; }
 
-private:
-	friend class Singleton<FirstScene>;
-	FirstScene() = default;
+	private:
 
-	// Member Variables
-	// ----------------
-	
-	grid::GridComponent* m_pGrid{ nullptr };
-	std::vector<CharacterComponent*> m_pCharacters{};
-	std::vector<EnemyComponent*> m_pEnemies{};
+		// Member Variables
+		// ----------------
+		dae::GameObject* m_pSceneRootObject{ nullptr };
 
-	unsigned long m_ControllerIdx{};
+		grid::GridComponent* m_pGrid{};
+		std::vector<CharacterComponent*> m_pCharacters{};
+		std::vector<EnemyComponent*> m_pEnemies{};
 
-	// Member Functions
-	// ----------------
-	void BaseObjects(dae::Scene& scene);
-	void Map(dae::Scene& scene);
+		unsigned long m_ControllerIdx{};
 
-	void MainCharacter(dae::Scene& scene);
-	void Enemies(dae::Scene& scene);
-};
-
+		// Member Functions
+		// ----------------
+		void Grid();
+		void MainCharacter();
+		void Enemies();
+	};
+}

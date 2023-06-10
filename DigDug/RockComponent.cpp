@@ -1,5 +1,5 @@
 #include "RockComponent.h"
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 #include "GameObject.h"
 #include "GridComponent.h"
@@ -128,7 +128,7 @@ void RockComponent::Fall(float deltaTime)
 	dae::GameObject* pGameObject{ nullptr };
 
 	// Enemies
-	for (const auto& currentEnemy : FirstScene::GetInstance().GetEnemies())
+	for (const auto& currentEnemy : digdug::DigDugSceneManager::GetInstance().GetEnemies())
 	{
 		// If in ghostState, continue
 		if (currentEnemy->GetCurrentStateID() == enemy::Ghost) continue;
@@ -146,7 +146,7 @@ void RockComponent::Fall(float deltaTime)
 	}
 
 	// Player
-	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
 		// If in hitState, continue
 		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;

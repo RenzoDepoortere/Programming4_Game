@@ -6,7 +6,7 @@
 #include "CharacterComponent.h"
 #include "GameObject.h"
 
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 {
@@ -22,7 +22,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 
 	// Check for closest character
 	// ---------------------------
-	for (const auto& currentCharacter : FirstScene::GetInstance().GetCharacters())
+	for (const auto& currentCharacter : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
 		// Get cell
 		characterPos = currentCharacter->GetGameObject()->GetWorldPosition();
@@ -44,7 +44,7 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 	// Create moveCommand
 	// ------------------
 	const enemy::BehaviorData behaviorData{ pEnemy->GetBehaviorData() };
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemyGameObject, glm::vec2{ 0, 1 }, behaviorData.movementSpeed, pGrid);
 
@@ -72,7 +72,7 @@ enemy::EnemyStates enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 		// Check if should still chase
 
 		// Calculate path
-		auto pGrid{ FirstScene::GetInstance().GetGrid() };
+		auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 		auto currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 		auto desiredPos{ m_pCharacterToChase->GetGameObject()->GetWorldPosition() };
 		m_DesiredPath = grid::CalculatePath(currentPos, desiredPos, pGrid);
@@ -89,7 +89,7 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 {
 	// Get cells
 	// ---------
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	// Own
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };

@@ -4,6 +4,7 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "DigDugSceneManager.h"
 
 #include "ResourceManager.h"
 #include "InputManager.h"
@@ -18,41 +19,35 @@
 
 #include "PauseCommand.h"
 
-#include "ServiceLocator.h"
-#include "SDLSoundSystem.h"
-#include "LoggingSoundSystem.h"
-
 #include <iostream>
 
-FirstScene::~FirstScene()
+digdug::FirstScene::FirstScene(dae::Scene* pScene)
 {
-	// Todo: you probably don't want to initialize/destroy this for every scene
-	dae::ServiceLocator::Shutdown();
+	// Create root gameObject
+	auto pRoot{ std::make_shared<dae::GameObject>() };	
+	pRoot->SetIsActive(false);
+	pRoot->SetIsHidden(true);
+
+	m_pSceneRootObject = pRoot.get();
+	pScene->Add(pRoot);
 }
 
-void FirstScene::CreateGameObjects(dae::Scene& scene)
+void digdug::FirstScene::SetActive(bool isActive)
 {
-	BaseObjects(scene);
+	// Reset scene if is active
+	if (isActive)
+	{
+		Grid();
+		MainCharacter();
+		Enemies();
+	}
 
-	Map(scene);
-
-	MainCharacter(scene);
-	Enemies(scene);
+	// Set active/inactive
+	m_pSceneRootObject->SetIsActive(isActive);
+	m_pSceneRootObject->SetIsHidden(!isActive);
 }
 
-void FirstScene::BaseObjects(dae::Scene& /*scene*/)
-{
-	// Service Locator
-	// ***************
-
-#ifdef _DEBUG
-	dae::ServiceLocator::RegisterSoundSystem(new dae::LoggingSoundSystem{ new dae::SDLSoundSystem{} });
-#else
-	dae::ServiceLocator::RegisterSoundSystem(new dae::SDLSoundSystem{});
-#endif // DEBUG
-}
-
-void FirstScene::Map(dae::Scene& scene)
+void digdug::FirstScene::Grid()
 {
 	// ---- Grid -----
 	// Contains: Rocks
@@ -60,7 +55,7 @@ void FirstScene::Map(dae::Scene& scene)
 
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pGrid{ std::make_shared<dae::GameObject>() };
-	
+
 	// Add components
 	// --------------
 
@@ -76,13 +71,12 @@ void FirstScene::Map(dae::Scene& scene)
 	pGridComponent->SetRockTexture("Sprites/Other/Rock_Animation.png");
 	pGridComponent->SetLevelFile("Tiles/Level1_Map.tmj");
 
-	// Add to scene
+	// Add to root
 	// ------------
-	scene.Add(pGrid);
 	m_pGrid = pGridComponent;
+	pGrid->SetParent(m_pSceneRootObject, true);
 }
-
-void FirstScene::MainCharacter(dae::Scene& scene)
+void digdug::FirstScene::MainCharacter()
 {
 	// Create gameObject
 	// -----------------
@@ -102,13 +96,12 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	// Add characterComponent
 	// ----------------------
 	CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
-	pCharacterComponent->SetGrid(m_pGrid);
 	pCharacterComponent->SetAnimationComponent(pObjectTexture);
 
-	// Add to scene
-	// ------------
+	// Add to root
+	// -----------
 	m_pCharacters.emplace_back(pCharacterComponent);
-	scene.Add(pMainCharacter);
+	pMainCharacter->SetParent(m_pSceneRootObject, true);
 
 	// Transform
 	// ---------
@@ -116,7 +109,7 @@ void FirstScene::MainCharacter(dae::Scene& scene)
 	pMainCharacter->SetWorldPosition(pCell->centerPosition);
 }
 
-void FirstScene::Enemies(dae::Scene& scene)
+void digdug::FirstScene::Enemies()
 {
 	// -------- Enemies --------
 	// Enemies spawnData by Grid
@@ -130,7 +123,6 @@ void FirstScene::Enemies(dae::Scene& scene)
 
 	// Enemy Manager
 	EnemyManager* pEnemyManager{ pEnemies->AddComponent<EnemyManager>() };
-	pEnemyManager->SetGrid(m_pGrid);
 	pEnemyManager->SetCharacters(m_pCharacters);
 	pEnemyManager->SpawnEnemies();
 
@@ -139,7 +131,7 @@ void FirstScene::Enemies(dae::Scene& scene)
 	//auto controllerID = dae::InputManager::GetInstance().AddController();
 	//pEnemyManager->ControlEnemy(controllerID, enemy::Pooka);
 
-	// Add to scene
-	// ------------
-	scene.Add(pEnemies);
+	// Add to root
+	// -----------
+	pEnemies->SetParent(m_pSceneRootObject, true);
 }

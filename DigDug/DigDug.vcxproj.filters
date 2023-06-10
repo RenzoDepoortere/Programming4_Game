@@ -131,6 +131,12 @@
     <ClCompile Include="AttackState.cpp">
       <Filter>States\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="DigDugSceneManager.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -229,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="AttackState.h">
       <Filter>States\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugSceneManager.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

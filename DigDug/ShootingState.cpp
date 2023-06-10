@@ -6,6 +6,8 @@
 #include "RopeComponent.h"
 #include "GameObject.h"
 
+#include "DigDugSceneManager.h"
+
 #include "ResourceManager.h"
 
 player::ShootingState::ShootingState()
@@ -99,7 +101,7 @@ player::PlayerStates player::ShootingState::Update(CharacterComponent* /*pPlayer
 
 void player::ShootingState::InitRope(CharacterComponent* pPlayer)
 {
-	auto pGrid{ pPlayer->GetGrid() };
+	auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pRope{ std::make_shared<dae::GameObject>() };

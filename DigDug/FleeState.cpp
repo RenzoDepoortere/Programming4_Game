@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "AnimationComponent.h"
 
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 #include "ResourceManager.h"
 
@@ -23,7 +23,7 @@ void enemy::FleeState::OnEnter(EnemyComponent* pEnemy)
 	if (m_pMoveCommand == nullptr)
 	{
 		const auto behaviorData{ pEnemy->GetBehaviorData() };
-		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), glm::vec2{}, behaviorData.movementSpeed, FirstScene::GetInstance().GetGrid());
+		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), glm::vec2{}, behaviorData.movementSpeed, digdug::DigDugSceneManager::GetInstance().GetGrid());
 	}
 
 	// Set texture
@@ -50,7 +50,7 @@ void enemy::FleeState::OnEnter(EnemyComponent* pEnemy)
 
 	// Calculate path
 	// --------------
-	auto pGrid{ FirstScene::GetInstance().GetGrid() };
+	auto pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 	auto currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 	const glm::vec2 centerPos{ pGrid->GetCell(0)->centerPosition };
 	const glm::vec3 desiredPos{ centerPos.x, centerPos.y, 0.f };
@@ -75,7 +75,7 @@ void enemy::FleeState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 
 	// Get cells
 	// ---------
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	// Own
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };

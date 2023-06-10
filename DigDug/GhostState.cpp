@@ -6,7 +6,7 @@
 #include "CharacterComponent.h"
 #include "GridComponent.h"
 
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 #include "ResourceManager.h"
 
@@ -73,7 +73,7 @@ void enemy::GhostState::HandleMovement(EnemyComponent* pEnemy, float deltaTime)
 	glm::vec3 desiredPos{};
 	glm::vec3 playerPos{};
 
-	for (const auto& currentPlayer : FirstScene::GetInstance().GetCharacters())
+	for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
 		playerPos = currentPlayer->GetGameObject()->GetWorldPosition();
 		currentDistance = utils::GetSqrdMagnitude(playerPos - currentPos);
@@ -107,7 +107,7 @@ enemy::EnemyStates enemy::GhostState::HandleGoingBack(EnemyComponent* pEnemy, fl
 	if (m_AllowToTransferBack == false) return NR_STATES;
 
 	// Check if on empty cell
-	grid::GridComponent* pGrid{ FirstScene::GetInstance().GetGrid() };
+	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 
 	const glm::vec3 currentPos{ pEnemy->GetGameObject()->GetWorldPosition() };
 	grid::Cell* pCurrentCell{ pGrid->GetCell(currentPos) };

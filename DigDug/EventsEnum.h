@@ -6,6 +6,7 @@ namespace event
 	{
 		PauseMenu,
 		RockBreak,
-		EnemyDeath
+		EnemyDeath,
+		PlayerDeath
 	};
 }

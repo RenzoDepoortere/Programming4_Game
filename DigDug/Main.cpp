@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <iostream>
+#include <vector>
 
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
@@ -12,12 +13,17 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObjectManager.h"
-#include "FirstScene.h"
+#include "DigDugSceneManager.h"
 
 void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Level_1");
-	FirstScene::GetInstance().CreateGameObjects(scene);
+	std::vector<dae::Scene*> pScenes{};
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("GridScene"));
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_1"));
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_2"));
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_3"));
+
+	digdug::DigDugSceneManager::GetInstance().Initialize(pScenes);
 }
 
 int main(int, char* [])

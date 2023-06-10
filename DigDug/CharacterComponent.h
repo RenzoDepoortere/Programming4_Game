@@ -45,9 +45,6 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 
-	void SetGrid(grid::GridComponent* pGrid) { m_pGrid = pGrid; }
-	grid::GridComponent* GetGrid() const { return m_pGrid; }
-
 	void SetEnemyManager(EnemyManager* pEnemyManager) { m_pEnemyManager = pEnemyManager; }
 	EnemyManager* GetEnemyManager() const { return m_pEnemyManager; }
 
@@ -74,7 +71,6 @@ public:
 private:
 	// Member variables
 	// ----------------
-	grid::GridComponent* m_pGrid{ nullptr };
 	EnemyManager* m_pEnemyManager{ nullptr };
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 

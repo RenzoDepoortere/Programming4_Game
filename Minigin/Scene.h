@@ -6,7 +6,6 @@ namespace dae
 	class GameObject;
 	class Scene final
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(std::shared_ptr<GameObject> object);
 		void Remove(GameObject* pObject);
@@ -17,6 +16,7 @@ namespace dae
 		void Render() const;
 		void RenderImGUI();
 
+		explicit Scene(const std::string& name);
 		~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -24,7 +24,6 @@ namespace dae
 		Scene& operator=(Scene&& other) = delete;
 
 	private: 
-		explicit Scene(const std::string& name);
 
 		// Member variables
 		// ----------------

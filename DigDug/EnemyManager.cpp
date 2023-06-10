@@ -6,6 +6,8 @@
 #include "EnemyComponent.h"
 #include "CharacterComponent.h"
 
+#include "DigDugSceneManager.h"
+
 #include "ResourceManager.h"
 #include "EventManager.h"
 #include "EventsEnum.h"
@@ -22,7 +24,7 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 void EnemyManager::SpawnEnemies()
 {
 	// Loop through data
-	for (const auto& currentData : m_pGrid->GetEnemySpawnData())
+	for (const auto& currentData : digdug::DigDugSceneManager::GetInstance().GetGrid()->GetEnemySpawnData())
 	{
 		// If ID is 0, spawn Pooka
 		if (currentData.second == 0) SpawnPooka(currentData.first);
