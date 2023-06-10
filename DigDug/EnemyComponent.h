@@ -95,6 +95,7 @@ private:
 	bool m_IsCaught{ false };
 	bool m_Blown{ false };
 	bool m_IsFleeing{ false };
+	bool m_IsDead{ false };
 
 	enemy::BehaviorData m_EnemyBehavior{};
 	enemy::EnemyState* m_pCurrentState{};

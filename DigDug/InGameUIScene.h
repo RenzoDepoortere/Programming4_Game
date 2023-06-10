@@ -1,5 +1,6 @@
 #pragma once
 #include "LivesComponent.h"
+#include "ScoreComponent.h"
 
 namespace dae
 {
@@ -22,13 +23,14 @@ public:
 	// Functionality
 	void SetActive(bool isActive);
 	bool LoseLive() { return m_pLivesComponent->LoseLive(); }
+	void StoreScore() { m_pScoreComponent->StoreScore(); }
 
 private:
 	// Member variables
 	// ----------------
 	dae::GameObject* m_pSceneRootObject{ nullptr };
 	LivesComponent* m_pLivesComponent{ nullptr };
-
+	ScoreComponent* m_pScoreComponent{ nullptr };
 
 	// Member functions
 	// ----------------

@@ -50,7 +50,7 @@ void InGameUIScene::InitScore()
 	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
 
 	// Add components
-	pGameObject->AddComponent<ScoreComponent>();
+	m_pScoreComponent = pGameObject->AddComponent<ScoreComponent>();
 
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);

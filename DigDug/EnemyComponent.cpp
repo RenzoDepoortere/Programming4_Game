@@ -46,6 +46,7 @@ void EnemyComponent::Reset()
 	m_IsCaught = false;
 	m_Blown = false;
 	m_IsFleeing = false;
+	m_IsDead = false;
 
 	// Set state
 	m_pCurrentState->OnLeave(this);
@@ -192,6 +193,9 @@ void EnemyComponent::OnInactive()
 
 	const bool isBeingKilled{ m_CurrentStateID == enemy::Squashed || m_CurrentStateID == enemy::Caught };
 	if (isBeingKilled == false) return;
+
+	if (m_IsDead) return;
+	m_IsDead = true;
 
 	// Send event
 	// ----------

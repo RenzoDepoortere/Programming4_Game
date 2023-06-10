@@ -125,6 +125,9 @@ void DigDugSceneManager::GoToMenu()
 	// Set changingLevel to true
 	m_IsChangingLevel = true;
 
+	// Store score
+	m_pInGameUIScene->StoreScore();
+
 	// Deactive currentScene
 	m_pCurrentScene->SetActive(false);
 	m_pInGameUIScene->SetActive(false);

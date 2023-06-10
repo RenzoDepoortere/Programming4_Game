@@ -21,6 +21,9 @@ public:
 	ScoreComponent& operator=(const ScoreComponent& other) = delete;
 	ScoreComponent& operator=(ScoreComponent&& other) = delete;
 
+	// Functionality
+	void StoreScore();
+
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, void* extraInfo_1, void* extraInfo_2) override;
 	virtual void OnSubjectDestroy() override;

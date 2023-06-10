@@ -40,6 +40,17 @@ ScoreComponent::~ScoreComponent()
 	}
 }
 
+void ScoreComponent::StoreScore()
+{
+	// Ask for 3 letters
+
+	// Set score to file
+
+	// Reset score
+	m_CurrentScore = 0;
+	m_pTextComponent->SetText(std::to_string(m_CurrentScore));
+}
+
 void ScoreComponent::HandleEvent(unsigned int eventID, grid::Cell* pCell, void* extraInfo_1, void* /*extraInfo_2*/)
 {
 	int scoreGain{};
@@ -75,31 +86,26 @@ int ScoreComponent::HandleEnemyDeath(grid::Cell* pCell, void* extraInfo_1)
 	// Check depthLevel
 	// ---------------
 	int scoreGain{};
-
-	if (pCell == nullptr)
+	int depthLevel{ 3 };
+	if (pCell) depthLevel = pCell->depthLevel;
+	
+	switch (depthLevel)
 	{
+	case 0:
+		scoreGain = 200;
+		break;
+
+	case 1:
+		scoreGain = 300;
+		break;
+
+	case 2:
+		scoreGain = 400;
+		break;
+
+	case 3:
 		scoreGain = 500;
-	}
-	else
-	{
-		switch (pCell->depthLevel)
-		{
-		case 0:
-			scoreGain = 200;
-			break;
-
-		case 1:
-			scoreGain = 300;
-			break;
-
-		case 2:
-			scoreGain = 400;
-			break;
-
-		case 3:
-			scoreGain = 500;
-			break;
-		}
+		break;
 	}
 	
 
@@ -112,6 +118,9 @@ int ScoreComponent::HandleEnemyDeath(grid::Cell* pCell, void* extraInfo_1)
 		grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 		grid::Cell* pCurrentCell{ nullptr };
 
+		int row{ pGrid->GetNrRows() - 1 };
+		if (pCell) row = static_cast<int>(pCell->rowCol.x);
+
 		// Loop through player
 		for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 		{
@@ -119,7 +128,7 @@ int ScoreComponent::HandleEnemyDeath(grid::Cell* pCell, void* extraInfo_1)
 			pCurrentCell = pGrid->GetCell(currentPlayer->GetGameObject()->GetWorldPosition());
 			if (pCurrentCell == nullptr) continue;
 
-			if (pCurrentCell->rowCol.x == pCell->rowCol.x)
+			if (pCurrentCell->rowCol.x == row)
 			{
 				// Multiply score
 				scoreGain *= 2;
