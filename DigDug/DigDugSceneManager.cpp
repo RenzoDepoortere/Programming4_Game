@@ -116,6 +116,8 @@ void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 
 	// Get level names
 	m_LevelNames.emplace_back("Tiles/Level_1.tmj");
+	m_LevelNames.emplace_back("Tiles/Level_2.tmj");
+	m_LevelNames.emplace_back("Tiles/Level_3.tmj");
 }
 
 void DigDugSceneManager::GoToMenu()
