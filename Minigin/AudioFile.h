@@ -16,10 +16,10 @@ namespace dae
 
 		// Functionality
 		void Play(int loops = -1, int channel = 0);
-		bool IsPlaying();
-		void Pause();
-		bool IsPaused();
-		void Resume();
+		bool IsPlaying(int channel = 0);
+		void Pause(int channel = 0);
+		bool IsPaused(int channel = 0);
+		void Resume(int channel = 0);
 		void SetVolume(int volume);
 
 	private:

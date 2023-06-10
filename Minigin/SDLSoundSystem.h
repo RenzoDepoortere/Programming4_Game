@@ -26,10 +26,10 @@ namespace dae
 
 		// Functionality
 		void PlayAudio(unsigned int ID, int volume, int loops = -1, int channel = 0) override;
-		bool IsPlayingAudio(unsigned int ID) override;
-		void PauseAudio(unsigned int ID) override;
-		bool IsPausedAudio(unsigned int ID) override;
-		void ResumeAudio(unsigned int ID) override;
+		bool IsPlayingAudio(unsigned int ID, int channel = 0) override;
+		void PauseAudio(unsigned int ID, int channel = 0) override;
+		bool IsPausedAudio(unsigned int ID, int channel = 0) override;
+		void ResumeAudio(unsigned int ID, int channel = 0) override;
 		void SetVolumeAudio(unsigned int ID, int volume) override;
 
 		void SetID(unsigned int ID, const std::string& resourceName) override;
@@ -73,8 +73,8 @@ namespace dae
 		
 		void Load(unsigned int ID, const std::string& resourceName);
 		void Play(unsigned int ID, int volume, int loops, int channel);
-		void Pause(unsigned int ID);
-		void Resume(unsigned int ID);
+		void Pause(unsigned int ID, int channel);
+		void Resume(unsigned int ID, int channel);
 		void SetVolume(unsigned int ID, int volume);
 
 		void AudioThread();

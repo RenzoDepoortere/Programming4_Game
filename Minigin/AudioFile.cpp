@@ -17,23 +17,23 @@ void dae::AudioFile::Play(int loops, int channel)
 {
 	Mix_PlayChannel(channel, static_cast<Mix_Chunk*>(m_pChunk), loops);
 }
-bool dae::AudioFile::IsPlaying()
+bool dae::AudioFile::IsPlaying(int channel)
 {
-	if (Mix_Playing(0) != 0) return true;
+	if (Mix_Playing(channel) != 0) return true;
 	else					 return false;
 }
-void dae::AudioFile::Pause()
+void dae::AudioFile::Pause(int channel)
 {
-	Mix_Pause(0);
+	Mix_Pause(channel);
 }
-bool dae::AudioFile::IsPaused()
+bool dae::AudioFile::IsPaused(int channel)
 {
-	if (Mix_Paused(0) == 1) return true;
+	if (Mix_Paused(channel) == 1) return true;
 	else					return false;
 }
-void dae::AudioFile::Resume()
+void dae::AudioFile::Resume(int channel)
 {
-	Mix_Resume(0);
+	Mix_Resume(channel);
 }
 void dae::AudioFile::SetVolume(int volume)
 {

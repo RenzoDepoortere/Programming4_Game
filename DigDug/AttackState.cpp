@@ -8,12 +8,20 @@
 #include "Texture2D.h"
 
 #include "ResourceManager.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 enemy::AttackState::AttackState()
 {
 	// Create textures
 	// ---------------
 	m_pPrepareTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Attacking.png");
+
+	// Create SFX
+	// ----------
+	const std::string fileName{ "Sound/Characters/Enemies/Fire.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::EnemyAttack, fileName);
 }
 
 void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
@@ -37,6 +45,12 @@ void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
 		m_FireInitialized = true;
 		InitFire(pEnemy);
 	}
+
+	// Play SFX
+	// --------
+	const int volume{ 50 };
+	const int loops{ 0 };
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerHit, volume, loops, 3);
 
 	// Reset phase
 	// -----------

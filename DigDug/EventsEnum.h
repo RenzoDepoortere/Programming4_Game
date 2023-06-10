@@ -9,12 +9,15 @@ namespace event
 		
 		RockBreak,
 		
+		EnemyAttack,
 		EnemyPopped,
 		EnemyDeath,
 		FinalEnemy,
 
+		PlayerWalking,
 		PlayerShoot,
 		PlayerBlow,
+		PlayerHit,
 		PlayerDeath
 	};
 }

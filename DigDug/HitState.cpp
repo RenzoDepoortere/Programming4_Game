@@ -5,11 +5,18 @@
 #include "GameObject.h"
 
 #include "ResourceManager.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 player::HitState::HitState()
 {
 	// Create textures
 	m_pHitTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/MainCharacter/Dying_Animation.png");
+
+	// Create SFX
+	const std::string fileName{ "Sound/Characters/Player/Hit.wav" };
+	dae::ServiceLocator::GetSoundSystem().SetID(event::PlayerHit, fileName);
 }
 
 void player::HitState::OnEnter(CharacterComponent* pPlayer)
@@ -30,6 +37,12 @@ void player::HitState::OnEnter(CharacterComponent* pPlayer)
 
 	m_pAnimationComponent->SetPaused(false);
 	m_pAnimationComponent->SetFlip(false);
+
+	// Play SFX
+	// --------
+	const int volume{ 100 };
+	const int loops{ 0 };
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerHit, volume, loops);
 }
 void player::HitState::OnLeave(CharacterComponent* /*pPlayer*/)
 {

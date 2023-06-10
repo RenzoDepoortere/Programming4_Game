@@ -22,28 +22,28 @@ void dae::LoggingSoundSystem::PlayAudio(unsigned int ID, int volume, int loops, 
 	m_pRealSystem->PlayAudio(ID, volume, loops, channel);
 	std::cout << "Sound ID: " << ID << " Played at Sound Volume: " << volume << std::endl;
 }
-bool dae::LoggingSoundSystem::IsPlayingAudio(unsigned int ID)
+bool dae::LoggingSoundSystem::IsPlayingAudio(unsigned int ID, int channel)
 {
-	const bool isPlaying{ m_pRealSystem->IsPlayingAudio(ID) };
+	const bool isPlaying{ m_pRealSystem->IsPlayingAudio(ID, channel) };
 	std::cout << "Sound ID: " << ID << ", IsPlaying: " << isPlaying << std::endl;
-	
+
 	return isPlaying;
 }
-void dae::LoggingSoundSystem::PauseAudio(unsigned int ID)
+void dae::LoggingSoundSystem::PauseAudio(unsigned int ID, int channel)
 {
-	m_pRealSystem->PauseAudio(ID);
+	m_pRealSystem->PauseAudio(ID, channel);
 	std::cout << "Sound ID: " << ID << ", Paused" << std::endl;
 }
-bool dae::LoggingSoundSystem::IsPausedAudio(unsigned int ID)
+bool dae::LoggingSoundSystem::IsPausedAudio(unsigned int ID, int channel)
 {
-	const bool isPaused{ m_pRealSystem->IsPausedAudio(ID) };
+	const bool isPaused{ m_pRealSystem->IsPausedAudio(ID, channel) };
 	std::cout << "Sound ID: " << ID << ", IsPaused: " << isPaused << std::endl;
 
 	return isPaused;
 }
-void dae::LoggingSoundSystem::ResumeAudio(unsigned int ID)
+void dae::LoggingSoundSystem::ResumeAudio(unsigned int ID, int channel)
 {
-	m_pRealSystem->ResumeAudio(ID);
+	m_pRealSystem->ResumeAudio(ID, channel);
 	std::cout << "Sound ID: " << ID << ", Resumed" << std::endl;
 }
 void dae::LoggingSoundSystem::SetVolumeAudio(unsigned int ID, int volume)

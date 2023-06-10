@@ -9,11 +9,24 @@
 
 #include "InputMapper.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
+#include "EventsEnum.h"
+#include "ServiceLocator.h"
 
 player::DiggingState::DiggingState()
 {
+	// Textures
 	std::string textureString{ "Sprites/Characters/MainCharacter/Walking_Animation.png" };
 	m_pWalkingSprite = dae::ResourceManager::GetInstance().LoadTexture(textureString);
+
+	// SFX
+	auto& soundSystem{ dae::ServiceLocator::GetSoundSystem() };
+	const std::string fileName{ "Sound/Other/ThemeSong.mp3" };
+	const int volume{ 75 };
+
+	soundSystem.SetID(event::PlayerWalking, fileName);
+	soundSystem.PlayAudio(event::PlayerWalking, volume, -1, 4);
+	soundSystem.PauseAudio(event::PlayerWalking, 4);
 }
 
 void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
@@ -37,6 +50,8 @@ void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 }
 void player::DiggingState::OnLeave(CharacterComponent* /*pPlayer*/)
 {
+	// Stop music
+	dae::ServiceLocator::GetSoundSystem().PauseAudio(event::PlayerWalking, 4);
 }
 
 player::PlayerStates player::DiggingState::Update(CharacterComponent* pPlayer, float deltaTime)
@@ -66,6 +81,8 @@ player::PlayerStates player::DiggingState::HandleInput(CharacterComponent* pPlay
 
 	// Move
 	// ----
+	auto& soundSystem{ dae::ServiceLocator::GetSoundSystem() };
+
 	if (isInput)
 	{
 		glm::vec2 moveDirection{};
@@ -76,6 +93,14 @@ player::PlayerStates player::DiggingState::HandleInput(CharacterComponent* pPlay
 
 		m_pMoveCommand->SetMovementDirection(moveDirection);
 		m_pMoveCommand->Execute(deltaTime);
+
+		// Resume music
+		soundSystem.ResumeAudio(event::PlayerWalking, 4);
+	}
+	else
+	{
+		// Pause music
+		soundSystem.PauseAudio(event::PlayerWalking, 4);
 	}
 
 	// Rotate accordingly

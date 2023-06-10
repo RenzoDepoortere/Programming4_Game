@@ -38,17 +38,17 @@ void dae::SDLSoundSystem::PlayAudio(unsigned int ID, int volume, int loops, int 
 	// Notify
 	m_ConditionVariable.notify_all();
 }
-bool dae::SDLSoundSystem::IsPlayingAudio(unsigned int ID)
+bool dae::SDLSoundSystem::IsPlayingAudio(unsigned int ID, int channel)
 {
 	// Wait untill the other thread is done processing the audioFiles
 	while (m_IsHandlingAudio)
 	{
 	}
 
-	if (IsValid(ID)) return m_AudioFiles[ID]->IsPlaying();
+	if (IsValid(ID)) return m_AudioFiles[ID]->IsPlaying(channel);
 	else			 return false;
 }
-void dae::SDLSoundSystem::PauseAudio(unsigned int ID)
+void dae::SDLSoundSystem::PauseAudio(unsigned int ID, int channel)
 {
 	// Lock mutex
 	{
@@ -58,6 +58,7 @@ void dae::SDLSoundSystem::PauseAudio(unsigned int ID)
 		AudioInfo info{};
 		info.soundID = ID;
 		info.threadInstruction = PauseSFX;
+		info.channel = channel;
 
 		m_AudioQueue.push(info);
 	}
@@ -65,17 +66,17 @@ void dae::SDLSoundSystem::PauseAudio(unsigned int ID)
 	// Notify
 	m_ConditionVariable.notify_all();
 }
-bool dae::SDLSoundSystem::IsPausedAudio(unsigned int ID)
+bool dae::SDLSoundSystem::IsPausedAudio(unsigned int ID, int channel)
 {
 	// Wait untill the other thread is done processing the audioFiles
 	while (m_IsHandlingAudio)
 	{
 	}
 
-	if (IsValid(ID)) return m_AudioFiles[ID]->IsPaused();
+	if (IsValid(ID)) return m_AudioFiles[ID]->IsPaused(channel);
 	else			 return false;
 }
-void dae::SDLSoundSystem::ResumeAudio(unsigned int ID)
+void dae::SDLSoundSystem::ResumeAudio(unsigned int ID, int channel)
 {
 	// Lock mutex
 	{
@@ -85,6 +86,7 @@ void dae::SDLSoundSystem::ResumeAudio(unsigned int ID)
 		AudioInfo info{};
 		info.soundID = ID;
 		info.threadInstruction = ResumeSFX;
+		info.channel = channel;
 
 		m_AudioQueue.push(info);
 	}
@@ -154,13 +156,13 @@ void dae::SDLSoundSystem::Play(unsigned int ID, int volume, int loops, int chann
 	m_AudioFiles[ID]->SetVolume(volume);
 	m_AudioFiles[ID]->Play(loops, channel);
 }
-void dae::SDLSoundSystem::Pause(unsigned int ID)
+void dae::SDLSoundSystem::Pause(unsigned int ID, int channel)
 {
-	if (IsValid(ID)) m_AudioFiles[ID]->Pause();
+	if (IsValid(ID)) m_AudioFiles[ID]->Pause(channel);
 }
-void dae::SDLSoundSystem::Resume(unsigned int ID)
+void dae::SDLSoundSystem::Resume(unsigned int ID, int channel)
 {
-	if (IsValid(ID)) m_AudioFiles[ID]->Resume();
+	if (IsValid(ID)) m_AudioFiles[ID]->Resume(channel);
 }
 void dae::SDLSoundSystem::SetVolume(unsigned int ID, int volume)
 {
@@ -201,11 +203,11 @@ void dae::SDLSoundSystem::AudioThread()
 				break;
 
 			case dae::SDLSoundSystem::PauseSFX:
-				Pause(currentAudioFile.soundID);
+				Pause(currentAudioFile.soundID, currentAudioFile.channel);
 				break;
 
 			case dae::SDLSoundSystem::ResumeSFX:
-				Resume(currentAudioFile.soundID);
+				Resume(currentAudioFile.soundID, currentAudioFile.channel);
 				break;
 			}
 		}
