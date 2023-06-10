@@ -83,15 +83,15 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 		HandlePathing(pEnemy, deltaTime);
 		state = LookForPlayer(pEnemy, deltaTime);
 	}
-	//// If controlled, check for input
-	//else
-	//{
-	//	// Attack if X pressed
-	//	if (dae::InputManager::GetInstance().IsPressed(pEnemy->GetControllerID(), dae::InputManager::ControllerButton::ButtonX))
-	//	{
-
-	//	}
-	//}
+	// If controlled, check for input
+	else
+	{
+		// Attack if X pressed
+		if (dae::InputManager::GetInstance().IsPressed(pEnemy->GetControllerID(), dae::InputManager::ControllerButton::ButtonX))
+		{
+			state = Attack;
+		}
+	}
 
 	// Return
 	return state;

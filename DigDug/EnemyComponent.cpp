@@ -253,6 +253,9 @@ void EnemyComponent::CheckPlayer()
 		// If in hitState, continue
 		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;
 
+		// If in squashedState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Squashed) continue;
+
 		// Check if is not dead
 		if (currentPlayer->GetGameObject()->GetIsActive() == false) continue;
 
