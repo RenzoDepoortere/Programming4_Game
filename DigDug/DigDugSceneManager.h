@@ -1,5 +1,6 @@
 #pragma once
 #include "UIScene.h"
+#include "InGameUIScene.h"
 #include "DigDugScene.h"
 #include "Observer.h"
 
@@ -54,6 +55,7 @@ namespace digdug
 		// Member Variables
 		// ----------------
 		std::unique_ptr<UIScene> m_pUIScene{ nullptr };
+		std::unique_ptr<InGameUIScene> m_pInGameUIScene{ nullptr };
 
 		std::unique_ptr<DigDugScene> m_pCurrentScene{ nullptr };
 		std::vector<std::string> m_LevelNames{};
@@ -70,5 +72,7 @@ namespace digdug
 		void InitMenu(const std::vector<dae::Scene*>& pScenes);
 		void InitMainGame(const std::vector<dae::Scene*>& pScenes);
 		void InitScenes(const std::vector<dae::Scene*>& pScenes);
+
+		void GoToMenu();
 	};
 }

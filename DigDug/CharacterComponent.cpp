@@ -35,6 +35,7 @@ void CharacterComponent::Reset()
 	// Reset variables
 	m_CurrentLookingDirection = player::Right;
 	m_pCaughtEnemy = nullptr;
+	m_Died = false;
 
 	// Set state
 	m_pCurrentState->OnLeave(this);
@@ -186,6 +187,12 @@ void CharacterComponent::OnInactive()
 {
 	// Return if is changing level
 	if (digdug::DigDugSceneManager::GetInstance().GetIsChangingLevel()) return;
+
+	const bool isBeingKilled{ m_CurrentStateID == player::Squashed || m_CurrentStateID == player::Hit };
+	if (isBeingKilled == false) return;
+
+	if (m_Died) return;
+	m_Died = true;
 
 	// Notify parent
 	m_pParent->GetComponent<PlayerManager>()->PlayerDeath();

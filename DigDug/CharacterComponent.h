@@ -81,6 +81,7 @@ private:
 	bool m_StateInitialized{};
 
 	player::LookingDirection m_CurrentLookingDirection{ player::Right };
+	bool m_Died{ false };
 
 	EnemyComponent* m_pCaughtEnemy{ nullptr };
 

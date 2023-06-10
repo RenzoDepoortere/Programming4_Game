@@ -192,10 +192,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Minigin\FPSCounter.cpp" />
-    <ClCompile Include="..\Minigin\GameObjectManager.cpp" />
-    <ClCompile Include="..\Minigin\HealthComponent.cpp" />
-    <ClCompile Include="..\Minigin\KillCommand.cpp" />
-    <ClCompile Include="..\Minigin\LivesComponent.cpp" />
     <ClCompile Include="..\Minigin\MoveCommand.cpp" />
     <ClCompile Include="..\Minigin\PointCommand.cpp" />
     <ClCompile Include="..\Minigin\PointComponent.cpp" />
@@ -216,6 +212,8 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="GhostState.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="HitState.cpp" />
+    <ClCompile Include="InGameUIScene.cpp" />
+    <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -229,10 +227,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\FPSCounter.h" />
-    <ClInclude Include="..\Minigin\GameObjectManager.h" />
-    <ClInclude Include="..\Minigin\HealthComponent.h" />
-    <ClInclude Include="..\Minigin\KillCommand.h" />
-    <ClInclude Include="..\Minigin\LivesComponent.h" />
     <ClInclude Include="..\Minigin\MoveCommand.h" />
     <ClInclude Include="..\Minigin\PointCommand.h" />
     <ClInclude Include="..\Minigin\PointComponent.h" />
@@ -256,6 +250,8 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridHelpers.h" />
     <ClInclude Include="HitState.h" />
+    <ClInclude Include="InGameUIScene.h" />
+    <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="RoamingState.h" />

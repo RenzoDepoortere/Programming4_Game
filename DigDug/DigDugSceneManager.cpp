@@ -49,20 +49,13 @@ void DigDugSceneManager::NextLevel()
 	++m_CurrentLevel;
 	if (m_LevelNames.size() <= m_CurrentLevel)
 	{
-		// Deactive currentScene
-		m_pCurrentScene->SetActive(false);
-
-		// Go back to main menu when over
-		m_pUIScene->SetActive(true);
-
-		// Reset currentLevel
-		m_CurrentLevel = -1;
-
+		GoToMenu();
 		return;
 	}
 
-	// Hide UI
+	// Un/Hide UI
 	m_pUIScene->SetActive(false);
+	m_pInGameUIScene->SetActive(true);
 
 	// Set levelName
 	m_pCurrentScene->SetLevel(m_LevelNames[m_CurrentLevel]);
@@ -75,14 +68,18 @@ void DigDugSceneManager::HandleEvent(unsigned int eventID)
 {
 	if (eventID != event::PlayerDeath) return;
 
-	// 1 live less
-	// --> component calls whether to go to menu or reset
-
-	m_pCurrentScene->Reset(false);
+	// Check whether player completely died
+	if (m_pInGameUIScene->LoseLive())
+	{
+		GoToMenu();
+	}
+	else
+	{
+		m_pCurrentScene->Reset(false);
+	}
 }
 void DigDugSceneManager::OnSubjectDestroy()
 {
-
 }
 
 void DigDugSceneManager::InitSystems()
@@ -99,21 +96,18 @@ void DigDugSceneManager::InitSystems()
 
 
 }
-
 void DigDugSceneManager::InitMenu(const std::vector<dae::Scene*>& pScenes)
 {
 	// Create UI scene
-	m_pUIScene = std::make_unique<UIScene>(pScenes[1]);
+	m_pUIScene = std::make_unique<UIScene>(pScenes[0]);
 }
-
-void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& /*pScenes*/)
+void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& pScenes)
 {
 	// Subscribe to events
 	dae::EventManager<>::GetInstance().Subscribe(event::PlayerDeath, this);
 
-	// Score
-
-	// Lives
+	// Create InGameUI scene
+	m_pInGameUIScene = std::make_unique<InGameUIScene>(pScenes[1]);
 }
 void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 {
@@ -122,4 +116,23 @@ void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 
 	// Get level names
 	m_LevelNames.emplace_back("Tiles/Level_1.tmj");
+}
+
+void DigDugSceneManager::GoToMenu()
+{
+	// Set changingLevel to true
+	m_IsChangingLevel = true;
+
+	// Deactive currentScene
+	m_pCurrentScene->SetActive(false);
+	m_pInGameUIScene->SetActive(false);
+
+	// Go back to main menu when over
+	m_pUIScene->SetActive(true);
+
+	// Reset currentLevel
+	m_CurrentLevel = -1;
+
+	// Set changingLevel to false
+	m_IsChangingLevel = false;
 }
