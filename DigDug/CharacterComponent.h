@@ -45,9 +45,6 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
 
-	void SetEnemyManager(EnemyManager* pEnemyManager) { m_pEnemyManager = pEnemyManager; }
-	EnemyManager* GetEnemyManager() const { return m_pEnemyManager; }
-
 	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
 	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
 
@@ -71,7 +68,6 @@ public:
 private:
 	// Member variables
 	// ----------------
-	EnemyManager* m_pEnemyManager{ nullptr };
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 
 	unsigned long m_ControllerID{};

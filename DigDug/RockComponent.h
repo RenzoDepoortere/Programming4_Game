@@ -17,6 +17,9 @@ namespace grid
 	struct Cell;
 }
 
+class EnemyComponent;
+class CharacterComponent;
+
 class RockComponent final : public Component
 {
 public:

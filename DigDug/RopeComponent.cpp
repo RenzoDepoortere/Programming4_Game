@@ -7,6 +7,9 @@
 #include "CharacterComponent.h"
 #include "EnemyManager.h"
 #include "EnemyComponent.h"
+#include "AnimationComponent.h"
+
+#include "DigDugSceneManager.h"
 
 #include "Renderer.h"
 
@@ -110,15 +113,17 @@ void RopeComponent::CheckCollision()
 	}
 
 	// Check if hit enemy
-	EnemyComponent* pEnemy{ nullptr };
-	if (m_pPlayer->GetEnemyManager()->CollidesEnemy(pointPos, pEnemy))
+	for (const auto& currentEnemy : digdug::DigDugSceneManager::GetInstance().GetEnemies())
 	{
-		// Caught enemy
-		m_CaughtEnemy = true;
-		m_IsThrowing = false;
+		if (utils::IsInsideRect(pointPos, currentEnemy->GetAnimationComponent()->GetBoundingRect()))
+		{
+			// Caught enemy
+			m_CaughtEnemy = true;
+			m_IsThrowing = false;
 
-		// Couple enemy to player
-		m_pPlayer->SetCaughtEnemy(pEnemy);
-		pEnemy->SetCaught(true);
+			// Couple enemy to player
+			m_pPlayer->SetCaughtEnemy(currentEnemy);
+			currentEnemy->SetCaught(true);
+		}
 	}
 }

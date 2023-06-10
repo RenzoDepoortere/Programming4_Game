@@ -30,6 +30,41 @@ EnemyComponent::EnemyComponent(dae::GameObject* pParentObject)
 
 	// Set inactive function
 	GetGameObject()->SetInActiveFunction(std::bind(&EnemyComponent::OnInactive, this));
+
+	// Init state
+	InitStates();
+}
+
+void EnemyComponent::Reset()
+{
+	dae::GameObject* pGameObject{ GetGameObject() };
+
+	// Set default state
+	// -----------------
+
+	// Reset variables
+	m_IsCaught = false;
+	m_Blown = false;
+	m_IsFleeing = false;
+
+	// Set state
+	m_pCurrentState->OnLeave(this);
+	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
+	m_pCurrentState->OnEnter(this);
+
+	m_CurrentStateID = enemy::Roaming;
+
+	// Set parent
+	// ----------
+	if (pGameObject->GetParent() != m_pParent)
+	{
+		pGameObject->SetParent(m_pParent, false);
+	}
+
+	// Set active
+	// ----------
+	pGameObject->SetIsActive(true);
+	pGameObject->SetIsHidden(false);
 }
 
 void EnemyComponent::Update(float deltaTime)
@@ -53,11 +88,6 @@ void EnemyComponent::Render() const
 	//rect.h = static_cast<int>(boundingRect.height);
 
 	//SDL_RenderDrawRect(pRenderer, &rect);
-}
-
-bool EnemyComponent::IsInsideEnemy(const glm::vec3 position) const
-{
-	return utils::IsInsideRect(position, m_pAnimationComponent->GetBoundingRect());
 }
 
 void EnemyComponent::SetCaught(bool isCaught)
@@ -102,6 +132,16 @@ void EnemyComponent::SetFlee()
 	m_pCurrentState->OnEnter(this);
 }
 
+dae::AnimationComponent* EnemyComponent::GetAnimationComponent()
+{
+	// Return component if available
+	if (m_pAnimationComponent) return m_pAnimationComponent;
+
+	// Else, get component
+	m_pAnimationComponent = GetGameObject()->GetComponent<dae::AnimationComponent>();
+	return m_pAnimationComponent;
+}
+
 void EnemyComponent::SetControl(unsigned long controllerID)
 {
 	// No controller
@@ -142,8 +182,6 @@ void EnemyComponent::InitStates()
 
 	// Set default state
 	m_pCurrentState = m_pEnemyStates[static_cast<int>(enemy::Roaming)].get();
-	m_pCurrentState->OnEnter(this);
-
 	m_CurrentStateID = enemy::Roaming;
 }
 
@@ -170,11 +208,11 @@ void EnemyComponent::OnInactive()
 
 void EnemyComponent::UpdateStates(float deltaTime)
 {
-	// Init states if necessary
-	if (m_InitializedStates == false)
+	// On first update, call onEnter
+	if (m_StateInitialized == false)
 	{
-		m_InitializedStates = true;
-		InitStates();
+		m_StateInitialized = true;
+		m_pCurrentState->OnEnter(this);
 	}
 
 	// Update currentState

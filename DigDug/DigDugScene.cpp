@@ -67,6 +67,8 @@ void digdug::DigDugScene::Reset(bool deleteObjects)
 	{
 		// Call Reset on main components
 		m_pGrid->Reset();
+		
+		m_pEnemyManager->Reset();
 	}
 }
 
@@ -146,7 +148,6 @@ void digdug::DigDugScene::Enemies()
 
 	// Enemy Manager
 	m_pEnemyManager = pEnemies->AddComponent<EnemyManager>();
-	m_pEnemyManager->SetCharacters(m_pCharacters);
 	m_pEnemyManager->SpawnEnemies();
 
 	//auto controllerID = dae::InputManager::GetInstance().AddController();

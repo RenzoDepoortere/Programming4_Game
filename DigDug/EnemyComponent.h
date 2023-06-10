@@ -52,10 +52,11 @@ public:
 	EnemyComponent& operator=(EnemyComponent&& other) = delete;
 
 	// Functionality
+	void Reset();
+	void StoreParent(dae::GameObject* pParent) { m_pParent = pParent; }
+
 	virtual void Update(float deltaTime) override;
 	virtual void Render() const override;
-
-	bool IsInsideEnemy(const glm::vec3 position) const;
 	
 	void SetCaught(bool isCaught);
 	bool GetCaught() const { return m_IsCaught; }
@@ -71,8 +72,7 @@ public:
 	void SetBehaviorData(const enemy::BehaviorData& behaviorData) { m_EnemyBehavior = behaviorData; }
 	enemy::BehaviorData GetBehaviorData() const { return m_EnemyBehavior; }
 
-	void SetAnimationComponent(dae::AnimationComponent* pAnimationComponent) { m_pAnimationComponent = pAnimationComponent; }
-	dae::AnimationComponent* GetAnimationComponent() const { return m_pAnimationComponent; }
+	dae::AnimationComponent* GetAnimationComponent();
 
 	void SetControl(unsigned long controllerID = -1);
 	bool GetIsControlled() const { return m_IsControlled; }
@@ -86,7 +86,8 @@ private:
 	// Member variables
 	// ----------------
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
-	bool m_InitializedStates{ false };
+	dae::GameObject* m_pParent{ nullptr };
+	bool m_StateInitialized{};
 
 	bool m_IsControlled{ false };
 	unsigned long m_ControllerID{};

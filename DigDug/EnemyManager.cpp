@@ -21,6 +21,23 @@ EnemyManager::EnemyManager(dae::GameObject* pParentObject)
 	dae::EventManager<grid::Cell*, bool>::GetInstance().Subscribe(event::EnemyDeath, this);
 }
 
+void EnemyManager::Reset()
+{
+	// Reset enemies
+	// -------------
+	auto spawnData{ digdug::DigDugSceneManager::GetInstance().GetGrid()->GetEnemySpawnData() };
+
+	// Loop through
+	for (int idx{}; idx < m_pEnemies.size(); ++idx)
+	{
+		// Reset enemy
+		m_pEnemies[idx]->Reset();
+
+		// Set position
+		m_pEnemies[idx]->GetGameObject()->SetWorldPosition(spawnData[idx].first);
+	}
+}
+
 void EnemyManager::SpawnEnemies()
 {
 	// Loop through data
@@ -49,31 +66,6 @@ void EnemyManager::ControlEnemy(unsigned long controllerID, enemy::EnemyTypes en
 
 	// State that enemyType was not found
 	std::cout << "Error: Requested enemyType not found" << std::endl;
-}
-
-void EnemyManager::SetCharacters(const std::vector<CharacterComponent*>& pCharacters)
-{
-	m_pCharacters = pCharacters;
-	for (const auto& currentCharacter : m_pCharacters)
-	{
-		currentCharacter->SetEnemyManager(this);
-	}
-}
-
-bool EnemyManager::CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const
-{
-	// Loop through enemies
-	for (const auto& currentEnemy : m_pEnemies)
-	{
-		// Check if point in enemy
-		if (currentEnemy->IsInsideEnemy(position))
-		{
-			pEnemy = currentEnemy;
-			return true;
-		}
-	}
-
-	return false;
 }
 
 void EnemyManager::HandleEvent(unsigned int /*eventID*/, grid::Cell* /*pCell*/, bool /*wasSquashed*/)
@@ -129,7 +121,7 @@ void EnemyManager::SpawnPooka(const glm::vec3& position)
 	behaviorData.enemyType = enemy::Pooka;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
-	pEnemyComponent->SetAnimationComponent(pObjectTexture);
+	pEnemyComponent->StoreParent(GetGameObject());
 
 	// Add as child
 	// ------------
@@ -168,7 +160,7 @@ void EnemyManager::SpawnFygar(const glm::vec3& position)
 	behaviorData.enemyType = enemy::Fygar;
 
 	pEnemyComponent->SetBehaviorData(behaviorData);
-	pEnemyComponent->SetAnimationComponent(pObjectTexture);
+	pEnemyComponent->StoreParent(GetGameObject());
 
 	// Add as child
 	// ------------

@@ -36,13 +36,12 @@ public:
 	EnemyManager& operator=(EnemyManager&& other) = delete;
 
 	// Functionality
+	void Reset();
+
 	void SpawnEnemies();
 	void ControlEnemy(unsigned long controllerID, enemy::EnemyTypes enemyType);
 
-	void SetCharacters(const std::vector<CharacterComponent*>& pCharacters);
 	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
-
-	bool CollidesEnemy(const glm::vec3 position, EnemyComponent*& pEnemy) const;
 
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, bool wasSquashed) override;
@@ -51,8 +50,6 @@ public:
 private:
 	// Member variables
 	// ----------------
-	std::vector<CharacterComponent*> m_pCharacters{};
-
 	std::vector<EnemyComponent*> m_pEnemies{};
 
 	// Member functions

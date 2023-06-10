@@ -38,9 +38,10 @@ void RockComponent::Reset()
 	m_CurrentRockState = Passive;
 	m_CurrentRumbleTime = 0.f;
 
-	// Remove observers and children
+	// Remove observers
 	m_HasBeenDestroyed.RemoveAllObservers();
-	pGameObject->RemoveAllChildren();
+
+	// Children will be removed in their own component
 }
 
 void RockComponent::Update(float deltaTime)
