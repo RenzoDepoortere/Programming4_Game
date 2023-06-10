@@ -7,6 +7,7 @@
 #include "BlowingState.h"
 #include "PlayerSquashedState.h"
 #include "HitState.h"
+#include "PlayerManager.h"
 
 #include "EventManager.h"
 #include "EventsEnum.h"
@@ -181,6 +182,6 @@ void CharacterComponent::InitStates()
 
 void CharacterComponent::OnInactive()
 {
-	// Send death event
-	dae::EventManager<>::GetInstance().SendEvent(event::PlayerDeath);
+	// Notify parent
+	m_pParent->GetComponent<PlayerManager>()->PlayerDeath();
 }

@@ -19,6 +19,7 @@ public:
 
 	// Functionality
 	void Reset();
+	void PlayerDeath();
 
 	void SetNrPlayers(int nrPlayers) { m_NrPlayers = nrPlayers; }
 	void SpawnPlayers();

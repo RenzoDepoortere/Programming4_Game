@@ -1,5 +1,6 @@
 #pragma once
 #include "DigDugScene.h"
+#include "Observer.h"
 
 #include <Singleton.h>
 #include <vector>
@@ -21,7 +22,7 @@ class EnemyComponent;
 
 namespace digdug
 {
-	class DigDugSceneManager final : public dae::Singleton<DigDugSceneManager>
+	class DigDugSceneManager final : public dae::Singleton<DigDugSceneManager>, public dae::Observer<>
 	{
 	public:
 		// Destructor and rule of five
@@ -39,6 +40,10 @@ namespace digdug
 		grid::GridComponent* GetGrid() const { return m_pCurrentScene->GetGrid(); }
 		const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCurrentScene->GetCharacters(); }
 		const std::vector<EnemyComponent*>& GetEnemies() const { return m_pCurrentScene->GetEnemies(); }
+
+		// Observer
+		virtual void HandleEvent(unsigned int eventID) override;
+		virtual void OnSubjectDestroy() override;
 
 	private:
 		friend class Singleton<DigDugSceneManager>;

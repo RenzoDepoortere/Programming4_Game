@@ -40,7 +40,6 @@ player::PlayerStates player::HitState::Update(CharacterComponent* pPlayer, float
 	if (m_pAnimationComponent->PlayedOnce() && m_pAnimationComponent->GetPaused() == false)
 	{
 		pPlayer->GetGameObject()->SetIsActive(false);
-		pPlayer->GetGameObject()->SetIsHidden(true);
 	}
 
 	return NR_STATES;

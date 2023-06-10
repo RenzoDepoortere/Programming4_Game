@@ -9,6 +9,8 @@
 #include "SDLSoundSystem.h"
 #include "LoggingSoundSystem.h"
 #include "ResourceManager.h"
+#include "EventsEnum.h"
+#include "EventManager.h"
 
 #include "Scene.h"
 #include <iostream>
@@ -41,6 +43,20 @@ void DigDugSceneManager::NextLevel()
 	m_pCurrentScene->SetLevel(m_LevelNames[0]);
 }
 
+void DigDugSceneManager::HandleEvent(unsigned int eventID)
+{
+	if (eventID != event::PlayerDeath) return;
+
+	// 1 live less
+	// --> component calls whether to go to menu or reset
+
+	m_pCurrentScene->Reset(false);
+}
+void DigDugSceneManager::OnSubjectDestroy()
+{
+
+}
+
 void DigDugSceneManager::InitSystems()
 {
 	// Service Locator
@@ -57,6 +73,9 @@ void DigDugSceneManager::InitSystems()
 }
 void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& /*pScenes*/)
 {
+	// Subscribe to events
+	dae::EventManager<>::GetInstance().Subscribe(event::PlayerDeath, this);
+
 	// Score
 
 	// Lives

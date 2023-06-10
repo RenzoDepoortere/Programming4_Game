@@ -7,6 +7,11 @@
 
 #include "DigDugSceneManager.h"
 
+#include "EventManager.h"
+#include "EventsEnum.h"
+
+#include <algorithm>
+
 PlayerManager::PlayerManager(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 {
@@ -29,6 +34,22 @@ void PlayerManager::Reset()
 
 		// Set position
 		m_pCharacters[idx]->GetGameObject()->SetWorldPosition(pCell->centerPosition);
+	}
+}
+void PlayerManager::PlayerDeath()
+{
+	// Check whether players left
+	auto isAlive = [](CharacterComponent* pCharacter)
+	{
+		return pCharacter->GetGameObject()->GetIsActive();
+	};
+	const int nrAlivePlayers{ static_cast<int>(std::count_if(m_pCharacters.begin(), m_pCharacters.end(), isAlive)) };
+
+	// If no more alive players
+	if (nrAlivePlayers == 0)
+	{
+		// Send death event
+		dae::EventManager<>::GetInstance().SendEvent(event::PlayerDeath);
 	}
 }
 
