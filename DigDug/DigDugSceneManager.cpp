@@ -11,8 +11,6 @@
 #include "ResourceManager.h"
 
 #include "Scene.h"
-#include "FirstScene.h"
-
 #include <iostream>
 
 using namespace digdug;
@@ -28,19 +26,19 @@ void DigDugSceneManager::Initialize(const std::vector<dae::Scene*>& pScenes)
 	InitMainGame(pScenes);
 	InitScenes(pScenes);
 }
-void DigDugSceneManager::SetLevel(int levelIndex)
+void DigDugSceneManager::NextLevel()
 {
-	// If idx above max, return
-	if (m_pScenes.size() <= levelIndex)
+	// Go up a level
+	++m_CurrentLevel;
+	if (m_LevelNames.size() <= m_CurrentLevel)
 	{
-		std::cout << "Error: tried to set levelIndex above max" << std::endl;
+		// Go back to main menu when over
+
 		return;
 	}
 
-	// Stop current scene and set next scene
-	m_pCurrentScene->SetActive(false);
-	m_pCurrentScene = m_pScenes[levelIndex].get();
-	m_pCurrentScene->SetActive(true);
+	// Set levelName
+	m_pCurrentScene->SetLevel(m_LevelNames[0]);
 }
 
 void DigDugSceneManager::InitSystems()
@@ -59,14 +57,18 @@ void DigDugSceneManager::InitSystems()
 }
 void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& /*pScenes*/)
 {
-	
+	// Score
+
+	// Lives
 }
 void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 {
-	// Scene 1
-	m_pScenes[0] = std::make_unique<FirstScene>(pScenes[1]);
+	// Create main level
+	m_pCurrentScene = std::make_unique<DigDugScene>(pScenes[1]);
 
-	// Set main level
-	m_pCurrentScene = m_pScenes[0].get();
-	m_pCurrentScene->SetActive(true);
+	// Get level names
+	m_LevelNames[0] = "Tiles/Level_1.tmj";
+
+	// Set level
+	m_pCurrentScene->SetLevel(m_LevelNames[0]);
 }

@@ -1,22 +1,29 @@
 #pragma once
+#include "EnemyManager.h"
+
 #include <vector>
+#include <string>
 
-class CharacterComponent;
-class EnemyComponent;
-
+namespace dae
+{
+	class GameObject;
+	class Scene;
+}
 namespace grid
 {
 	class GridComponent;
 }
 
+class CharacterComponent;
+
 namespace digdug
 {
-	class DigDugScene
+	class DigDugScene final
 	{
 	public:
 		// Rule of five
-		DigDugScene() = default;
-		virtual ~DigDugScene() = default;
+		DigDugScene(dae::Scene* pScene);
+		~DigDugScene() = default;
 
 		DigDugScene(const DigDugScene& other) = delete;
 		DigDugScene(DigDugScene&& other) = delete;
@@ -24,10 +31,31 @@ namespace digdug
 		DigDugScene& operator=(DigDugScene&& other) = delete;
 
 		// Functionality
-		virtual void SetActive(bool isActive) = 0;
+		void SetLevel(const std::string& levelPath);
+		void SetActive(bool isActive);
+		void Reset(bool deleteObjects);
 
-		virtual grid::GridComponent* GetGrid() const = 0;
-		virtual const std::vector<CharacterComponent*>& GetCharacters() const = 0;
-		virtual const std::vector<EnemyComponent*>& GetEnemies() const = 0;
+		grid::GridComponent* GetGrid() const  { return m_pGrid; }
+		const std::vector<CharacterComponent*>& GetCharacters() const  { return m_pCharacters; }
+		const std::vector<EnemyComponent*>& GetEnemies() const  { return m_pEnemyManager->GetEnemies(); }
+
+	private:
+
+		// Member Variables
+		// ----------------
+		dae::GameObject* m_pSceneRootObject{ nullptr };
+		std::string m_LevelName{};
+
+		grid::GridComponent* m_pGrid{ nullptr };
+		std::vector<CharacterComponent*> m_pCharacters{};
+		EnemyManager* m_pEnemyManager{ nullptr };
+
+		unsigned long m_ControllerIdx{};
+
+		// Member Functions
+		// ----------------
+		void Grid();
+		void MainCharacter();
+		void Enemies();
 	};
 }

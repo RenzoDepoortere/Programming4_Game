@@ -34,7 +34,7 @@ namespace digdug
 
 		// Functionality
 		void Initialize(const std::vector<dae::Scene*>& pScenes);
-		void SetLevel(int levelIndex);
+		void NextLevel();
 
 		grid::GridComponent* GetGrid() const { return m_pCurrentScene->GetGrid(); }
 		const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCurrentScene->GetCharacters(); }
@@ -46,8 +46,9 @@ namespace digdug
 
 		// Member Variables
 		// ----------------
-		DigDugScene* m_pCurrentScene{ nullptr };
-		std::array<std::unique_ptr<DigDugScene>, 3> m_pScenes{};
+		std::unique_ptr<DigDugScene> m_pCurrentScene{ nullptr };
+		std::array<std::string, 3> m_LevelNames{};
+		int m_CurrentLevel{};
 
 		unsigned long m_FirstControllerIdx{};
 		unsigned long m_SecondControllerIdx{};

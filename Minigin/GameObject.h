@@ -35,6 +35,7 @@ namespace dae
 		template <typename T> T* AddComponent();
 		template <typename T> T* GetComponent() const;
 		template <typename T> void RemoveComponent();
+		void RemoveAllComponents();
 		template <typename T> bool HasComponent() const;
 
 		// Ownership
@@ -44,6 +45,7 @@ namespace dae
 		const std::list<std::shared_ptr<GameObject>>& GetChildren() const;
 		bool RemoveChildFromScene(std::shared_ptr<GameObject> pChild);
 		void RemoveObject();
+		void RemoveAllChildren();
 
 		// Positions
 		void SetWorldPosition(float x, float y, float z);
@@ -158,9 +160,17 @@ namespace dae
 			std::cout << "RemoveComponent failed: given component was not found" << std::endl;
 		}
 	}
+	inline void dae::GameObject::RemoveAllComponents()
+	{
+		m_ComponentsToDelete.clear();
+		for (const auto& currentComponent : m_pComponents)
+		{
+			m_ComponentsToDelete.push_back(currentComponent.first);
+		}
+	}
 
 	template <typename T>
-	bool dae::GameObject::HasComponent() const
+	inline bool dae::GameObject::HasComponent() const
 	{
 		bool hasFoundComponent{ false };
 

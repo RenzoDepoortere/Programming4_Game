@@ -168,6 +168,12 @@ void dae::GameObject::RemoveObject()
 		m_pParent->RemoveChildFromScene(shared_from_this());
 	}
 }
+void dae::GameObject::RemoveAllChildren()
+{
+	// Add all children to delete
+	m_ChildrenToDelete = { m_pChildren.begin(), m_pChildren.end() };
+}
+
 #pragma endregion
 
 #pragma region Transform

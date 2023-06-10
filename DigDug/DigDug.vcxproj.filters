@@ -53,7 +53,7 @@
     <ClCompile Include="..\Minigin\KillCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="FirstScene.cpp">
+    <ClCompile Include="DigDugScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="PauseCommand.cpp">
@@ -134,9 +134,6 @@
     <ClCompile Include="DigDugSceneManager.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="DigDugScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\GameObjectManager.h" />
@@ -149,7 +146,7 @@
     <ClInclude Include="..\Minigin\KillCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="FirstScene.h">
+    <ClInclude Include="DigDugScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="PauseCommand.h">
@@ -237,9 +234,6 @@
       <Filter>States\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="DigDugSceneManager.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="DigDugScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>

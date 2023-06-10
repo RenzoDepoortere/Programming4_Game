@@ -18,10 +18,8 @@
 void load()
 {
 	std::vector<dae::Scene*> pScenes{};
-	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("GridScene"));
-	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_1"));
-	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_2"));
-	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("Level_3"));
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("MainGameScene"));
+	pScenes.emplace_back(dae::SceneManager::GetInstance().CreateScene("LevelScene"));
 
 	digdug::DigDugSceneManager::GetInstance().Initialize(pScenes);
 }
