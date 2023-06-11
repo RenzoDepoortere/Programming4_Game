@@ -82,7 +82,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -102,9 +102,7 @@
 xcopy $(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 
 xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
-xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
-
-xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
+xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -116,7 +114,7 @@ xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -138,9 +136,7 @@ xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
 xcopy $(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 
 xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
-xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
-
-xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
+xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -150,7 +146,7 @@ xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -172,7 +168,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll $(OutputPath
 xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 
-xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
+xcopy $(SolutionDir)Data $(OutputPath)..\Data /E /I /Y</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
@@ -184,7 +180,7 @@ xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);VISUAL_STUDIO_BUILD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -208,7 +204,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll $(OutputPath
 xcopy $(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath) /R /Y
 
-xcopy $(SolutionDir)Data $(OutputPath)Data /E /I /Y</Command>
+xcopy $(SolutionDir)Data $(OutputPath)..\Data /E /I /Y</Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>

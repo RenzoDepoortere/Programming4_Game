@@ -1,4 +1,43 @@
-﻿  DigDug.vcxproj -> C:\Users\renzo\OneDrive\Documenten\School\Year_2\Semester_2\Programming\Game\Programming4_Game\Debug\DigDug.exe
+﻿  AttackState.cpp
+  BlowingState.cpp
+  CaughtState.cpp
+  CharacterComponent.cpp
+  ChaseState.cpp
+  DestroyOnEventComponent.cpp
+  DigDugSceneManager.cpp
+  DiggingState.cpp
+  EnemyComponent.cpp
+  EnemyManager.cpp
+  EnemySquashedState.cpp
+  DigDugScene.cpp
+  EventCommand.cpp
+  FireComponent.cpp
+  FleeState.cpp
+  GhostState.cpp
+  GridComponent.cpp
+  HighScoreComponent.cpp
+  HitState.cpp
+  InGameUIScene.cpp
+  Generating Code...
+  Compiling...
+  LivesComponent.cpp
+  Main.cpp
+  MoveCommand.cpp
+  MuteCommand.cpp
+  PlayerManager.cpp
+  RoamingState.cpp
+  RockComponent.cpp
+  RopeComponent.cpp
+  ScoreComponent.cpp
+  ScoreInputComponent.cpp
+  SelectionComponent.cpp
+  ShootingState.cpp
+  PlayerSquashedState.cpp
+  SkipLevelCommand.cpp
+  UIScene.cpp
+  Generating Code...
+  LINK : C:\Users\renzo\OneDrive\Documenten\School\Year_2\Semester_2\Programming\Game\Programming4_Game\Debug\DigDug.exe not found or not built by the last incremental link; performing full link
+  DigDug.vcxproj -> C:\Users\renzo\OneDrive\Documenten\School\Year_2\Semester_2\Programming\Game\Programming4_Game\Debug\DigDug.exe
   C:\Users\renzo\OneDrive\Documenten\School\Year_2\Semester_2\Programming\Game\Programming4_Game\3rdParty\SDL2\lib\x86\SDL2.dll
   1 File(s) copied
   C:\Users\renzo\OneDrive\Documenten\School\Year_2\Semester_2\Programming\Game\Programming4_Game\3rdParty\SDL2_image\lib\x86\SDL2_image.dll
