@@ -286,7 +286,7 @@ void ScoreInputComponent::HandleFlickering(float deltaTime)
 
 	// Cooldown
 	m_CurrentFlickerTimer += deltaTime;
-	const float threshold{ 0.5f };
+	const float threshold{ 0.3f };
 	if (threshold < m_CurrentFlickerTimer)
 	{
 		m_CurrentFlickerTimer = 0.f;
@@ -310,15 +310,37 @@ void ScoreInputComponent::HandleFlickering(float deltaTime)
 
 void ScoreInputComponent::GoLeft()
 {
+	// Check if can go left
+	if (m_CurrentLetterIdx == 0) return;
+
 	// Return if on cooldown
 	if (0.f < m_InputCooldown) return;
 	m_InputCooldown = m_MaxCooldown;
+
+	// Reset text
+	std::string currentString{ m_pTextComponentToChange->GetText() };
+	currentString[m_CurrentLetterIdx] = m_Letters[m_CurrentLetterIdx];
+	m_pTextComponentToChange->SetText(currentString);
+
+	// Lower one
+	--m_CurrentLetterIdx;
 }
 void ScoreInputComponent::GoRight()
 {
+	// Check if can go right
+	if (m_CurrentLetterIdx == m_MaxLetters - 1) return;
+
 	// Return if on cooldown
 	if (0.f < m_InputCooldown) return;
 	m_InputCooldown = m_MaxCooldown;
+
+	// Reset text
+	std::string currentString{ m_pTextComponentToChange->GetText() };
+	currentString[m_CurrentLetterIdx] = m_Letters[m_CurrentLetterIdx];
+	m_pTextComponentToChange->SetText(currentString);
+
+	// Go up one
+	++m_CurrentLetterIdx;
 }
 void ScoreInputComponent::GoDown()
 {
