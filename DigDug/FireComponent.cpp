@@ -42,15 +42,25 @@ void FireComponent::SetActive(bool isActive, EnemyComponent* pEnemy)
 
 void FireComponent::CheckCollision()
 {
+	if (GetGameObject()->GetIsHidden()) return;
+
 	const utils::Rect ownRect{ m_pRenderComponent->GetBoundingRect() };
 	utils::Rect playerRect{};
 	
 	// Loop through players
 	for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
-		playerRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
+		// If in hitState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;
+
+		// If in squashedState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Squashed) continue;
+
+		// Check if is not dead
+		if (currentPlayer->GetGameObject()->GetIsActive() == false) continue;
 
 		// Check if overlapping
+		playerRect = currentPlayer->GetAnimationComponent()->GetBoundingRect();
 		if (utils::RectOverlaps(ownRect, playerRect))
 		{
 			// Set player to hit
