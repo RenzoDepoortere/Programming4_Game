@@ -42,6 +42,7 @@ private:
 	float m_Cooldown{};
 	float m_MaxCooldown{};
 
+	float m_StartCooldown{};
 	bool m_HasToSubscribe{};
 
 	// Member functions

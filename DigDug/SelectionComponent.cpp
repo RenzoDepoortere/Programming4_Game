@@ -11,6 +11,7 @@
 SelectionComponent::SelectionComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 	, m_MaxCooldown{ 0.25f }
+	, m_StartCooldown{ 0.5f }
 {
 }
 SelectionComponent::~SelectionComponent()
@@ -36,6 +37,10 @@ void SelectionComponent::Update(float deltaTime)
 	if (0.f < m_Cooldown)
 	{
 		m_Cooldown -= deltaTime;
+	}
+	if (0.f < m_StartCooldown)
+	{
+		m_StartCooldown -= deltaTime;
 	}
 
 	if (m_HasToSubscribe)
@@ -76,6 +81,10 @@ void SelectionComponent::OnSubjectDestroy()
 
 void SelectionComponent::Activate()
 {
+	// Reset cooldown
+	if (0.f < m_StartCooldown) return;
+	m_StartCooldown = 0.5f;
+
 	// Execute function of position
 	m_Functions[m_CurrentPos]();
 }
