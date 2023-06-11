@@ -31,6 +31,9 @@ namespace dae
 		void SetMovementDirection(const glm::vec2& movementDirection) { m_MovementDirection = movementDirection; }
 		glm::vec2 GetMovementDirection() const { return m_MovementDirection; }
 
+		void SetMoveInGrid(bool moveInGrid) { m_MoveInGrid = moveInGrid; }
+		bool GetMoveInGrid() const { return m_MoveInGrid; }
+
 	private:
 		// Member variables
 		// ----------------
@@ -39,6 +42,7 @@ namespace dae
 
 		grid::GridComponent* m_pGrid{ nullptr };
 		bool m_CheckDirt{};
+		bool m_MoveInGrid{};
 
 		// Member functions
 		// ----------------

@@ -13,6 +13,7 @@ dae::MoveCommand::MoveCommand(GameObject* pActor, glm::vec2 movementDirection, f
 	, m_MovementSpeed{ movementSpeed }
 	, m_pGrid{ pGrid }
 	, m_CheckDirt{ checkDirt }
+	, m_MoveInGrid{ true }
 {
 }
 
@@ -45,11 +46,21 @@ void dae::MoveCommand::GridMovement(glm::vec2& desiredDirection, const glm::vec3
 	// Get cells
 	// ---------
 	const grid::Cell* pCurrentCell{ m_pGrid->GetCell(startActorPos) };
+	if (pCurrentCell == nullptr) return;
 
 	glm::vec3 desiredCellPos{};
 	desiredCellPos.x = pCurrentCell->centerPosition.x + m_MovementDirection.x * pCurrentCell->size.x;
 	desiredCellPos.y = pCurrentCell->centerPosition.y + m_MovementDirection.y * pCurrentCell->size.y;
 	const grid::Cell* pDesiredCell{ m_pGrid->GetCell(desiredCellPos) };
+
+	// If doesn't need to move in grid (so don't bother about dirt, rocks)
+	if (m_MoveInGrid == false)
+	{
+		// If desiredCell is null, no direction
+		const bool cellIsInvalid{ pDesiredCell == nullptr || (desiredCellPos.x <= 0 || desiredCellPos.y <= 0) };
+		desiredDirection = (cellIsInvalid) ? glm::vec2{} : m_MovementDirection;
+		return;
+	}
 
 	bool insideX{};
 	bool insideY{};

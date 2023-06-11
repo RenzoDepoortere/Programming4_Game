@@ -38,7 +38,8 @@ void enemy::GhostState::OnEnter(EnemyComponent* pEnemy)
 	auto behaviorData{ pEnemy->GetBehaviorData() };
 	if (m_pMoveCommand == nullptr)
 	{
-		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), glm::vec2{}, behaviorData.movementSpeed / 2.f);
+		m_pMoveCommand = std::make_unique<dae::MoveCommand>(pEnemy->GetGameObject(), glm::vec2{}, behaviorData.movementSpeed / 2.f, digdug::DigDugSceneManager::GetInstance().GetGrid());
+		m_pMoveCommand->SetMoveInGrid(false);
 	}
 	else
 	{
