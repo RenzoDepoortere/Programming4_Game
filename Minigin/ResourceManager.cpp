@@ -49,7 +49,7 @@ std::shared_ptr<std::ifstream> dae::ResourceManager::LoadReadFile(const std::str
 }
 std::shared_ptr<std::ofstream> dae::ResourceManager::LoadWriteFile(const std::string& file) const
 {
-	return std::make_shared<std::ofstream>(m_dataPath + file, std::ios::app);
+	return std::make_shared<std::ofstream>(m_dataPath + file);
 }
 
 std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::string& file)

@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Observer.h"
 
+#include <list>
 #include <fstream>
 #include <memory>
 
@@ -24,6 +25,7 @@ public:
 	HighScoreComponent& operator=(HighScoreComponent&& other) = delete;
 
 	// Functionality
+	const std::list<std::string>& GetScores() const { return m_Scores; }
 	int GetHighestScore() const { return m_HighestScore; }
 
 	// Observer
@@ -34,5 +36,6 @@ private:
 	// Member variables
 	// ----------------
 	dae::TextComponent* m_pTextComponent{ nullptr };
+	std::list<std::string> m_Scores{};
 	int m_HighestScore{};
 };

@@ -3,6 +3,8 @@
 #include "Observer.h"
 #include "../DigDug/GridComponent.h"
 
+#include <list>
+
 namespace dae
 {
 	class GameObject;
@@ -22,7 +24,9 @@ public:
 	ScoreComponent& operator=(ScoreComponent&& other) = delete;
 
 	// Functionality
+	void SetScores(const std::list < std::string> & scores) { m_Scores = scores; }
 	void SetHighestScore(int highestScore) { m_HighestScore = highestScore; }
+
 	void StoreScore();
 
 	// Observer
@@ -34,6 +38,8 @@ private:
 	// ----------------
 	dae::TextComponent* m_pTextComponent{ nullptr };
 	int m_CurrentScore{};
+
+	std::list<std::string> m_Scores{};
 	int m_HighestScore{};
 
 	// Member functions

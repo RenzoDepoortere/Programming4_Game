@@ -53,12 +53,28 @@ void ScoreComponent::StoreScore()
 	auto pHighscoreFile{ dae::ResourceManager::GetInstance().LoadWriteFile("Other/HighScore.txt") };
 	if (pHighscoreFile->is_open())
 	{
-		// Check if over 5
-
-		// If so, remove lowest score
-
 		// Add own score
-		*pHighscoreFile << "/" << std::to_string(m_CurrentScore) << '\n';
+		const std::string scoreString{ "/" + std::to_string(m_CurrentScore) };
+		m_Scores.emplace_back(scoreString);
+
+		// Sort list based on score
+		auto descendingLambda = [](const std::string& a, const std::string& b)
+		{
+			const int firstNumber = std::stoi(a.substr(a.find('/') + 1));
+			const int secondNumber = std::stoi(b.substr(b.find('/') + 1));
+
+			return firstNumber > secondNumber;
+		};
+		m_Scores.sort(descendingLambda);
+
+		// If over X, remove last one
+		if (m_Scores.size() >= 5) m_Scores.pop_back();
+
+		// Write to file
+		for (const auto& currentScore : m_Scores)
+		{
+			*pHighscoreFile << currentScore << '\n';
+		}
 	}
 	else
 	{

@@ -90,6 +90,7 @@ void InGameUIScene::InitScore()
 
 	// Add components
 	m_pScoreComponent = pGameObject->AddComponent<ScoreComponent>();
+	m_pScoreComponent->SetScores(pHighScoreComponent->GetScores());
 	m_pScoreComponent->SetHighestScore(pHighScoreComponent->GetHighestScore());
 
 	// Add to root

@@ -8,7 +8,6 @@
 #include "EventManager.h"
 #include "EventsEnum.h"
 
-#include <list>
 #include <algorithm>
 #include <string>
 
@@ -33,25 +32,31 @@ HighScoreComponent::HighScoreComponent(dae::GameObject* pParentObject)
 	if (pHighscoreFile->is_open())
 	{
 		// Go through all the lines
-		std::list<int> scores{};
+		std::list<std::string> scores{};
 		std::string readLine{};
 		std::string number{};
+		int idx{};
+
+		// Go through lines
 		while (std::getline(*pHighscoreFile, readLine))
 		{
-			// Get the number, is after the '/'
-			number = readLine.substr(readLine.find('/') + 1);
-			scores.emplace_back(std::stoi(number));
+			// First line is the highestScore
+			if (idx == 0)
+			{
+				// Get the number, is after the '/'
+				number = readLine.substr(readLine.find('/') + 1);
+				m_HighestScore = std::stoi(number);
+			}
+
+			++idx;
+			scores.emplace_back(readLine);
 		}
 
-		// Sort the list
-		scores.sort(std::greater<int>());
+		// Set text
+		m_pTextComponent->SetText(std::to_string(m_HighestScore));
 
-		// Get and set the highestScore
-		if (scores.size() != 0)
-		{
-			m_HighestScore = scores.front();
-			m_pTextComponent->SetText(std::to_string(m_HighestScore));
-		}
+		// Store scores
+		m_Scores = scores;
 	}
 	else
 	{
