@@ -229,38 +229,33 @@ void player::DiggingState::RemoveDirt(CharacterComponent* pPlayer)
 	pGrid->AddConnections(pCurrentCell);
 }
 
-void player::DiggingState::Unsubscribe(CharacterComponent* pPlayer)
+void player::DiggingState::Unsubscribe(CharacterComponent* /*pPlayer*/)
 {
 	// Unsubscribe to events
 	// ---------------------
 	if (dae::EventManager<float>::GetIsDestroyed() == false)
 	{
-		// If player 1
-		if (pPlayer->GetPlayerID() == 0)
-		{
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardLeft, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardRight, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardUp, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardDown, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardLeft, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardRight, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardUp, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardDown, this);
 
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardActionA, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardActionA, this);
 
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_2, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_2, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_2, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_2, this);
 
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_2, this);
-		}
-		// If player 2
-		else
-		{
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_2, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_2, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_2, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_2, this);
 
-			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
-		}
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_2, this);
+		
+
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
 	}
 }

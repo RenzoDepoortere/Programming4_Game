@@ -80,22 +80,33 @@ enemy::EnemyStates enemy::ChaseState::Update(EnemyComponent* pEnemy, float delta
 	}
 
 	// Follow path
-	FollowPath(pEnemy, deltaTime);
+	EnemyStates state{ NR_STATES };
+	state = FollowPath(pEnemy, deltaTime);
 
 	// Check attack
-	EnemyStates state{ NR_STATES };
 	if (pEnemy->GetBehaviorData().enemyType == enemy::Fygar)
 	{
 		state = HandleAttack(pEnemy, deltaTime);
-		return state;
 	}
 
 	// Return
-	return NR_STATES;
+	return state;
 }
 
-void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
+enemy::EnemyStates enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 {
+	// Check if player died
+	// --------------------
+	
+	// If in hitState, continue
+	if (m_pCharacterToChase->GetCurrentStateID() == player::Hit) return Roaming;
+
+	// If in squashedState, continue
+	if (m_pCharacterToChase->GetCurrentStateID() == player::Squashed) return Roaming;
+
+	// Check if is not dead
+	if (m_pCharacterToChase->GetGameObject()->GetIsActive() == false)  return Roaming;
+
 	// Get cells
 	// ---------
 	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
@@ -120,7 +131,7 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 			auto desiredPos{ m_pCharacterToChase->GetGameObject()->GetWorldPosition() };
 			m_DesiredPath = grid::CalculatePath(currentPos, desiredPos, pGrid);
 
-			return;
+			return NR_STATES;
 		}	
 
 		// Set new nextCell
@@ -155,6 +166,8 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 	// Set movementDirection and move
 	m_pMoveCommand->SetMovementDirection(moveDirection);
 	m_pMoveCommand->Execute(deltaTime);
+
+	return NR_STATES;
 }
 
 enemy::EnemyStates enemy::ChaseState::HandleAttack(EnemyComponent* pEnemy, float deltaTime)

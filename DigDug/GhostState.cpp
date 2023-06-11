@@ -156,9 +156,18 @@ void enemy::GhostState::HandleMovement(EnemyComponent* pEnemy, float deltaTime)
 
 	for (const auto& currentPlayer : digdug::DigDugSceneManager::GetInstance().GetCharacters())
 	{
+		// If in hitState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Hit) continue;
+
+		// If in squashedState, continue
+		if (currentPlayer->GetCurrentStateID() == player::Squashed) continue;
+
+		// Check if is not dead
+		if (currentPlayer->GetGameObject()->GetIsActive() == false)  continue;
+
+		// If is closer
 		playerPos = currentPlayer->GetGameObject()->GetWorldPosition();
 		currentDistance = utils::GetSqrdMagnitude(playerPos - currentPos);
-
 		if (currentDistance <= closestDistance)
 		{
 			closestDistance = currentDistance;

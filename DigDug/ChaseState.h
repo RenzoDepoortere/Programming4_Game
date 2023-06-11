@@ -47,7 +47,7 @@ namespace enemy
 
 		// Member functions
 		// ----------------
-		void FollowPath(EnemyComponent* pEnemy, float deltaTime);
+		EnemyStates FollowPath(EnemyComponent* pEnemy, float deltaTime);
 		EnemyStates HandleAttack(EnemyComponent* pEnemy, float deltaTime);
 	};
 }
