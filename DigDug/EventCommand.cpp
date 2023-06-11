@@ -7,7 +7,7 @@ EventCommand::EventCommand(unsigned int eventID)
 {
 }
 
-void EventCommand::Execute(float /*deltaTime*/)
+void EventCommand::Execute(float deltaTime)
 {
-	dae::EventManager<>::GetInstance().SendEvent(m_EventID);
+	dae::EventManager<float>::GetInstance().SendEvent(m_EventID, deltaTime);
 }

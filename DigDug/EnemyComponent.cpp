@@ -145,21 +145,6 @@ dae::AnimationComponent* EnemyComponent::GetAnimationComponent()
 	return m_pAnimationComponent;
 }
 
-void EnemyComponent::SetControl(unsigned long controllerID)
-{
-	// No controller
-	if (controllerID == -1)
-	{
-		m_IsControlled = false;
-	}
-	// Else, store ID
-	else
-	{
-		m_IsControlled = true;
-		m_ControllerID = controllerID;
-	}
-}
-
 // Only gets called when got hit by rock 
 void EnemyComponent::HandleEvent(unsigned int /*eventID*/, void* /*extraInfo*/)
 {

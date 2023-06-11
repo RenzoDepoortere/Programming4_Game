@@ -50,7 +50,7 @@ void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
 	// --------
 	const int volume{ 50 };
 	const int loops{ 0 };
-	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerHit, volume, loops, 3);
+	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::EnemyAttack, volume, loops, 3);
 
 	// Reset phase
 	// -----------

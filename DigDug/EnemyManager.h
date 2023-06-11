@@ -39,7 +39,7 @@ public:
 	void Reset();
 
 	void SpawnEnemies();
-	void ControlEnemy(unsigned long controllerID, enemy::EnemyTypes enemyType);
+	void ControlEnemy(enemy::EnemyTypes enemyType);
 
 	const std::vector<EnemyComponent*>& GetEnemies() const { return m_pEnemies; }
 

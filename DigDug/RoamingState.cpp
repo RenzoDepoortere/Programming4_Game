@@ -11,6 +11,8 @@
 #include "GameObject.h"
 #include "InputMapper.h"
 #include "ResourceManager.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
 
 enemy::RoamingState::RoamingState()
 {
@@ -25,6 +27,9 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 	// ---------------
 	m_CurrentRoamTime = 0.f;
 	m_CurrentAttackTime = 0.f;
+
+	m_WantedToAttack = false;
+	m_WantedToGhost = false;
 
 	// Create move commands
 	// --------------------
@@ -54,9 +59,34 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 	pAnimationComponent->SetFramesPerSecond(fps);
 
 	pAnimationComponent->SetPaused(false);
+
+	// Subscribe to events
+	// -------------------
+
+	if (pEnemy->GetIsControlled())
+	{
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionA_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionB_1, this);
+	}
 }
-void enemy::RoamingState::OnLeave(EnemyComponent* /*pEnemy*/)
+void enemy::RoamingState::OnLeave(EnemyComponent* pEnemy)
 {
+	// Unsubscribe to events
+	if (dae::EventManager<float>::GetIsDestroyed() == false && pEnemy->GetIsControlled())
+	{
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionB_1, this);
+	}
 }
 
 enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float deltaTime)
@@ -83,18 +113,53 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 		HandlePathing(pEnemy, deltaTime);
 		state = LookForPlayer(pEnemy, deltaTime);
 	}
-	// If controlled, check for input
-	else
+	// If controlled, and wanted to attack
+	else if (isControlled && m_WantedToAttack)
 	{
-		// Attack if X pressed
-		if (dae::InputManager::GetInstance().IsPressed(pEnemy->GetControllerID(), dae::InputManager::ControllerButton::ButtonX))
-		{
-			state = Attack;
-		}
+		state = Attack;
 	}
 
 	// Return
 	return state;
+}
+
+void enemy::RoamingState::HandleEvent(unsigned int eventID, float deltaTime)
+{
+	// Check event
+	glm::vec2 movementDirection{};
+	switch (eventID)
+	{
+	case event::ControllerLeft_1:
+		movementDirection = glm::vec2{ -1.f, 0.f };
+		break;
+
+	case event::ControllerRight_1:
+		movementDirection = glm::vec2{ 1.f, 0.f };
+		break;
+
+	case event::ControllerUp_1:
+		movementDirection = glm::vec2{ 0.f, -1.f };
+		break;
+
+	case event::ControllerDown_1:
+		movementDirection = glm::vec2{ 0.f, 1.f };
+		break;
+
+	case event::ControllerActionA_1:
+		
+		break;
+
+	case event::ControllerActionB_1:
+		m_WantedToAttack = true;
+		break;
+	}
+
+	// Handle input
+	m_pMoveCommand->SetMovementDirection(movementDirection);
+	m_pMoveCommand->Execute(deltaTime);
+}
+void enemy::RoamingState::OnSubjectDestroy()
+{
 }
 
 void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
@@ -102,77 +167,12 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 	m_CommandInitialized = true;
 
 	// Variables
-	// ---------
 	grid::GridComponent* pGrid{ digdug::DigDugSceneManager::GetInstance().GetGrid() };
 	dae::GameObject* pGameObject{ pEnemy->GetGameObject() };
-
-	const bool isBeingControlled{ pEnemy->GetIsControlled() };
-
-	glm::vec2 movementDirection{};
 	const float movementSpeed{ pEnemy->GetBehaviorData().movementSpeed };
 
-
-	// Create commands
-	// ---------------
-
-	// Left
-	movementDirection = glm::vec2{ -1, 0 };
-	std::unique_ptr<dae::MoveCommand> pLeftMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
-
-	// Right
-	movementDirection = glm::vec2{ 1, 0 };
-	std::unique_ptr<dae::MoveCommand> pRightMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
-
-	// Down
-	movementDirection = glm::vec2{ 0, 1 };
-	std::unique_ptr<dae::MoveCommand> pDownMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
-
-	// Up
-	movementDirection = glm::vec2{ 0, -1 };
-	std::unique_ptr<dae::MoveCommand> pUpMoveCommand{ std::make_unique<dae::MoveCommand>(pGameObject, movementDirection, movementSpeed, pGrid) };
-
-	// Check if controlled or not
-	// --------------------------
-	if (isBeingControlled == false)
-	{
-		// Store commands
-		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)] = std::move(pLeftMoveCommand);
-		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Right)] = std::move(pRightMoveCommand);
-		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Down)] = std::move(pDownMoveCommand);
-		m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Up)] = std::move(pUpMoveCommand);
-
-		m_pCurrentCommand = m_pMoveCommands[static_cast<int>(grid::CellRelativeDirection::Left)].get();
-	}
-	else
-	{
-		// Map command to input
-		const auto keyState{ dae::InputMapper::KeyState::Hold };
-		const unsigned long controllerID{ pEnemy->GetControllerID() };
-
-		// Left
-		auto controllerInput{ std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadLeft) };
-		auto inputKeys{ std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput) };
-
-		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pLeftMoveCommand));
-
-		// Right
-		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadRight);
-		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pRightMoveCommand));
-
-		// Down
-		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadDown);
-		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pDownMoveCommand));
-
-		// Up
-		controllerInput = std::make_pair(controllerID, dae::InputManager::ControllerButton::DPadUp);
-		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
-
-		dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pUpMoveCommand));
-	}
+	// Create command
+	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pGameObject, glm::vec2{}, movementSpeed, pGrid, true);
 }
 
 enemy::EnemyStates enemy::RoamingState::CheckGhostTimer(EnemyComponent* pEnemy, float deltaTime)
@@ -231,7 +231,7 @@ void enemy::RoamingState::HandlePathing(EnemyComponent* pEnemy, float deltaTime)
 
 	// Move towards nextCell
 	// ---------------------
-	m_pCurrentCommand->Execute(deltaTime);
+	m_pMoveCommand->Execute(deltaTime);
 }
 void enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 {
@@ -267,7 +267,28 @@ void enemy::RoamingState::FindNextCell(grid::Cell* pCurrentCell)
 	// Calculate next direction
 	// ------------------------
 	const grid::CellRelativeDirection direction{ grid::RelativeDirection(pCurrentCell, m_pNextCell) };
-	m_pCurrentCommand = m_pMoveCommands[static_cast<int>(direction)].get();
+	glm::vec2 movementDirection{};
+
+	switch (direction)
+	{
+	case grid::Left:
+		movementDirection = glm::vec2{ -1.f, 0.f };
+		break;
+
+	case grid::Right:
+		movementDirection = glm::vec2{ 1.f, 0.f };
+		break;
+
+	case grid::Up:
+		movementDirection = glm::vec2{ 0.f, -1.f };
+		break;
+
+	case grid::Down:
+		movementDirection = glm::vec2{ 0.f, 1.f };
+		break;
+	}
+
+	m_pMoveCommand->SetMovementDirection(movementDirection);
 }
 
 enemy::EnemyStates enemy::RoamingState::LookForPlayer(EnemyComponent* pEnemy, float /*deltaTime*/)

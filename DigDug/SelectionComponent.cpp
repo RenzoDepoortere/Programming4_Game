@@ -1,23 +1,39 @@
 #include "SelectionComponent.h"
 
+#include "GameObject.h"
+
 #include "DigDugSceneManager.h"
 
 #include "InputManager.h"
+#include "EventManager.h"
+#include "EventsEnum.h"
 
 SelectionComponent::SelectionComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 	, m_XPos{ 180 }
 {
+	// Subscribe to event
+	dae::EventManager<float>::GetInstance().Subscribe(event::StartMenu, this);
+}
+SelectionComponent::~SelectionComponent()
+{
+	// Unsubscribe to events
+	if (dae::EventManager<float>::GetIsDestroyed() == false)
+	{
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::StartMenu, this);
+	}
 }
 
-void SelectionComponent::Update(float /*deltaTime*/)
+void SelectionComponent::HandleEvent(unsigned int /*eventID*/, float /*deltaTime*/)
 {
-	// If ENTER pressed
-	if (dae::InputManager::GetInstance().IsPressed(SDL_SCANCODE_RETURN))
-	{
-		// Check where arrow is
+	// Check if is active
+	if (GetGameObject()->GetIsActive() == false) return;
 
-		// Execute that thing
-		digdug::DigDugSceneManager::GetInstance().NextLevel();
-	}
+	// Check where arrow is
+
+	// Execute that thing
+	digdug::DigDugSceneManager::GetInstance().NextLevel();
+}
+void SelectionComponent::OnSubjectDestroy()
+{
 }

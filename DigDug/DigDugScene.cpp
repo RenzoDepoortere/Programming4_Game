@@ -129,7 +129,7 @@ void digdug::DigDugScene::Enemies()
 	m_pEnemyManager = pEnemies->AddComponent<EnemyManager>();
 	m_pEnemyManager->SpawnEnemies();
 
-	m_pEnemyManager->ControlEnemy(DigDugSceneManager::GetInstance().GetControllerIndices()[0], enemy::Pooka);
+	m_pEnemyManager->ControlEnemy(enemy::Pooka);
 
 	// Add to root
 	// -----------

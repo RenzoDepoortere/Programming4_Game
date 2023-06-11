@@ -23,6 +23,8 @@ using namespace digdug;
 DigDugSceneManager::DigDugSceneManager()
 	: m_CurrentLevel{ -1 }
 {
+	// Subscribe to events
+	dae::EventManager<>::GetInstance().Subscribe(event::PlayerDeath, this);
 }
 DigDugSceneManager::~DigDugSceneManager()
 {
@@ -269,9 +271,6 @@ void DigDugSceneManager::InitMenu(const std::vector<dae::Scene*>& pScenes)
 }
 void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& pScenes)
 {
-	// Subscribe to events
-	dae::EventManager<>::GetInstance().Subscribe(event::PlayerDeath, this);
-
 	// Create InGameUI scene
 	m_pInGameUIScene = std::make_unique<InGameUIScene>(pScenes[1]);
 }

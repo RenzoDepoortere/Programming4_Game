@@ -75,9 +75,8 @@ public:
 	dae::AnimationComponent* GetAnimationComponent();
 	bool GetIsLookingLeft() const { return m_IsLookingLeft; }
 
-	void SetControl(unsigned long controllerID = -1);
+	void SetIsControlled(bool isControlled) { m_IsControlled = isControlled; }
 	bool GetIsControlled() const { return m_IsControlled; }
-	unsigned long GetControllerID() const { return m_ControllerID; }
 
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, void* extraInfo) override;
@@ -91,7 +90,6 @@ private:
 	bool m_StateInitialized{};
 
 	bool m_IsControlled{ false };
-	unsigned long m_ControllerID{};
 
 	bool m_IsCaught{ false };
 	bool m_Blown{ false };

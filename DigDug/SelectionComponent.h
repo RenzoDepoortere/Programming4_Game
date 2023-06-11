@@ -1,14 +1,15 @@
 #pragma once
 #include "Component.h"
+#include "Observer.h"
 
 #include <vector>
 
-class SelectionComponent final : public Component
+class SelectionComponent final : public Component, public dae::Observer<float>
 {
 public:
 	// Rule of five
 	explicit SelectionComponent(dae::GameObject* pParentObject);
-	virtual ~SelectionComponent() override = default;
+	virtual ~SelectionComponent() override;
 
 	SelectionComponent(const SelectionComponent& other) = delete;
 	SelectionComponent(SelectionComponent&& other) = delete;
@@ -16,9 +17,11 @@ public:
 	SelectionComponent& operator=(SelectionComponent&& other) = delete;
 
 	// Functionality
-	virtual void Update(float deltaTime) override;
-
 	void SetPositions(const std::vector<float>& positions) { m_Positions = positions; }
+
+	// Observer
+	virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
+	virtual void OnSubjectDestroy() override;
 
 private:
 	// Member variables

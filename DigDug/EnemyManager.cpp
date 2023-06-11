@@ -63,7 +63,7 @@ void EnemyManager::SpawnEnemies()
 	}
 }
 
-void EnemyManager::ControlEnemy(unsigned long controllerID, enemy::EnemyTypes enemyType)
+void EnemyManager::ControlEnemy(enemy::EnemyTypes enemyType)
 {
 	// Loop through enemies
 	for (const auto& currentEnemy : m_pEnemies)
@@ -72,7 +72,7 @@ void EnemyManager::ControlEnemy(unsigned long controllerID, enemy::EnemyTypes en
 		if (currentEnemy->GetBehaviorData().enemyType == enemyType)
 		{
 			// Set control of enemy to controller
-			currentEnemy->SetControl(controllerID);
+			currentEnemy->SetIsControlled(true);
 			return;
 		}
 	}
