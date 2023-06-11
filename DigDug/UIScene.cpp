@@ -13,6 +13,7 @@
 
 #include "ResourceManager.h"
 
+#include <iostream>
 #include <memory>
 
 UIScene::UIScene(dae::Scene* pScene)
@@ -76,6 +77,8 @@ void UIScene::ShowMenu()
 
 void UIScene::InitControls()
 {
+	std::cout << "Initializing UI controls" << std::endl;
+
 	// Title
 	// -----
 
@@ -83,9 +86,13 @@ void UIScene::InitControls()
 	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
 
 	// Add components
+	std::cout << "Before loading sprite" << std::endl;
+
 	auto pTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Menu/Controls.png");
 	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
 	pTextureComponent->SetTexture(pTexture);
+
+	std::cout << "After loading sprite" << std::endl;
 
 	auto pEventComponent = pGameObject->AddComponent<DestroyOnEventComponent>();
 	pEventComponent->SetEvent(event::StartMenu);
@@ -95,6 +102,8 @@ void UIScene::InitControls()
 }
 void UIScene::InitWidgets()
 {
+	std::cout << "Initializing UI widgets" << std::endl;
+
 	// Title
 	// -----
 
@@ -188,6 +197,8 @@ void UIScene::InitWidgets()
 }
 void UIScene::InitArrow()
 {
+	std::cout << "Initializing UI arrow" << std::endl;
+
 	// Arrow
 	// -----
 
@@ -235,6 +246,8 @@ void UIScene::InitArrow()
 }
 void UIScene::InitScoreScreen()
 {
+	std::cout << "Initializing UI scoreScreen" << std::endl;
+
 	// Create gameObject
 	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
 

@@ -27,7 +27,12 @@ void load()
 int main(int, char* [])
 {
 	// Engine
-	dae::Minigin engine("../Data/");
+	std::string dataPath{"Data/"};
+#ifdef _DEBUG
+	//dataPath = "../Data/";
+#endif // DEBUG
+
+	dae::Minigin engine(dataPath);
 	engine.Run(load);
 
 	// Close

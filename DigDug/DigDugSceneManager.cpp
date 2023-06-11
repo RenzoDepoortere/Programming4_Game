@@ -42,6 +42,8 @@ DigDugSceneManager::~DigDugSceneManager()
 
 void DigDugSceneManager::Initialize(const std::vector<dae::Scene*>& pScenes)
 {
+	std::cout << "Initializing DigDugSceneManager" << std::endl;
+
 	InitSystems();
 
 	InitInput();
@@ -109,6 +111,8 @@ void DigDugSceneManager::InitSystems()
 
 void DigDugSceneManager::InitInput()
 {
+	std::cout << "Initializing input" << std::endl;
+
 	// Add controllers
 	// ---------------
 	m_ControllerIndices.emplace_back(dae::InputManager::GetInstance().AddController());
@@ -283,16 +287,22 @@ void DigDugSceneManager::CommunalCommands()
 
 void DigDugSceneManager::InitMenu(const std::vector<dae::Scene*>& pScenes)
 {
+	std::cout << "Initializing Menu" << std::endl;
+
 	// Create UI scene
 	m_pUIScene = std::make_unique<UIScene>(pScenes[0]);
 }
 void DigDugSceneManager::InitMainGame(const std::vector<dae::Scene*>& pScenes)
 {
+	std::cout << "Initializing MainGame" << std::endl;
+
 	// Create InGameUI scene
 	m_pInGameUIScene = std::make_unique<InGameUIScene>(pScenes[1]);
 }
 void DigDugSceneManager::InitScenes(const std::vector<dae::Scene*>& pScenes)
 {
+	std::cout << "Initializing scenes" << std::endl;
+
 	// Create main level
 	m_pCurrentScene = std::make_unique<DigDugScene>(pScenes[2]);
 

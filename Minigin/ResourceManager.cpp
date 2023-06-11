@@ -9,6 +9,8 @@
 #include "Texture2D.h"
 #include "AudioFile.h"
 
+#include <iostream>
+
 void dae::ResourceManager::Init(const std::string& dataPath)
 {
 	m_dataPath = dataPath;
@@ -28,8 +30,10 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
 	// Load texture
 	const auto fullPath = m_dataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	std::cout << "Texture fullPath: " << fullPath << std::endl;
 	if (texture == nullptr)
 	{
+		std::cout << "failed to load texture" << std::endl;
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
 
