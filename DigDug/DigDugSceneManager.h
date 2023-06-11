@@ -56,6 +56,7 @@ namespace digdug
 
 		const std::list<std::string>& GetScores() const { return m_pInGameUIScene->GetScores(); }
 		void ShowScoreScreen(bool showScreen) { m_pUIScene->ShowScoreScreen(showScreen); }
+		void ShowMenu() { m_pUIScene->ShowMenu(); }
 
 		bool GetIsChangingLevel() const { return m_IsChangingLevel; }
 

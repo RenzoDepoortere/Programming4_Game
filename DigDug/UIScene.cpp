@@ -6,6 +6,8 @@
 #include "TextComponent.h"
 #include "SelectionComponent.h"
 #include "ScoreInputComponent.h"
+#include "DestroyOnEventComponent.h"
+#include "EventsEnum.h"
 
 #include "DigDugSceneManager.h"
 
@@ -23,9 +25,13 @@ UIScene::UIScene(dae::Scene* pScene)
 	// Create menu gameObject
 	auto pObject{ std::make_shared<dae::GameObject>() };
 	m_pMenuObject = pObject.get();
+
+	pObject->SetIsActive(false);
+	pObject->SetIsHidden(true);
 	pObject->SetParent(m_pSceneRootObject, false);
 
 	// Init widgets
+	InitControls();
 	InitWidgets();
 	InitArrow();
 	InitScoreScreen();
@@ -58,7 +64,35 @@ void UIScene::ShowScoreScreen(bool showScreen)
 		m_pScoreInputComponent->GetGameObject()->SetIsHidden(true);
 	}
 }
+void UIScene::ShowMenu()
+{
+	// Set active
+	m_pMenuObject->SetIsActive(true);
+	m_pMenuObject->SetIsHidden(false);
 
+	// Subscribe to events
+	m_pSelectionComponent->SubscribeToEvents();
+}
+
+void UIScene::InitControls()
+{
+	// Title
+	// -----
+
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	auto pTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Menu/Controls.png");
+	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
+	pTextureComponent->SetTexture(pTexture);
+
+	auto pEventComponent = pGameObject->AddComponent<DestroyOnEventComponent>();
+	pEventComponent->SetEvent(event::StartMenu);
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+}
 void UIScene::InitWidgets()
 {
 	// Title
@@ -165,11 +199,11 @@ void UIScene::InitArrow()
 	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
 	pTextureComponent->SetTexture(pTexture);
 
-	auto pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
-	pSelectionComponent->SetPositions(m_ButtonYPos);
+	m_pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
+	m_pSelectionComponent->SetPositions(m_ButtonYPos);
 
 	const float xPos{ 180.f };
-	pSelectionComponent->SetXPos(xPos);
+	m_pSelectionComponent->SetXPos(xPos);
 
 	auto singlePlayer = []()
 	{
@@ -191,7 +225,7 @@ void UIScene::InitArrow()
 	functions.emplace_back(coop);
 	functions.emplace_back(versus);
 
-	pSelectionComponent->SetActivateFunctions(functions);
+	m_pSelectionComponent->SetActivateFunctions(functions);
 
 	// Add to menu
 	pGameObject->SetParent(m_pMenuObject, false);

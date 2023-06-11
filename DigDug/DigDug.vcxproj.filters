@@ -136,11 +136,14 @@
     <ClCompile Include="MuteCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="MoveCommand.cpp">
-      <Filter>Components</Filter>
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="DestroyOnEventComponent.cpp">
+      <Filter>Components\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -249,11 +252,14 @@
     <ClInclude Include="EventsEnum.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCommand.h">
-      <Filter>GameObjects</Filter>
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyOnEventComponent.h">
+      <Filter>Components\Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

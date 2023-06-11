@@ -25,6 +25,7 @@ public:
 	// Functionality
 	void SetActive(bool isActive);
 	void ShowScoreScreen(bool showScreen);
+	void ShowMenu();
 
 private:
 	// Member variables
@@ -34,9 +35,11 @@ private:
 
 	dae::GameObject* m_pMenuObject{ nullptr };
 	ScoreInputComponent* m_pScoreInputComponent{ nullptr };
+	SelectionComponent* m_pSelectionComponent{ nullptr };
 
 	// Member functions
 	// ----------------
+	void InitControls();
 	void InitWidgets();
 	void InitArrow();
 	void InitScoreScreen();

@@ -22,7 +22,7 @@ player::DiggingState::DiggingState()
 
 	// SFX
 	auto& soundSystem{ dae::ServiceLocator::GetSoundSystem() };
-	const std::string fileName{ "Sound/Other/ThemeSong.mp3" };
+	const std::string fileName{ "Sound/Other/ThemeSong.wav" };
 	const int volume{ 75 };
 
 	soundSystem.SetID(event::PlayerWalking, fileName);

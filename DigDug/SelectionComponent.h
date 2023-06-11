@@ -19,6 +19,7 @@ public:
 
 	// Functionality
 	virtual void Update(float deltaTime) override;
+	void SubscribeToEvents() { m_HasToSubscribe = true; }
 
 	void SetPositions(const std::vector<float>& positions) { m_Positions = positions; }
 	void SetXPos(float xPos) { m_XPos = xPos; }
@@ -41,9 +42,12 @@ private:
 	float m_Cooldown{};
 	float m_MaxCooldown{};
 
+	bool m_HasToSubscribe{};
+
 	// Member functions
 	// ----------------
 	void Activate();
+	void Subscribe();
 
 	void GoDown();
 	void GoUp();

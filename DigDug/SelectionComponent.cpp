@@ -12,17 +12,6 @@ SelectionComponent::SelectionComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 	, m_MaxCooldown{ 0.25f }
 {
-	// Subscribe to event
-	dae::EventManager<float>::GetInstance().Subscribe(event::StartMenu, this);
-
-	dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardUp, this);
-	dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardDown, this);
-
-	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_2, this);
-	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_2, this);
-
-	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_1, this);
-	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_1, this);
 }
 SelectionComponent::~SelectionComponent()
 {
@@ -47,6 +36,12 @@ void SelectionComponent::Update(float deltaTime)
 	if (0.f < m_Cooldown)
 	{
 		m_Cooldown -= deltaTime;
+	}
+
+	if (m_HasToSubscribe)
+	{
+		m_HasToSubscribe = false;
+		Subscribe();
 	}
 }
 
@@ -83,6 +78,20 @@ void SelectionComponent::Activate()
 {
 	// Execute function of position
 	m_Functions[m_CurrentPos]();
+}
+void SelectionComponent::Subscribe()
+{
+	// Subscribe to event
+	dae::EventManager<float>::GetInstance().Subscribe(event::StartMenu, this);
+
+	dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardUp, this);
+	dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardDown, this);
+
+	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_2, this);
+	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_2, this);
+
+	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_1, this);
+	dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_1, this);
 }
 
 void SelectionComponent::GoDown()
