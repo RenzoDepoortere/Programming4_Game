@@ -121,7 +121,7 @@ void ScoreInputComponent::InputStart()
 	m_CurrentFlickerTimer = 0.f;
 	m_IsShowingLetter = true;
 
-	std::fill(m_Letters.begin(), m_Letters.end(), 'F');
+	std::fill(m_Letters.begin(), m_Letters.end(), 'A');
 
 	// Get data
 	// --------
@@ -135,7 +135,7 @@ void ScoreInputComponent::InputStart()
 	if (m_MaxScores <= scores.size()) scores.pop_back();
 
 	// Add own score
-	const std::string scoreString{ "FFF/" + std::to_string(currentScore) };
+	const std::string scoreString{ "AAA/" + std::to_string(currentScore) };
 	scores.emplace_back(scoreString);
 
 	// Sort
@@ -344,13 +344,35 @@ void ScoreInputComponent::GoRight()
 }
 void ScoreInputComponent::GoDown()
 {
+	// Check if can go down one
+	if (m_Letters[m_CurrentLetterIdx] == 'A') return;
+
 	// Return if on cooldown
 	if (0.f < m_InputCooldown) return;
 	m_InputCooldown = m_MaxCooldown;
+
+	// Lower one
+	--m_Letters[m_CurrentLetterIdx];
+
+	// Set text
+	std::string currentString{ m_pTextComponentToChange->GetText() };
+	currentString[m_CurrentLetterIdx] = m_Letters[m_CurrentLetterIdx];
+	m_pTextComponentToChange->SetText(currentString);
 }
 void ScoreInputComponent::GoUp()
 {
+	// Check if can go up one
+	if (m_Letters[m_CurrentLetterIdx] == 'Z') return;
+
 	// Return if on cooldown
 	if (0.f < m_InputCooldown) return;
 	m_InputCooldown = m_MaxCooldown;
+
+	// Go up one
+	++m_Letters[m_CurrentLetterIdx];
+
+	// Set text
+	std::string currentString{ m_pTextComponentToChange->GetText() };
+	currentString[m_CurrentLetterIdx] = m_Letters[m_CurrentLetterIdx];
+	m_pTextComponentToChange->SetText(currentString);
 }
