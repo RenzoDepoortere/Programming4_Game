@@ -18,7 +18,8 @@ namespace dae
 		void Init(const std::string& data);
 		std::shared_ptr<dae::Texture2D> LoadTexture(const std::string& file);
 		std::shared_ptr<Font> LoadFont(const std::string& file, unsigned int size) const;
-		std::shared_ptr<std::ifstream> LoadFile(const std::string& file) const;
+		std::shared_ptr<std::ifstream> LoadReadFile(const std::string& file) const;
+		std::shared_ptr<std::ofstream> LoadWriteFile(const std::string& file) const;
 		std::shared_ptr<AudioFile> LoadSound(const std::string& file);
 
 	private:

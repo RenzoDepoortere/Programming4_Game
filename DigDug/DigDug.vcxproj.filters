@@ -139,6 +139,9 @@
     <ClCompile Include="EventCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="HighScoreComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="EventCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScoreComponent.h">
+      <Filter>Components\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

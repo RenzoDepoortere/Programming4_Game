@@ -11,6 +11,7 @@
 #include "../DigDug/CharacterComponent.h"
 
 #include "../DigDug/DigDugSceneManager.h"
+#include "ResourceManager.h"
 
 #include <memory>
 
@@ -43,12 +44,29 @@ ScoreComponent::~ScoreComponent()
 void ScoreComponent::StoreScore()
 {
 	// Ask for 3 letters
-
+	// -----------------
 
 	// Set score to file
+	// -----------------
 
+	// Get file
+	auto pHighscoreFile{ dae::ResourceManager::GetInstance().LoadWriteFile("Other/HighScore.txt") };
+	if (pHighscoreFile->is_open())
+	{
+		// Check if over 5
+
+		// If so, remove lowest score
+
+		// Add own score
+		*pHighscoreFile << std::to_string(m_CurrentScore) << '\n';
+	}
+	else
+	{
+		std::cout << "Error: failed openining the highscore file" << std::endl;
+	}
 
 	// Reset score
+	// -----------
 	m_CurrentScore = 0;
 	m_pTextComponent->SetText(std::to_string(m_CurrentScore));
 }

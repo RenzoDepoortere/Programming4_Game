@@ -151,7 +151,7 @@ void GridComponent::SetLevelFile(const std::string& levelFile)
 {
 	// Get file and open
 	// -----------------
-	auto jsonFile{ dae::ResourceManager::GetInstance().LoadFile(levelFile) };
+	auto jsonFile{ dae::ResourceManager::GetInstance().LoadReadFile(levelFile) };
 	assert(jsonFile->is_open() && "Error: failed to open levelFile");
 
 	// Parse File

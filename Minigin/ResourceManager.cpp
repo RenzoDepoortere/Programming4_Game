@@ -43,9 +43,13 @@ std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& fil
 	return std::make_shared<Font>(m_dataPath + file, size);
 }
 
-std::shared_ptr<std::ifstream> dae::ResourceManager::LoadFile(const std::string& file) const
+std::shared_ptr<std::ifstream> dae::ResourceManager::LoadReadFile(const std::string& file) const
 {
 	return std::make_shared<std::ifstream>(m_dataPath + file);
+}
+std::shared_ptr<std::ofstream> dae::ResourceManager::LoadWriteFile(const std::string& file) const
+{
+	return std::make_shared<std::ofstream>(m_dataPath + file, std::ios::app);
 }
 
 std::shared_ptr<dae::AudioFile> dae::ResourceManager::LoadSound(const std::string& file)

@@ -212,6 +212,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="FleeState.cpp" />
     <ClCompile Include="GhostState.cpp" />
     <ClCompile Include="GridComponent.cpp" />
+    <ClCompile Include="HighScoreComponent.cpp" />
     <ClCompile Include="HitState.cpp" />
     <ClCompile Include="InGameUIScene.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
@@ -250,6 +251,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="GhostState.h" />
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="GridHelpers.h" />
+    <ClInclude Include="HighScoreComponent.h" />
     <ClInclude Include="HitState.h" />
     <ClInclude Include="InGameUIScene.h" />
     <ClInclude Include="LivesComponent.h" />
