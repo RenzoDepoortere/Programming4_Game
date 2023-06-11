@@ -46,6 +46,8 @@ void UIScene::ShowScoreScreen(bool showScreen)
 
 		m_pScoreInputComponent->GetGameObject()->SetIsActive(true);
 		m_pScoreInputComponent->GetGameObject()->SetIsHidden(false);
+
+		m_pScoreInputComponent->InputStart();
 	}
 	else
 	{

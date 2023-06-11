@@ -103,6 +103,55 @@ void ScoreInputComponent::Update(float deltaTime)
 		m_Cooldown -= deltaTime;
 	}
 }
+void ScoreInputComponent::InputStart()
+{
+	// Get data
+	// --------
+	auto& sceneManager = digdug::DigDugSceneManager::GetInstance();
+
+	// Get scores
+	const int currentScore{ sceneManager.GetCurrentScore() };
+	auto scores{ sceneManager.GetScores() };
+
+	// Remove last if over max
+	if (m_MaxScores <= scores.size()) scores.pop_back();
+
+	// Add own score
+	const std::string scoreString{ "FFF/" + std::to_string(currentScore) };
+	scores.emplace_back(scoreString);
+
+	// Sort
+	SortList(scores);
+
+	// Set text of textComponents
+	// --------------------------
+	dae::TextComponent* pTextComponent{ nullptr };
+	int idx{};
+
+	// Loop through scores
+	for (const auto& score : scores)
+	{
+		// Get textComponent
+		pTextComponent = m_pRenderTextures[idx];
+		++idx;
+
+		// Set text
+		SetText(pTextComponent, score);
+
+		// Set color
+		pTextComponent->SetColor(SDL_Color{ 255, 255, 255, 0 });
+
+		// Check if is currentScore
+		if (score == scoreString)
+		{
+			// Set different color and store
+			pTextComponent->SetColor(SDL_Color{ 220, 0, 0, 0 });
+			m_pTextComponentToChange = pTextComponent;
+
+			continue;
+		}
+	}
+}
 
 void ScoreInputComponent::HandleEvent(unsigned int eventID, float /*deltaTime*/)
 {
@@ -200,6 +249,17 @@ void ScoreInputComponent::SortList(std::list<std::string>& scores)
 		return firstNumber > secondNumber;
 	};
 	scores.sort(descendingLambda);
+}
+void ScoreInputComponent::SetText(dae::TextComponent* pTextComponent, const std::string& string)
+{
+	std::string text{};
+	size_t offset{ string.find('/') };
+
+	text = string.substr(0, offset);
+	text += " ";
+	text += string.substr(offset + 1);
+
+	pTextComponent->SetText(text);
 }
 
 void ScoreInputComponent::GoLeft()

@@ -26,6 +26,7 @@ public:
 
 	// Functionality
 	virtual void Update(float deltaTime) override;
+	void InputStart();
 
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
@@ -41,11 +42,13 @@ private:
 
 	int m_MaxScores{};
 	std::vector<dae::TextComponent*> m_pRenderTextures{};
+	dae::TextComponent* m_pTextComponentToChange{};
 
 	// Member functions
 	// ----------------
 	void StoreScore();
 	void SortList(std::list<std::string>& scores);
+	void SetText(dae::TextComponent* pTextComponent, const std::string& string);
 
 	void GoLeft();
 	void GoRight();
