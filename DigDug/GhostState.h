@@ -18,7 +18,7 @@ namespace enemy
 	public:
 		// Rule of Five
 		GhostState();
-		virtual ~GhostState() override = default;
+		virtual ~GhostState() override;
 
 		GhostState(const GhostState& other) = delete;
 		GhostState(GhostState&& other) = delete;
@@ -52,5 +52,7 @@ namespace enemy
 		// ----------------
 		void HandleMovement(EnemyComponent* pEnemy, float deltaTime);
 		EnemyStates HandleGoingBack(EnemyComponent* pEnemy, float deltaTime);
+
+		void Unsubscribe(EnemyComponent* pEnemy);
 	};
 }

@@ -18,6 +18,10 @@ enemy::GhostState::GhostState()
 	m_pPookaGhostTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Pooka/Ghost_Animation.png");
 	m_pFygarGhostTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Characters/Enemies/Fygar/Ghost_Animation.png");
 }
+enemy::GhostState::~GhostState()
+{
+	Unsubscribe(m_pEnemyComponent);
+}
 
 void enemy::GhostState::OnEnter(EnemyComponent* pEnemy)
 {
@@ -73,17 +77,7 @@ void enemy::GhostState::OnEnter(EnemyComponent* pEnemy)
 }
 void enemy::GhostState::OnLeave(EnemyComponent* pEnemy)
 {
-	// Unsubscribe to events
-	if (dae::EventManager<float>::GetIsDestroyed() == false && pEnemy->GetIsControlled())
-	{
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
-
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
-		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionB_1, this);
-	}
+	Unsubscribe(pEnemy);
 }
 
 enemy::EnemyStates enemy::GhostState::Update(EnemyComponent* pEnemy, float deltaTime)
@@ -205,4 +199,19 @@ enemy::EnemyStates enemy::GhostState::HandleGoingBack(EnemyComponent* pEnemy, fl
 		else						return Roaming;
 	}
 	else							  return NR_STATES;
+}
+
+void enemy::GhostState::Unsubscribe(EnemyComponent* /*pEnemy*/)
+{
+	// Unsubscribe to events
+	if (dae::EventManager<float>::GetIsDestroyed() == false /* && pEnemy->GetIsControlled()*/)
+	{
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
+		dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionB_1, this);
+	}
 }

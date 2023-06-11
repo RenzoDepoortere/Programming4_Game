@@ -13,7 +13,7 @@ namespace player
 	public:
 		// Rule of Five
 		DiggingState();
-		virtual ~DiggingState() override = default;
+		virtual ~DiggingState() override;
 
 		DiggingState(const DiggingState& other) = delete;
 		DiggingState(DiggingState&& other) = delete;
@@ -45,5 +45,7 @@ namespace player
 		// ----------------
 		void HandleWalkingToggle(CharacterComponent* pPlayer);
 		void RemoveDirt(CharacterComponent* pPlayer);
+
+		void Unsubscribe(CharacterComponent* pPlayer);
 	};
 }

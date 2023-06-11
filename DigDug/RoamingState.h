@@ -21,7 +21,7 @@ namespace enemy
 	public:
 		// Rule of Five
 		RoamingState();
-		virtual ~RoamingState() override = default;
+		virtual ~RoamingState() override;
 
 		RoamingState(const RoamingState& other) = delete;
 		RoamingState(RoamingState&& other) = delete;
@@ -69,5 +69,7 @@ namespace enemy
 
 		EnemyStates LookForPlayer(EnemyComponent* pEnemy, float deltaTime);
 		bool IsDirtBetween(int cellsBetween, bool checkRows, grid::GridComponent* pGrid, grid::Cell* pCurrentCell, grid::Cell* pCharacterCell);
+
+		void Unsubscribe(EnemyComponent* pEnemy);
 	};
 }

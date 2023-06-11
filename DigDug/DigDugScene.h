@@ -45,14 +45,14 @@ namespace digdug
 		// Member Variables
 		// ----------------
 		dae::GameObject* m_pSceneRootObject{ nullptr };
-		std::string m_LevelName{};
 
 		grid::GridComponent* m_pGrid{ nullptr };
 		PlayerManager* m_pPlayerManager{ nullptr };
 		EnemyManager* m_pEnemyManager{ nullptr };
 
-
-		unsigned long m_ControllerIdx{};
+		std::string m_LevelName{};
+		int m_NrPlayers{};
+		bool m_ControlFygar{};
 
 		// Member Functions
 		// ----------------

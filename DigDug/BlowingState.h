@@ -17,7 +17,7 @@ namespace player
 	public:
 		// Rule of Five
 		BlowingState();
-		virtual ~BlowingState() override = default;
+		virtual ~BlowingState() override;
 
 		BlowingState(const BlowingState& other) = delete;
 		BlowingState(BlowingState&& other) = delete;
@@ -53,5 +53,6 @@ namespace player
 		void HandleCooldown(float deltaTime);
 
 		void Blow();
+		void Unsubscribe(CharacterComponent* pPlayer);
 	};
 }

@@ -50,6 +50,8 @@ void enemy::ChaseState::OnEnter(EnemyComponent* pEnemy)
 
 	// Calculate path
 	// --------------
+	if (m_pCharacterToChase == nullptr) return;
+
 	auto desiredPos{ m_pCharacterToChase->GetGameObject()->GetWorldPosition() };
 	m_DesiredPath = grid::CalculatePath(currentPos, desiredPos, pGrid);
 
@@ -117,6 +119,8 @@ void enemy::ChaseState::FollowPath(EnemyComponent* pEnemy, float deltaTime)
 		{
 			auto desiredPos{ m_pCharacterToChase->GetGameObject()->GetWorldPosition() };
 			m_DesiredPath = grid::CalculatePath(currentPos, desiredPos, pGrid);
+
+			return;
 		}	
 
 		// Set new nextCell

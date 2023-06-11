@@ -26,10 +26,29 @@ digdug::DigDugScene::DigDugScene(dae::Scene* pScene)
 	pScene->Add(pRoot);
 }
 
-void digdug::DigDugScene::SetLevel(const std::string& levelPath, unsigned int /*gameMode*/)
+void digdug::DigDugScene::SetLevel(const std::string& levelPath, unsigned int gameMode)
 {
 	// Set level name
 	m_LevelName = levelPath;
+
+	// Set variables according to gameMode
+	switch (static_cast<digdug::Mode>(gameMode))
+	{
+	case Single:
+		m_NrPlayers = 1;
+		m_ControlFygar = false;
+		break;
+
+	case PvE:
+		m_NrPlayers = 2;
+		m_ControlFygar = false;
+		break;
+
+	case PvP:
+		m_NrPlayers = 1;
+		m_ControlFygar = true;
+		break;
+	}
 
 	// Set active
 	SetActive(true);
@@ -105,7 +124,7 @@ void digdug::DigDugScene::MainCharacter()
 
 	// PlayerManager
 	m_pPlayerManager = pPlayers->AddComponent<PlayerManager>();
-	m_pPlayerManager->SetNrPlayers(1);
+	m_pPlayerManager->SetNrPlayers(m_NrPlayers);
 	m_pPlayerManager->SpawnPlayers();
 
 	// Add to root
@@ -129,7 +148,10 @@ void digdug::DigDugScene::Enemies()
 	m_pEnemyManager = pEnemies->AddComponent<EnemyManager>();
 	m_pEnemyManager->SpawnEnemies();
 
-	m_pEnemyManager->ControlEnemy(enemy::Fygar);
+	if (m_ControlFygar)
+	{
+		m_pEnemyManager->ControlEnemy(enemy::Fygar);
+	}
 
 	// Add to root
 	// -----------
