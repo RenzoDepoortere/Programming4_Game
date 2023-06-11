@@ -97,9 +97,9 @@ enemy::EnemyStates enemy::GhostState::Update(EnemyComponent* pEnemy, float delta
 		state = HandleGoingBack(pEnemy, deltaTime);
 	}
 	// Else
-	else
+	else if (m_WantsToGoBack)
 	{
-		if (m_WantsToGoBack) state = Roaming;
+		state = Roaming;
 	}
 
 	return state;

@@ -121,7 +121,14 @@ void EnemyComponent::SetFlee()
 	m_IsFleeing = true;
 
 	// If currently in squash state or ghost state
-	if (dynamic_cast<enemy::EnemySquashedState*>(m_pCurrentState) || dynamic_cast<enemy::GhostState*>(m_pCurrentState))
+	if (m_CurrentStateID == enemy::Squashed || m_CurrentStateID == enemy::Ghost)
+	{
+		// Do nothing
+		return;
+	}
+
+	// If is being controlled
+	if (m_IsControlled)
 	{
 		// Do nothing
 		return;
