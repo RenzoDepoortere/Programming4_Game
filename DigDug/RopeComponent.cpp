@@ -113,9 +113,16 @@ void RopeComponent::CheckCollision()
 	}
 
 	// Check if hit enemy
+	utils::Rect ownRect{ m_pRenderTextureComponent->GetBoundingRect() };
+	ownRect.width *= m_TextureFill;
+	
+	utils::Rect enemyRect{};
+
 	for (const auto& currentEnemy : digdug::DigDugSceneManager::GetInstance().GetEnemies())
 	{
-		if (utils::IsInsideRect(pointPos, currentEnemy->GetAnimationComponent()->GetBoundingRect()))
+		enemyRect = currentEnemy->GetAnimationComponent()->GetBoundingRect();
+
+		if (utils::RectOverlaps(ownRect, enemyRect))
 		{
 			// Caught enemy
 			m_CaughtEnemy = true;
