@@ -12,7 +12,6 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "GameObjectManager.h"
 #include "DigDugSceneManager.h"
 
 void load()

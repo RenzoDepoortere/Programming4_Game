@@ -43,16 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="..\Minigin\MoveCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="DigDugScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="CharacterComponent.cpp">
-      <Filter>Components\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\ScoreComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
     <ClCompile Include="GridComponent.cpp">
@@ -60,15 +54,6 @@
     </ClCompile>
     <ClCompile Include="RockComponent.cpp">
       <Filter>Components\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\FPSCounter.cpp">
-      <Filter>Components\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\RotatingMovement.cpp">
-      <Filter>Components\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\TrashTheCache.cpp">
-      <Filter>Components\Other</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Components\Enemies</Filter>
@@ -151,18 +136,18 @@
     <ClCompile Include="MuteCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\MoveCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="DigDugScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="CharacterComponent.h">
-      <Filter>Components\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\ScoreComponent.h">
       <Filter>Components\Character</Filter>
     </ClInclude>
     <ClInclude Include="RockComponent.h">
@@ -170,15 +155,6 @@
     </ClInclude>
     <ClInclude Include="GridComponent.h">
       <Filter>Components\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\TrashTheCache.h">
-      <Filter>Components\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\FPSCounter.h">
-      <Filter>Components\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\RotatingMovement.h">
-      <Filter>Components\Other</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>Components\Enemies</Filter>
@@ -269,6 +245,15 @@
     </ClInclude>
     <ClInclude Include="MuteCommand.h">
       <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="EventsEnum.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

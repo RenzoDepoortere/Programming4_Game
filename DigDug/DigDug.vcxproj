@@ -191,11 +191,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Minigin\FPSCounter.cpp" />
-    <ClCompile Include="..\Minigin\MoveCommand.cpp" />
-    <ClCompile Include="..\Minigin\ScoreComponent.cpp" />
-    <ClCompile Include="..\Minigin\RotatingMovement.cpp" />
-    <ClCompile Include="..\Minigin\TrashTheCache.cpp" />
     <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="BlowingState.cpp" />
     <ClCompile Include="CaughtState.cpp" />
@@ -217,11 +212,13 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="InGameUIScene.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="MuteCommand.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RockComponent.cpp" />
     <ClCompile Include="RopeComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreInputComponent.cpp" />
     <ClCompile Include="SelectionComponent.cpp" />
     <ClCompile Include="ShootingState.cpp" />
@@ -230,11 +227,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="UIScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\FPSCounter.h" />
-    <ClInclude Include="..\Minigin\MoveCommand.h" />
-    <ClInclude Include="..\Minigin\ScoreComponent.h" />
-    <ClInclude Include="..\Minigin\RotatingMovement.h" />
-    <ClInclude Include="..\Minigin\TrashTheCache.h" />
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BlowingState.h" />
     <ClInclude Include="CaughtState.h" />
@@ -249,6 +241,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="DigDugScene.h" />
     <ClInclude Include="EventCommand.h" />
+    <ClInclude Include="EventsEnum.h" />
     <ClInclude Include="FireComponent.h" />
     <ClInclude Include="FleeState.h" />
     <ClInclude Include="GhostState.h" />
@@ -258,11 +251,13 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="HitState.h" />
     <ClInclude Include="InGameUIScene.h" />
     <ClInclude Include="LivesComponent.h" />
+    <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="MuteCommand.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RockComponent.h" />
     <ClInclude Include="RopeComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreInputComponent.h" />
     <ClInclude Include="SelectionComponent.h" />
     <ClInclude Include="ShootingState.h" />
