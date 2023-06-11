@@ -221,6 +221,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RockComponent.cpp" />
     <ClCompile Include="RopeComponent.cpp" />
+    <ClCompile Include="ScoreInputComponent.cpp" />
     <ClCompile Include="SelectionComponent.cpp" />
     <ClCompile Include="ShootingState.cpp" />
     <ClCompile Include="PlayerSquashedState.cpp" />
@@ -259,6 +260,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RockComponent.h" />
     <ClInclude Include="RopeComponent.h" />
+    <ClInclude Include="ScoreInputComponent.h" />
     <ClInclude Include="SelectionComponent.h" />
     <ClInclude Include="ShootingState.h" />
     <ClInclude Include="PlayerSquashedState.h" />

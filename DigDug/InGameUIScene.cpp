@@ -73,7 +73,7 @@ void InGameUIScene::InitScore()
 	pGameObject = std::make_shared<dae::GameObject>();
 
 	// Add components
-	auto pHighScoreComponent{ pGameObject->AddComponent<HighScoreComponent>() };
+	m_pHighscoreComponent = pGameObject->AddComponent<HighScoreComponent>();
 
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);
@@ -90,8 +90,8 @@ void InGameUIScene::InitScore()
 
 	// Add components
 	m_pScoreComponent = pGameObject->AddComponent<ScoreComponent>();
-	m_pScoreComponent->SetScores(pHighScoreComponent->GetScores());
-	m_pScoreComponent->SetHighestScore(pHighScoreComponent->GetHighestScore());
+	m_pScoreComponent->SetScores(m_pHighscoreComponent->GetScores());
+	m_pScoreComponent->SetHighestScore(m_pHighscoreComponent->GetHighestScore());
 
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);

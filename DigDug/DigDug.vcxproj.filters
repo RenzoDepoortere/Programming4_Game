@@ -142,6 +142,9 @@
     <ClCompile Include="HighScoreComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreInputComponent.cpp">
+      <Filter>Components\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -250,6 +253,9 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="HighScoreComponent.h">
+      <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreInputComponent.h">
       <Filter>Components\Character</Filter>
     </ClInclude>
   </ItemGroup>

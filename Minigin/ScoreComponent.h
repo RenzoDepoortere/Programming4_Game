@@ -27,7 +27,8 @@ public:
 	void SetScores(const std::list < std::string> & scores) { m_Scores = scores; }
 	void SetHighestScore(int highestScore) { m_HighestScore = highestScore; }
 
-	void StoreScore();
+	int GetScore() const { return m_CurrentScore; }
+	void ResetScore();
 
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, grid::Cell* pCell, void* extraInfo_1, void* extraInfo_2) override;

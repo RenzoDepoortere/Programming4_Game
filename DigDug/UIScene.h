@@ -7,6 +7,9 @@ namespace dae
 	class Scene;
 }
 
+class SelectionComponent;
+class ScoreInputComponent;
+
 class UIScene final
 {
 public:
@@ -21,6 +24,7 @@ public:
 
 	// Functionality
 	void SetActive(bool isActive);
+	void ShowScoreScreen(bool showScreen);
 
 private:
 	// Member variables
@@ -28,9 +32,13 @@ private:
 	dae::GameObject* m_pSceneRootObject{ nullptr };
 	std::vector<float> m_ButtonYPos{};
 
+	SelectionComponent* m_pSelectionComponent{ nullptr };
+	ScoreInputComponent* m_pScoreInputComponent{ nullptr };
+
 	// Member functions
 	// ----------------
 	void InitWidgets();
 	void InitArrow();
+	void InitScoreScreen();
 };
 

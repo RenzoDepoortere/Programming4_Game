@@ -41,48 +41,8 @@ ScoreComponent::~ScoreComponent()
 	}
 }
 
-void ScoreComponent::StoreScore()
+void ScoreComponent::ResetScore()
 {
-	// Ask for 3 letters
-	// -----------------
-
-	// Set score to file
-	// -----------------
-
-	// Get file
-	auto pHighscoreFile{ dae::ResourceManager::GetInstance().LoadWriteFile("Other/HighScore.txt") };
-	if (pHighscoreFile->is_open())
-	{
-		// Add own score
-		const std::string scoreString{ "/" + std::to_string(m_CurrentScore) };
-		m_Scores.emplace_back(scoreString);
-
-		// Sort list based on score
-		auto descendingLambda = [](const std::string& a, const std::string& b)
-		{
-			const int firstNumber = std::stoi(a.substr(a.find('/') + 1));
-			const int secondNumber = std::stoi(b.substr(b.find('/') + 1));
-
-			return firstNumber > secondNumber;
-		};
-		m_Scores.sort(descendingLambda);
-
-		// If over X, remove last one
-		if (m_Scores.size() >= 5) m_Scores.pop_back();
-
-		// Write to file
-		for (const auto& currentScore : m_Scores)
-		{
-			*pHighscoreFile << currentScore << '\n';
-		}
-	}
-	else
-	{
-		std::cout << "Error: failed openining the highscore file" << std::endl;
-	}
-
-	// Reset score
-	// -----------
 	m_CurrentScore = 0;
 	m_pTextComponent->SetText(std::to_string(m_CurrentScore));
 }

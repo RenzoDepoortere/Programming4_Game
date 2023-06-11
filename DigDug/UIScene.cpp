@@ -5,6 +5,7 @@
 #include "RenderTextureComponent.h"
 #include "TextComponent.h"
 #include "SelectionComponent.h"
+#include "ScoreInputComponent.h"
 
 #include "DigDugSceneManager.h"
 
@@ -22,6 +23,7 @@ UIScene::UIScene(dae::Scene* pScene)
 	// Init widgets
 	InitWidgets();
 	InitArrow();
+	InitScoreScreen();
 }
 
 void UIScene::SetActive(bool isActive)
@@ -29,6 +31,25 @@ void UIScene::SetActive(bool isActive)
 	// Set active/inactive
 	m_pSceneRootObject->SetIsActive(isActive);
 	m_pSceneRootObject->SetIsHidden(!isActive);
+}
+void UIScene::ShowScoreScreen(bool showScreen)
+{
+	if (showScreen)
+	{
+		m_pSelectionComponent->GetGameObject()->SetIsActive(false);
+		m_pSelectionComponent->GetGameObject()->SetIsHidden(true);
+
+		m_pScoreInputComponent->GetGameObject()->SetIsActive(true);
+		m_pScoreInputComponent->GetGameObject()->SetIsHidden(false);
+	}
+	else
+	{
+		m_pSelectionComponent->GetGameObject()->SetIsActive(true);
+		m_pSelectionComponent->GetGameObject()->SetIsHidden(false);
+
+		m_pScoreInputComponent->GetGameObject()->SetIsActive(false);
+		m_pScoreInputComponent->GetGameObject()->SetIsHidden(true);
+	}
 }
 
 void UIScene::InitWidgets()
@@ -137,11 +158,11 @@ void UIScene::InitArrow()
 	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
 	pTextureComponent->SetTexture(pTexture);
 
-	auto pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
-	pSelectionComponent->SetPositions(m_ButtonYPos);
+	m_pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
+	m_pSelectionComponent->SetPositions(m_ButtonYPos);
 
 	const float xPos{ 180.f };
-	pSelectionComponent->SetXPos(xPos);
+	m_pSelectionComponent->SetXPos(xPos);
 
 	auto singlePlayer = []()
 	{
@@ -163,11 +184,27 @@ void UIScene::InitArrow()
 	functions.emplace_back(coop);
 	functions.emplace_back(versus);
 
-	pSelectionComponent->SetActivateFunctions(functions);
+	m_pSelectionComponent->SetActivateFunctions(functions);
 
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);
 
 	// Set pos
 	pGameObject->SetWorldPosition({ xPos, m_ButtonYPos[0] });
+}
+void UIScene::InitScoreScreen()
+{
+	// Create gameObject
+	std::shared_ptr<dae::GameObject> pGameObject{ std::make_shared<dae::GameObject>() };
+
+	// Add components
+	m_pScoreInputComponent = pGameObject->AddComponent<ScoreInputComponent>();
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+	pGameObject->SetIsActive(false);
+	pGameObject->SetIsHidden(true);
+
+	// Set Position
+	pGameObject->SetWorldPosition(216, 90, 0);
 }

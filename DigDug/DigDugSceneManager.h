@@ -51,6 +51,12 @@ namespace digdug
 		const std::vector<CharacterComponent*>& GetCharacters() const { return m_pCurrentScene->GetCharacters(); }
 		const std::vector<EnemyComponent*>& GetEnemies() const { return m_pCurrentScene->GetEnemies(); }
 
+		int GetCurrentScore() const { return m_pInGameUIScene->GetCurrentScore(); }
+		void ResetScore() { m_pInGameUIScene->ResetScore(); }
+
+		const std::list<std::string>& GetScores() const { return m_pInGameUIScene->GetScores(); }
+		void ShowScoreScreen(bool showScreen) { m_pUIScene->ShowScoreScreen(showScreen); }
+
 		bool GetIsChangingLevel() const { return m_IsChangingLevel; }
 
 		// Observer

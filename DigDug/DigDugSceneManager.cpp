@@ -290,15 +290,13 @@ void DigDugSceneManager::GoToMenu()
 	// Set changingLevel to true
 	m_IsChangingLevel = true;
 
-	// Store score
-	m_pInGameUIScene->StoreScore();
-
 	// Deactive currentScene
 	m_pCurrentScene->SetActive(false);
 	m_pInGameUIScene->SetActive(false);
 
-	// Go back to main menu when over
+	// Go back to main menu, show score screen
 	m_pUIScene->SetActive(true);
+	m_pUIScene->ShowScoreScreen(true);
 
 	// Reset currentLevel
 	m_CurrentLevel = -1;
