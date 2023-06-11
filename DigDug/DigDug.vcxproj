@@ -207,6 +207,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemySquashedState.cpp" />
     <ClCompile Include="DigDugScene.cpp" />
+    <ClCompile Include="EventCommand.cpp" />
     <ClCompile Include="FireComponent.cpp" />
     <ClCompile Include="FleeState.cpp" />
     <ClCompile Include="GhostState.cpp" />
@@ -215,7 +216,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="InGameUIScene.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PauseCommand.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RockComponent.cpp" />
@@ -244,6 +244,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="EnemySquashedState.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="DigDugScene.h" />
+    <ClInclude Include="EventCommand.h" />
     <ClInclude Include="FireComponent.h" />
     <ClInclude Include="FleeState.h" />
     <ClInclude Include="GhostState.h" />
@@ -252,7 +253,6 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="HitState.h" />
     <ClInclude Include="InGameUIScene.h" />
     <ClInclude Include="LivesComponent.h" />
-    <ClInclude Include="PauseCommand.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RockComponent.h" />

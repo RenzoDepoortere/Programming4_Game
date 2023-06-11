@@ -32,7 +32,7 @@ namespace digdug
 		DigDugScene& operator=(DigDugScene&& other) = delete;
 
 		// Functionality
-		void SetLevel(const std::string& levelPath);
+		void SetLevel(const std::string& levelPath, unsigned int gameMode);
 		void SetActive(bool isActive);
 		void Reset(bool deleteObjects);
 

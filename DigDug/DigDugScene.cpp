@@ -3,7 +3,6 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "DigDugSceneManager.h"
 
 #include "ResourceManager.h"
 
@@ -11,6 +10,8 @@
 #include "EnemyManager.h"
 #include "GridComponent.h"
 #include "PlayerManager.h"
+
+#include "DigDugSceneManager.h"
 
 #include <iostream>
 
@@ -25,7 +26,7 @@ digdug::DigDugScene::DigDugScene(dae::Scene* pScene)
 	pScene->Add(pRoot);
 }
 
-void digdug::DigDugScene::SetLevel(const std::string& levelPath)
+void digdug::DigDugScene::SetLevel(const std::string& levelPath, unsigned int /*gameMode*/)
 {
 	// Set level name
 	m_LevelName = levelPath;
@@ -128,8 +129,7 @@ void digdug::DigDugScene::Enemies()
 	m_pEnemyManager = pEnemies->AddComponent<EnemyManager>();
 	m_pEnemyManager->SpawnEnemies();
 
-	//auto controllerID = dae::InputManager::GetInstance().AddController();
-	//pEnemyManager->ControlEnemy(controllerID, enemy::Pooka);
+	m_pEnemyManager->ControlEnemy(DigDugSceneManager::GetInstance().GetControllerIndices()[0], enemy::Pooka);
 
 	// Add to root
 	// -----------

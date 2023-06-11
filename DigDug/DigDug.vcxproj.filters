@@ -49,9 +49,6 @@
     <ClCompile Include="DigDugScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="PauseCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
@@ -139,6 +136,9 @@
     <ClCompile Include="FireComponent.cpp">
       <Filter>Components\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="EventCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -146,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="DigDugScene.h">
       <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseCommand.h">
-      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="CharacterComponent.h">
       <Filter>Components\Character</Filter>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="FireComponent.h">
       <Filter>Components\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
