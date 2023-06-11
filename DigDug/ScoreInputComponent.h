@@ -37,18 +37,27 @@ private:
 	// ----------------
 	dae::TextComponent* m_pTextComponent{ nullptr };
 
-	float m_Cooldown{};
+	float m_InputCooldown{};
 	float m_MaxCooldown{};
 
 	int m_MaxScores{};
 	std::vector<dae::TextComponent*> m_pRenderTextures{};
 	dae::TextComponent* m_pTextComponentToChange{};
 
+	int m_CurrentLetterIdx{};
+	int m_MaxLetters{};
+	std::vector<char> m_Letters{};
+
+	float m_CurrentFlickerTimer{};
+	bool m_IsShowingLetter{};
+
 	// Member functions
 	// ----------------
 	void StoreScore();
 	void SortList(std::list<std::string>& scores);
 	void SetText(dae::TextComponent* pTextComponent, const std::string& string);
+
+	void HandleFlickering(float deltaTime);
 
 	void GoLeft();
 	void GoRight();

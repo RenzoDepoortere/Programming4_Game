@@ -18,7 +18,10 @@ ScoreInputComponent::ScoreInputComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 	, m_MaxCooldown{ 0.25f }
 	, m_MaxScores{ 5 }
+	, m_MaxLetters{ 3 }
 {
+	m_Letters.resize(m_MaxLetters);
+
 	// Create X textComponents
 	// -----------------------
 
@@ -98,13 +101,28 @@ ScoreInputComponent::~ScoreInputComponent()
 
 void ScoreInputComponent::Update(float deltaTime)
 {
-	if (0.f < m_Cooldown)
+	// Cooldown
+	if (0.f < m_InputCooldown)
 	{
-		m_Cooldown -= deltaTime;
+		m_InputCooldown -= deltaTime;
 	}
+
+	// Flicker current letter
+	HandleFlickering(deltaTime);
 }
 void ScoreInputComponent::InputStart()
 {
+	// Reset variables
+	// ---------------
+	m_CurrentLetterIdx = 0;
+	m_InputCooldown = 0.f;
+
+	m_pTextComponentToChange = nullptr;
+	m_CurrentFlickerTimer = 0.f;
+	m_IsShowingLetter = true;
+
+	std::fill(m_Letters.begin(), m_Letters.end(), 'F');
+
 	// Get data
 	// --------
 	auto& sceneManager = digdug::DigDugSceneManager::GetInstance();
@@ -262,19 +280,55 @@ void ScoreInputComponent::SetText(dae::TextComponent* pTextComponent, const std:
 	pTextComponent->SetText(text);
 }
 
+void ScoreInputComponent::HandleFlickering(float deltaTime)
+{
+	if (m_pTextComponentToChange == nullptr) return;
+
+	// Cooldown
+	m_CurrentFlickerTimer += deltaTime;
+	const float threshold{ 0.5f };
+	if (threshold < m_CurrentFlickerTimer)
+	{
+		m_CurrentFlickerTimer = 0.f;
+
+		// Change current letter
+		std::string currentString{ m_pTextComponentToChange->GetText() };
+		if (m_IsShowingLetter)
+		{
+			currentString[m_CurrentLetterIdx] = ' ';
+		}
+		else
+		{
+			currentString[m_CurrentLetterIdx] = m_Letters[m_CurrentLetterIdx];
+		}
+
+		// Set variables
+		m_pTextComponentToChange->SetText(currentString);
+		m_IsShowingLetter = !m_IsShowingLetter;
+	}
+}
+
 void ScoreInputComponent::GoLeft()
 {
-
+	// Return if on cooldown
+	if (0.f < m_InputCooldown) return;
+	m_InputCooldown = m_MaxCooldown;
 }
 void ScoreInputComponent::GoRight()
 {
-
+	// Return if on cooldown
+	if (0.f < m_InputCooldown) return;
+	m_InputCooldown = m_MaxCooldown;
 }
 void ScoreInputComponent::GoDown()
 {
-
+	// Return if on cooldown
+	if (0.f < m_InputCooldown) return;
+	m_InputCooldown = m_MaxCooldown;
 }
 void ScoreInputComponent::GoUp()
 {
-
+	// Return if on cooldown
+	if (0.f < m_InputCooldown) return;
+	m_InputCooldown = m_MaxCooldown;
 }

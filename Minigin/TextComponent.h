@@ -19,6 +19,8 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetText(const std::string& text);
+		const std::string& GetText() const { return m_Text; }
+
 		void SetFont(std::shared_ptr<Font> font);
 		void SetColor(const SDL_Color& color);
 		void SetTexture(std::shared_ptr<Texture2D> pTexture);
