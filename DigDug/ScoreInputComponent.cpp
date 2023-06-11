@@ -216,7 +216,7 @@ void ScoreInputComponent::StoreScore()
 {
 	// Get 3 letters
 	// -------------
-
+	const std::string letters{ m_Letters.begin(), m_Letters.end() };
 
 	// Set score to file
 	// -----------------
@@ -234,7 +234,7 @@ void ScoreInputComponent::StoreScore()
 		if (m_MaxScores <= scores.size()) scores.pop_back();
 
 		// Add own score
-		const std::string scoreString{ "/" + std::to_string(currentScore) };
+		const std::string scoreString{ letters + "/" + std::to_string(currentScore) };
 		scores.emplace_back(scoreString);
 
 		// Sort
