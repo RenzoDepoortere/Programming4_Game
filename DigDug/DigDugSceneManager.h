@@ -71,7 +71,7 @@ namespace digdug
 		int m_CurrentLevel{};
 
 		bool m_IsChangingLevel{};
-		Mode m_CurrentGameMode{ PvE };
+		Mode m_CurrentGameMode{ Single };
 
 		std::vector<unsigned long> m_ControllerIndices{};
 

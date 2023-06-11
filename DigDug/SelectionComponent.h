@@ -17,7 +17,10 @@ public:
 	SelectionComponent& operator=(SelectionComponent&& other) = delete;
 
 	// Functionality
+	virtual void Update(float deltaTime) override;
+
 	void SetPositions(const std::vector<float>& positions) { m_Positions = positions; }
+	void SetXPos(float xPos) { m_XPos = xPos; }
 
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
@@ -28,6 +31,15 @@ private:
 	// ----------------
 	int m_CurrentPos{};
 	std::vector<float> m_Positions{};
-
 	float m_XPos{};
+
+	float m_Cooldown{};
+	float m_MaxCooldown{};
+
+	// Member functions
+	// ----------------
+	void Activate();
+
+	void GoDown();
+	void GoUp();
 };

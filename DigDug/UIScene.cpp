@@ -51,6 +51,9 @@ void UIScene::InitWidgets()
 	// Text
 	// ----
 	
+	// 1 Player
+	// ********
+
 	// Create gameObject
 	pGameObject = std::make_shared<dae::GameObject>();
 
@@ -59,7 +62,7 @@ void UIScene::InitWidgets()
 	pTexture = std::make_shared<dae::Texture2D>(nullptr);
 
 	dae::TextComponent* pTextComponent{ pGameObject->AddComponent<dae::TextComponent>() };
-	pTextComponent->SetText("1 PLAYER");
+	pTextComponent->SetText("SINGLE PLAYER");
 	pTextComponent->SetFont(font);
 	pTextComponent->SetTexture(pTexture);
 
@@ -67,10 +70,57 @@ void UIScene::InitWidgets()
 	pGameObject->SetParent(m_pSceneRootObject, false);
 
 	// Set Position
-	const float yPos{ 260 };
+	float yPos{ 260 };
 	pGameObject->SetWorldPosition(260, yPos, 0);
-
 	m_ButtonYPos.emplace_back(yPos);
+
+
+	// 2 Players: PvE
+	// **************
+	const float distBetween{ 60 };
+
+	// Create gameObject
+	pGameObject = std::make_shared<dae::GameObject>();
+
+	// Add components
+	pTexture = std::make_shared<dae::Texture2D>(nullptr);
+
+	pTextComponent = pGameObject->AddComponent<dae::TextComponent>();
+	pTextComponent->SetText("CO OP");
+	pTextComponent->SetFont(font);
+	pTextComponent->SetTexture(pTexture);
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+
+	// Set Position
+	yPos += distBetween;
+	pGameObject->SetWorldPosition(260, yPos, 0);
+	m_ButtonYPos.emplace_back(yPos);
+
+
+	// 2 Players: PvP
+	// **************
+
+	// Create gameObject
+	pGameObject = std::make_shared<dae::GameObject>();
+
+	// Add components
+	pTexture = std::make_shared<dae::Texture2D>(nullptr);
+
+	pTextComponent = pGameObject->AddComponent<dae::TextComponent>();
+	pTextComponent->SetText("VERSUS");
+	pTextComponent->SetFont(font);
+	pTextComponent->SetTexture(pTexture);
+
+	// Add to root
+	pGameObject->SetParent(m_pSceneRootObject, false);
+
+	// Set Position
+	yPos += distBetween;
+	pGameObject->SetWorldPosition(260, yPos, 0);
+	m_ButtonYPos.emplace_back(yPos);
+
 }
 void UIScene::InitArrow()
 {
@@ -88,9 +138,14 @@ void UIScene::InitArrow()
 	auto pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
 	pSelectionComponent->SetPositions(m_ButtonYPos);
 
+	const float xPos{ 180.f };
+	pSelectionComponent->SetXPos(xPos);
+
+
+
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);
 
-	// Set positions
-	pGameObject->SetWorldPosition({ 180, m_ButtonYPos[0] });
+	// Set pos
+	pGameObject->SetWorldPosition({ xPos, m_ButtonYPos[0] });
 }
