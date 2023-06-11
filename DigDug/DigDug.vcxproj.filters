@@ -145,6 +145,9 @@
     <ClCompile Include="ScoreInputComponent.cpp">
       <Filter>Components\Character</Filter>
     </ClCompile>
+    <ClCompile Include="SkipLevelCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -257,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="ScoreInputComponent.h">
       <Filter>Components\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipLevelCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

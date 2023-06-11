@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "GridComponent.h"
 #include "EventCommand.h"
+#include "SkipLevelCommand.h"
 
 #include "ServiceLocator.h"
 #include "SDLSoundSystem.h"
@@ -167,6 +168,14 @@ void DigDugSceneManager::KeyboardCommands()
 
 	eventCommand = std::make_unique<EventCommand>(event::KeyboardActionB);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(eventCommand));
+
+
+	// SKIP LEVEL
+	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	inputKeys = std::make_pair(SDL_SCANCODE_F1, controllerInput);
+
+	auto pSkipLevel = std::make_unique<SkipLevelCommand>();
+	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(pSkipLevel));
 }
 void DigDugSceneManager::ControllerCommand(unsigned long controllerIdx)
 {

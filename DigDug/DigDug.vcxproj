@@ -225,6 +225,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClCompile Include="SelectionComponent.cpp" />
     <ClCompile Include="ShootingState.cpp" />
     <ClCompile Include="PlayerSquashedState.cpp" />
+    <ClCompile Include="SkipLevelCommand.cpp" />
     <ClCompile Include="UIScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +265,7 @@ xcopy $(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll $(OutputPath
     <ClInclude Include="SelectionComponent.h" />
     <ClInclude Include="ShootingState.h" />
     <ClInclude Include="PlayerSquashedState.h" />
+    <ClInclude Include="SkipLevelCommand.h" />
     <ClInclude Include="UIScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
