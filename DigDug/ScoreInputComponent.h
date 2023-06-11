@@ -3,6 +3,7 @@
 #include "Observer.h"
 
 #include <list>
+#include <vector>
 #include <string>
 
 namespace dae
@@ -26,7 +27,6 @@ public:
 	// Functionality
 	virtual void Update(float deltaTime) override;
 
-
 	// Observer
 	virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
 	virtual void OnSubjectDestroy() override;
@@ -38,6 +38,9 @@ private:
 
 	float m_Cooldown{};
 	float m_MaxCooldown{};
+
+	int m_MaxScores{};
+	std::vector<dae::TextComponent*> m_pRenderTextures{};
 
 	// Member functions
 	// ----------------

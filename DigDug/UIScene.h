@@ -32,7 +32,7 @@ private:
 	dae::GameObject* m_pSceneRootObject{ nullptr };
 	std::vector<float> m_ButtonYPos{};
 
-	SelectionComponent* m_pSelectionComponent{ nullptr };
+	dae::GameObject* m_pMenuObject{ nullptr };
 	ScoreInputComponent* m_pScoreInputComponent{ nullptr };
 
 	// Member functions

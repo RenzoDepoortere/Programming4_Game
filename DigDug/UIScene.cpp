@@ -20,6 +20,11 @@ UIScene::UIScene(dae::Scene* pScene)
 	m_pSceneRootObject = pRoot.get();
 	pScene->Add(pRoot);
 
+	// Create menu gameObject
+	auto pObject{ std::make_shared<dae::GameObject>() };
+	m_pMenuObject = pObject.get();
+	pObject->SetParent(m_pSceneRootObject, false);
+
 	// Init widgets
 	InitWidgets();
 	InitArrow();
@@ -36,16 +41,16 @@ void UIScene::ShowScoreScreen(bool showScreen)
 {
 	if (showScreen)
 	{
-		m_pSelectionComponent->GetGameObject()->SetIsActive(false);
-		m_pSelectionComponent->GetGameObject()->SetIsHidden(true);
+		m_pMenuObject->SetIsActive(false);
+		m_pMenuObject->SetIsHidden(true);
 
 		m_pScoreInputComponent->GetGameObject()->SetIsActive(true);
 		m_pScoreInputComponent->GetGameObject()->SetIsHidden(false);
 	}
 	else
 	{
-		m_pSelectionComponent->GetGameObject()->SetIsActive(true);
-		m_pSelectionComponent->GetGameObject()->SetIsHidden(false);
+		m_pMenuObject->SetIsActive(true);
+		m_pMenuObject->SetIsHidden(false);
 
 		m_pScoreInputComponent->GetGameObject()->SetIsActive(false);
 		m_pScoreInputComponent->GetGameObject()->SetIsHidden(true);
@@ -65,8 +70,8 @@ void UIScene::InitWidgets()
 	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
 	pTextureComponent->SetTexture(pTexture);
 
-	// Add to root
-	pGameObject->SetParent(m_pSceneRootObject, false);
+	// Add to menu
+	pGameObject->SetParent(m_pMenuObject, false);
 
 	// Set Position
 	pGameObject->SetWorldPosition(216, 90, 0);
@@ -89,8 +94,8 @@ void UIScene::InitWidgets()
 	pTextComponent->SetFont(font);
 	pTextComponent->SetTexture(pTexture);
 
-	// Add to root
-	pGameObject->SetParent(m_pSceneRootObject, false);
+	// Add to menu
+	pGameObject->SetParent(m_pMenuObject, false);
 
 	// Set Position
 	float yPos{ 260 };
@@ -113,8 +118,8 @@ void UIScene::InitWidgets()
 	pTextComponent->SetFont(font);
 	pTextComponent->SetTexture(pTexture);
 
-	// Add to root
-	pGameObject->SetParent(m_pSceneRootObject, false);
+	// Add to menu
+	pGameObject->SetParent(m_pMenuObject, false);
 
 	// Set Position
 	yPos += distBetween;
@@ -136,8 +141,8 @@ void UIScene::InitWidgets()
 	pTextComponent->SetFont(font);
 	pTextComponent->SetTexture(pTexture);
 
-	// Add to root
-	pGameObject->SetParent(m_pSceneRootObject, false);
+	// Add to menu
+	pGameObject->SetParent(m_pMenuObject, false);
 
 	// Set Position
 	yPos += distBetween;
@@ -158,11 +163,11 @@ void UIScene::InitArrow()
 	auto pTextureComponent = pGameObject->AddComponent<dae::RenderTextureComponent>();
 	pTextureComponent->SetTexture(pTexture);
 
-	m_pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
-	m_pSelectionComponent->SetPositions(m_ButtonYPos);
+	auto pSelectionComponent = pGameObject->AddComponent<SelectionComponent>();
+	pSelectionComponent->SetPositions(m_ButtonYPos);
 
 	const float xPos{ 180.f };
-	m_pSelectionComponent->SetXPos(xPos);
+	pSelectionComponent->SetXPos(xPos);
 
 	auto singlePlayer = []()
 	{
@@ -184,10 +189,10 @@ void UIScene::InitArrow()
 	functions.emplace_back(coop);
 	functions.emplace_back(versus);
 
-	m_pSelectionComponent->SetActivateFunctions(functions);
+	pSelectionComponent->SetActivateFunctions(functions);
 
-	// Add to root
-	pGameObject->SetParent(m_pSceneRootObject, false);
+	// Add to menu
+	pGameObject->SetParent(m_pMenuObject, false);
 
 	// Set pos
 	pGameObject->SetWorldPosition({ xPos, m_ButtonYPos[0] });

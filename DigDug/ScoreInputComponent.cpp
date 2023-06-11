@@ -1,6 +1,8 @@
 #include "ScoreInputComponent.h"
 
 #include "GameObject.h"
+#include "TextComponent.h"
+#include "Texture2D.h"
 
 #include "DigDugSceneManager.h"
 
@@ -10,12 +12,49 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 ScoreInputComponent::ScoreInputComponent(dae::GameObject* pParentObject)
 	: Component{ pParentObject }
 	, m_MaxCooldown{ 0.25f }
+	, m_MaxScores{ 5 }
 {
-	// Subscribe to event
+	// Create X textComponents
+	// -----------------------
+
+	std::shared_ptr<dae::GameObject> pGameObject{ nullptr };
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Other/Arcade.ttf", 64);
+	std::shared_ptr<dae::Texture2D> pTexture{ nullptr };
+	dae::TextComponent* pTextComponent{ nullptr };
+
+	auto pOwnGameObject{ GetGameObject() };
+	const float startPos{ 20 };
+	const float distanceBetween{ 60 };
+
+	for (int idx{}; idx < m_MaxScores; ++idx)
+	{
+		// Create gameObject
+		pGameObject = std::make_shared<dae::GameObject>();
+
+		// Add components
+		pTexture = std::make_shared<dae::Texture2D>(nullptr);
+
+		pTextComponent = pGameObject->AddComponent<dae::TextComponent>();
+		pTextComponent->SetText("TST 1234");
+		pTextComponent->SetFont(font);
+		pTextComponent->SetTexture(pTexture);
+
+		// Add as child
+		pGameObject->SetParent(pOwnGameObject, false);
+		m_pRenderTextures.emplace_back(pTextComponent);
+
+		// Set Position
+		pGameObject->SetWorldPosition(0, startPos + idx * distanceBetween, 0);
+	}
+
+
+	// Subscribe to events
+	// -------------------
 	dae::EventManager<float>::GetInstance().Subscribe(event::StartMenu, this);
 
 	dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardLeft, this);
@@ -124,8 +163,8 @@ void ScoreInputComponent::StoreScore()
 		const int currentScore{ sceneManager.GetCurrentScore() };
 		auto scores{ sceneManager.GetScores() };
 
-		// Remove last if over 5
-		if (5 <= scores.size()) scores.pop_back();
+		// Remove last if over max
+		if (m_MaxScores <= scores.size()) scores.pop_back();
 
 		// Add own score
 		const std::string scoreString{ "/" + std::to_string(currentScore) };
