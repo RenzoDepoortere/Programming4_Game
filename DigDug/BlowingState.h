@@ -1,6 +1,7 @@
 #pragma once
 #include "CharacterState.h"
 #include "Texture2D.h"
+#include "Observer.h"
 
 #include <memory>
 
@@ -11,7 +12,7 @@ namespace dae
 
 namespace player
 {
-	class BlowingState final : public CharacterState
+	class BlowingState final : public CharacterState, dae::Observer<float>
 	{
 	public:
 		// Rule of Five
@@ -29,17 +30,28 @@ namespace player
 
 		virtual PlayerStates Update(CharacterComponent* pPlayer, float deltaTime) override;
 
+		// Observer
+		virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
+		virtual void OnSubjectDestroy() override;
+
 	private:
 		// Member variables
 		// ----------------
 		std::shared_ptr<dae::Texture2D> m_pBlowingSprite{ nullptr };
 		dae::AnimationComponent* m_pAnimationComponent{ nullptr };
-
 		bool m_PumpSprite{ false };
+
+		float m_CurrentTime{};
+		bool m_CanBlow{ false };
+
+		CharacterComponent* m_pCharacterComponent{ nullptr };
+		bool m_WantsToDig{ false };
 
 		// Member functions
 		// ----------------
 		PlayerStates CheckEnemy(CharacterComponent* pPlayer);
-		PlayerStates HandleInput(CharacterComponent* pPlayer);
+		void HandleCooldown(float deltaTime);
+
+		void Blow();
 	};
 }

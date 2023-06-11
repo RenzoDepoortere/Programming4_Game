@@ -8,6 +8,7 @@
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "EventsEnum.h"
+#include "EventManager.h"
 #include "ServiceLocator.h"
 
 #include <string>
@@ -25,31 +26,160 @@ player::BlowingState::BlowingState()
 
 void player::BlowingState::OnEnter(CharacterComponent* pPlayer)
 {
+	// Reset variables
+	// ---------------
+	m_CurrentTime = 0.f;
+	m_PumpSprite = false;
+	m_WantsToDig = false;
+	m_CanBlow = true;
+
+	m_pCharacterComponent = pPlayer;
+
 	// Set sprite to blowing
+	// ---------------------
 	m_pAnimationComponent = pPlayer->GetAnimationComponent();
 	m_pAnimationComponent->SetTexture(m_pBlowingSprite);
 
 	m_pAnimationComponent->SetSingleSpriteSize(26.f);
 	m_pAnimationComponent->SetMaxFrames(2);
 	m_pAnimationComponent->SetPaused(true);
+
+	// Subscribe to events
+	// -------------------
+
+	// If player 1
+	if (pPlayer->GetPlayerID() == 0)
+	{
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardLeft, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardRight, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardUp, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardDown, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardActionA, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerRight_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_2, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionA_2, this);
+	}
+	// If player 2
+	else
+	{
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionA_1, this);
+	}
 }
-void player::BlowingState::OnLeave(CharacterComponent* /*pPlayer*/)
+void player::BlowingState::OnLeave(CharacterComponent* pPlayer)
 {
+	// Unsubscribe to events
+	// ---------------------
+	if (dae::EventManager<float>::GetIsDestroyed() == false)
+	{
+		// If player 1
+		if (pPlayer->GetPlayerID() == 0)
+		{
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardLeft, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardRight, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardUp, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardDown, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardActionA, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_2, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_2, this);
+		}
+		// If player 2
+		else
+		{
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
+		}
+	}
 }
 
-player::PlayerStates player::BlowingState::Update(CharacterComponent* pPlayer, float /*deltaTime*/)
+player::PlayerStates player::BlowingState::Update(CharacterComponent* pPlayer, float deltaTime)
 {
+	// Cooldown
+	HandleCooldown(deltaTime);
+
+	// Check if enemy dead
 	PlayerStates state{};
-
-	// First check if enemy dead
 	state = CheckEnemy(pPlayer);
 	if (state != NR_STATES) return state;
 
-	// Then handle player input
-	state = HandleInput(pPlayer);
+	// Check if can wants to go back
+	if (m_WantsToDig)
+	{
+		// Release enemy and go back to digging
+		EnemyComponent* pCaughtEnemy{ pPlayer->GetCaughtEnemy() };
+		pCaughtEnemy->SetCaught(false);
+
+		state = Digging;
+	}
 
 	// Return
 	return state;
+}
+
+void player::BlowingState::HandleEvent(unsigned int eventID, float /*deltaTime*/)
+{
+	// Check event
+	// -----------
+	bool wasInput{ false };
+
+	switch (eventID)
+	{
+	case event::KeyboardLeft:
+	case event::ControllerLeft_1:
+	case event::ControllerLeft_2:
+		wasInput = true;
+		break;
+
+	case event::KeyboardRight:
+	case event::ControllerRight_1:
+	case event::ControllerRight_2:
+		wasInput = true;
+		break;
+
+	case event::KeyboardUp:
+	case event::ControllerUp_1:
+	case event::ControllerUp_2:
+		wasInput = true;
+		break;
+
+	case event::KeyboardDown:
+	case event::ControllerDown_1:
+	case event::ControllerDown_2:
+		wasInput = true;
+		break;
+
+	case event::KeyboardActionA:
+	case event::ControllerActionA_1:
+	case event::ControllerActionA_2:
+		Blow();
+		break;
+	}
+
+	// Set variables
+	// -------------
+	m_WantsToDig = wasInput;
+}
+void player::BlowingState::OnSubjectDestroy()
+{
 }
 
 player::PlayerStates player::BlowingState::CheckEnemy(CharacterComponent* pPlayer)
@@ -62,30 +192,26 @@ player::PlayerStates player::BlowingState::CheckEnemy(CharacterComponent* pPlaye
 	if (isActive == false || gotFree) return Digging;
 	else							  return NR_STATES;
 }
-player::PlayerStates player::BlowingState::HandleInput(CharacterComponent* pPlayer)
+void player::BlowingState::HandleCooldown(float deltaTime)
 {
-	EnemyComponent* pCaughtEnemy{ pPlayer->GetCaughtEnemy() };
+	if (m_CanBlow) return;
 
-	// Check movement input
-	const bool upPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_W) };
-	const bool downPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_S) };
-	const bool leftPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_A) };
-	const bool rightPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_D) };
-
-	// If was input
-	const bool isInput{ upPressed || downPressed || leftPressed || rightPressed };
-	if (isInput)
+	m_CurrentTime += deltaTime;
+	const float threshold{ 0.5f };
+	if (threshold <= m_CurrentTime)
 	{
-		// Release enemy and go back to digging
-		pCaughtEnemy->SetCaught(false);
-		return Digging;
+		m_CurrentTime = 0.f;
+		m_CanBlow = true;
 	}
+}
 
-	// If no actionKey pressed, return
-	const bool actionKeyPressed{ dae::InputManager::GetInstance().IsPressed(SDL_SCANCODE_J) };
-	if (actionKeyPressed == false) return NR_STATES;
+void player::BlowingState::Blow()
+{
+	// Return if can't blow
+	if (m_CanBlow == false) return;
 
 	// Give blow to caught Enemy
+	EnemyComponent* pCaughtEnemy{ m_pCharacterComponent->GetCaughtEnemy() };
 	pCaughtEnemy->SetBlow(true);
 
 	// Change Animation sprite
@@ -97,6 +223,7 @@ player::PlayerStates player::BlowingState::HandleInput(CharacterComponent* pPlay
 	const int loops{ 0 };
 	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::PlayerBlow, volume, loops);
 
-	// Return
-	return NR_STATES;
+	// Set cooldown
+	m_CanBlow = false;
+	m_CurrentTime = 0.f;
 }
