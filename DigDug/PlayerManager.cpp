@@ -82,6 +82,7 @@ void PlayerManager::Spawn(int index)
 	// ----------------------
 	CharacterComponent* pCharacterComponent{ pMainCharacter->AddComponent<CharacterComponent>() };
 	pCharacterComponent->StoreParent(GetGameObject());
+	pCharacterComponent->SetPlayerID(index);
 
 	// Add to root
 	// -----------

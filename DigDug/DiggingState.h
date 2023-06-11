@@ -2,12 +2,13 @@
 #include "CharacterState.h"
 #include "MoveCommand.h"
 #include "Texture2D.h"
+#include "Observer.h"
 
 #include <memory>
 
 namespace player
 {
-	class DiggingState final : public player::CharacterState
+	class DiggingState final : public player::CharacterState, public dae::Observer<float>
 	{
 	public:
 		// Rule of Five
@@ -25,15 +26,24 @@ namespace player
 
 		virtual PlayerStates Update(CharacterComponent* pPlayer, float deltaTime) override;
 
+		// Observer
+		virtual void HandleEvent(unsigned int eventID, float deltaTime) override;
+		virtual void OnSubjectDestroy() override;
+
 	private:
 		// Member variables
 		// ----------------
 		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
 		std::shared_ptr<dae::Texture2D> m_pWalkingSprite{ nullptr };
 
+		CharacterComponent* m_pCharacterComponent{ nullptr };
+		bool m_IsWalking{ false };
+		bool m_WasWalking{ false };
+		bool m_WantsToShoot{ false };
+
 		// Member functions
 		// ----------------
-		PlayerStates HandleInput(CharacterComponent* pPlayer, float deltaTime);
+		void HandleWalkingToggle(CharacterComponent* pPlayer);
 		void RemoveDirt(CharacterComponent* pPlayer);
 	};
 }

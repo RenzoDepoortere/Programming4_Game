@@ -50,7 +50,8 @@ public:
 
 	dae::AnimationComponent* GetAnimationComponent();
 
-	void SetControllerID(unsigned long controllerID) { m_ControllerID = controllerID; }
+	void SetPlayerID(int playerID) { m_PlayerID = playerID; }
+	int GetPlayerID() const { return m_PlayerID; }
 
 	void SetLookingDirection(player::LookingDirection lookingDirection);
 	player::LookingDirection GetLookingDirection() const { return m_CurrentLookingDirection; }
@@ -73,7 +74,7 @@ private:
 	dae::AnimationComponent* m_pAnimationComponent{ nullptr };
 	dae::GameObject* m_pParent{ nullptr };
 
-	unsigned long m_ControllerID{};
+	int m_PlayerID{};
 
 	player::CharacterState* m_pCurrentState{};
 	player::PlayerStates m_CurrentStateID{};

@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "EventsEnum.h"
+#include "EventManager.h"
 #include "ServiceLocator.h"
 
 player::DiggingState::DiggingState()
@@ -31,7 +32,16 @@ player::DiggingState::DiggingState()
 
 void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 {
+	// Set variables
+	// -------------
+	m_pCharacterComponent = pPlayer;
+
+	m_IsWalking = false;
+	m_WasWalking = false;
+	m_WantsToShoot = false;
+
 	// Create movementCommand
+	// ----------------------
 	if (m_pMoveCommand == nullptr)
 	{
 		float movementSpeed{ 100.f };
@@ -41,97 +51,199 @@ void player::DiggingState::OnEnter(CharacterComponent* pPlayer)
 	}
 
 	// Set playerTexture
+	// -----------------
 	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
 	pAnimationComponent->SetTexture(m_pWalkingSprite);
 
 	pAnimationComponent->SetSingleSpriteSize(25.f);
 	pAnimationComponent->SetMaxFrames(2);
-	pAnimationComponent->SetPaused(false);
+	pAnimationComponent->SetPaused(true);
+
+	// Subscribe to events
+	// -------------------
+
+	// If player 1
+	if (pPlayer->GetPlayerID() == 0)
+	{
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardLeft, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardRight, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardUp, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardDown, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::KeyboardActionA, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerRight_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_2, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_2, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionA_2, this);
+	}
+	// If player 2
+	else
+	{
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerRight_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerUp_1, this);
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerDown_1, this);
+
+		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerActionA_1, this);
+	}
 }
-void player::DiggingState::OnLeave(CharacterComponent* /*pPlayer*/)
+void player::DiggingState::OnLeave(CharacterComponent* pPlayer)
 {
 	// Stop music
+	// ----------
 	dae::ServiceLocator::GetSoundSystem().PauseAudio(event::PlayerWalking, 4);
+
+	// Unsubscribe to events
+	// ---------------------
+	if (dae::EventManager<float>::GetIsDestroyed() == false)
+	{
+		// If player 1
+		if (pPlayer->GetPlayerID() == 0)
+		{
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardLeft, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardRight, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardUp, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardDown, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::KeyboardActionA, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_2, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_2, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_2, this);
+		}
+		// If player 2
+		else
+		{
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerLeft_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerRight_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerUp_1, this);
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerDown_1, this);
+
+			dae::EventManager<float>::GetInstance().Unsubscribe(event::ControllerActionA_1, this);
+		}
+	}
 }
 
-player::PlayerStates player::DiggingState::Update(CharacterComponent* pPlayer, float deltaTime)
+player::PlayerStates player::DiggingState::Update(CharacterComponent* pPlayer, float /*deltaTime*/)
 {
-	// Update
-	PlayerStates state{};
-	state = HandleInput(pPlayer, deltaTime);
+	// Handle walking
+	HandleWalkingToggle(pPlayer);
 	RemoveDirt(pPlayer);
+
+	// Update state
+	PlayerStates state{ NR_STATES };
+	if (m_WantsToShoot) state = Shooting;
 
 	// Return
 	return state;
 }
-
-player::PlayerStates player::DiggingState::HandleInput(CharacterComponent* pPlayer, float deltaTime)
+void player::DiggingState::HandleEvent(unsigned int eventID, float deltaTime)
 {
-	// Check input
+	// Check event
 	// -----------
-	const bool actionKeyPressed{ dae::InputManager::GetInstance().IsPressed(SDL_SCANCODE_J) };
-	if (actionKeyPressed) return Shooting;
+	glm::vec2 movementDirection{};
+	player::LookingDirection lookingDirection{ m_pCharacterComponent->GetLookingDirection() };
+	bool wasInput{ false };
 
-	const bool upPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_W) };
-	const bool downPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_S) };
-	const bool leftPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_A) };
-	const bool rightPressed{ dae::InputManager::GetInstance().IsDown(SDL_SCANCODE_D) };
-
-	const bool isInput{ upPressed || downPressed || leftPressed || rightPressed };
-
-	// Move
-	// ----
-	auto& soundSystem{ dae::ServiceLocator::GetSoundSystem() };
-
-	if (isInput)
+	switch (eventID)
 	{
-		glm::vec2 moveDirection{};
-		if (upPressed) moveDirection = glm::vec2{ 0.f, -1.f };
-		else if (downPressed) moveDirection = glm::vec2{ 0.f, 1.f };
-		else if (leftPressed) moveDirection = glm::vec2{ -1.f, 0.f };
-		else if (rightPressed) moveDirection = glm::vec2{ 1.f, 0.f };
+	case event::KeyboardLeft:
+	case event::ControllerLeft_1:
+	case event::ControllerLeft_2:
+		movementDirection = glm::vec2{ -1.f, 0.f };
+		lookingDirection = player::Left;
 
-		m_pMoveCommand->SetMovementDirection(moveDirection);
-		m_pMoveCommand->Execute(deltaTime);
+		wasInput = true;
+		break;
 
-		// Resume music
-		soundSystem.ResumeAudio(event::PlayerWalking, 4);
-	}
-	else
-	{
-		// Pause music
-		soundSystem.PauseAudio(event::PlayerWalking, 4);
-	}
+	case event::KeyboardRight:
+	case event::ControllerRight_1:
+	case event::ControllerRight_2:
+		movementDirection = glm::vec2{ 1.f, 0.f };
+		lookingDirection = player::Right;
 
-	// Rotate accordingly
-	// ------------------
-	if (upPressed)			pPlayer->SetLookingDirection(Up);
-	else if (downPressed)	pPlayer->SetLookingDirection(Down);
-	else if (leftPressed)	pPlayer->SetLookingDirection(Left);
-	else if (rightPressed)	pPlayer->SetLookingDirection(Right);
+		wasInput = true;
+		break;
 
-	// Play animation
-	// --------------
-	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
-	const bool isPaused{ pAnimationComponent->GetPaused() };
+	case event::KeyboardUp:
+	case event::ControllerUp_1:
+	case event::ControllerUp_2:
+		movementDirection = glm::vec2{ 0.f, -1.f };
+		lookingDirection = player::Up;
 
-	// If input and paused
-	if (isInput && isPaused)
-	{
-		// Play
-		pAnimationComponent->SetPaused(false);
+		wasInput = true;
+		break;
 
-	}
-	// If no input and playing
-	if (isInput == false && isPaused == false)
-	{
-		// Pause
-		pAnimationComponent->SetPaused(true);
+	case event::KeyboardDown:
+	case event::ControllerDown_1:
+	case event::ControllerDown_2:
+		movementDirection = glm::vec2{ 0.f, 1.f };
+		lookingDirection = player::Down;
+
+		wasInput = true;
+		break;
+
+	case event::KeyboardActionA:
+	case event::ControllerActionA_1:
+	case event::ControllerActionA_2:
+		m_WantsToShoot = true;
+		break;
 	}
 
-	// Return
-	return NR_STATES;
+	// Set variables
+	// -------------
+	m_pCharacterComponent->SetLookingDirection(lookingDirection);
+	m_IsWalking = true;
+
+	// Handle Movement
+	// ---------------
+	m_pMoveCommand->SetMovementDirection(movementDirection);
+	m_pMoveCommand->Execute(deltaTime);
 }
+void player::DiggingState::OnSubjectDestroy()
+{
+}
+
+void player::DiggingState::HandleWalkingToggle(CharacterComponent* pPlayer)
+{
+	auto& soundSystem{ dae::ServiceLocator::GetSoundSystem() };
+	const bool isMusicPaused{ soundSystem.IsPausedAudio(event::PlayerWalking, 4) };
+
+	auto pAnimationComponent{ pPlayer->GetAnimationComponent() };
+	const bool isAnimationPaused{ pAnimationComponent->GetPaused() };
+
+	// On start walk
+	// -------------
+	if (m_IsWalking && m_WasWalking == false)
+	{
+		// Play animation if was paused
+		if (isAnimationPaused) pAnimationComponent->SetPaused(false);
+
+		// Resume music if was paused
+		if (isMusicPaused) soundSystem.ResumeAudio(event::PlayerWalking, 4);
+	}
+	// On stop walk
+	// ------------
+	else if (m_IsWalking == false && m_WasWalking)
+	{
+		// Pause animation if was playing
+		if (isAnimationPaused == false) pAnimationComponent->SetPaused(true);
+
+		// Pause music if was playing
+		if (isMusicPaused == false) soundSystem.PauseAudio(event::PlayerWalking, 4);
+	}
+
+	// Set variables
+	m_WasWalking = m_IsWalking;
+	m_IsWalking = false;
+}
+
 void player::DiggingState::RemoveDirt(CharacterComponent* pPlayer)
 {
 	// Get currentCell

@@ -48,7 +48,7 @@ void enemy::AttackState::OnEnter(EnemyComponent* pEnemy)
 
 	// Play SFX
 	// --------
-	const int volume{ 50 };
+	const int volume{ 100 };
 	const int loops{ 0 };
 	dae::ServiceLocator::GetSoundSystem().PlayAudio(event::EnemyAttack, volume, loops, 3);
 
