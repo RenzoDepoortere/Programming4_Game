@@ -148,6 +148,9 @@
     <ClCompile Include="SkipLevelCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="MuteCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Minigin\MoveCommand.h">
@@ -262,6 +265,9 @@
       <Filter>Components\Character</Filter>
     </ClInclude>
     <ClInclude Include="SkipLevelCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MuteCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>

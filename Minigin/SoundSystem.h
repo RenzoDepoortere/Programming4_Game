@@ -28,6 +28,8 @@ namespace dae
 		virtual void ResumeAudio(unsigned int ID, int channel = 0) = 0;
 		virtual void SetVolumeAudio(unsigned int ID, int volume) = 0;
 
+		virtual void MuteAudio(bool setMute) = 0;
+
 		virtual void SetID(unsigned int ID, const std::string& resourceName) = 0;
 	};
 
@@ -36,15 +38,18 @@ namespace dae
 	class nullSoundSystem final : public SoundSystem
 	{
 	public:
-		~nullSoundSystem() override = default;
+		virtual ~nullSoundSystem() override = default;
 
-		void PlayAudio(unsigned int, int, int, int) override {};
-		bool IsPlayingAudio(unsigned int, int) override { return false; };
-		void PauseAudio(unsigned int, int) override {};
-		bool IsPausedAudio(unsigned int, int) override { return false; };
-		void ResumeAudio(unsigned int, int) override {};
-		void SetVolumeAudio(unsigned int, int) override {};
+		virtual void PlayAudio(unsigned int, int, int, int) override {};
 
-		void SetID(unsigned int, const std::string&) override {};
+		virtual bool IsPlayingAudio(unsigned int, int) override { return false; };
+		virtual void PauseAudio(unsigned int, int) override {};
+		virtual bool IsPausedAudio(unsigned int, int) override { return false; };
+		virtual void ResumeAudio(unsigned int, int) override {};
+		virtual void SetVolumeAudio(unsigned int, int) override {};
+
+		virtual void MuteAudio(bool) override {};
+
+		virtual void SetID(unsigned int, const std::string&) override {};
 	};
 }

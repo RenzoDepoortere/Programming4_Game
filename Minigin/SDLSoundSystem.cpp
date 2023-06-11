@@ -20,6 +20,9 @@ dae::SDLSoundSystem::~SDLSoundSystem()
 #pragma region AudioFunctionality
 void dae::SDLSoundSystem::PlayAudio(unsigned int ID, int volume, int loops, int channel)
 {
+	// Return if muted
+	if (m_IsMuted) return;
+
 	// Lock mutex
 	{
 		std::lock_guard<std::mutex> lockGuard{ m_Mutex };
@@ -78,6 +81,9 @@ bool dae::SDLSoundSystem::IsPausedAudio(unsigned int ID, int channel)
 }
 void dae::SDLSoundSystem::ResumeAudio(unsigned int ID, int channel)
 {
+	// Return if muted
+	if (m_IsMuted) return;
+
 	// Lock mutex
 	{
 		std::lock_guard<std::mutex> lockGuard{ m_Mutex };
@@ -111,6 +117,19 @@ void dae::SDLSoundSystem::SetVolumeAudio(unsigned int ID, int volume)
 
 	// Notify
 	m_ConditionVariable.notify_all();
+}
+
+void dae::SDLSoundSystem::MuteAudio(bool setMute)
+{
+	m_IsMuted = setMute;
+
+	// Loop through all files
+	int volume = setMute ? 0 : 100;
+	for (const auto& currentElement : m_AudioFiles)
+	{
+		// Set volume
+		SetVolumeAudio(currentElement.first, volume);
+	}
 }
 #pragma endregion
 

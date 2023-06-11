@@ -51,6 +51,12 @@ void dae::LoggingSoundSystem::SetVolumeAudio(unsigned int ID, int volume)
 	m_pRealSystem->SetVolumeAudio(ID, volume);
 	std::cout << "Sound ID: " << ID << " set Sound Volume to: " << volume << std::endl;
 }
+
+void dae::LoggingSoundSystem::MuteAudio(bool setMute)
+{
+	m_pRealSystem->MuteAudio(setMute);
+	std::cout << "Sound muted: " << setMute << std::endl;
+}
 #pragma endregion
 
 void dae::LoggingSoundSystem::SetID(unsigned int ID, const std::string& resourceName)
