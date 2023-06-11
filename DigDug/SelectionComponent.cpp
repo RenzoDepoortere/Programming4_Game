@@ -81,10 +81,8 @@ void SelectionComponent::OnSubjectDestroy()
 
 void SelectionComponent::Activate()
 {
-	// Check where arrow is
-
-	// Execute that thing
-	digdug::DigDugSceneManager::GetInstance().NextLevel();
+	// Execute function of position
+	m_Functions[m_CurrentPos]();
 }
 
 void SelectionComponent::GoDown()

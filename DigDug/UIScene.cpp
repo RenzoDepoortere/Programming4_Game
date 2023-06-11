@@ -6,6 +6,8 @@
 #include "TextComponent.h"
 #include "SelectionComponent.h"
 
+#include "DigDugSceneManager.h"
+
 #include "ResourceManager.h"
 
 #include <memory>
@@ -141,7 +143,27 @@ void UIScene::InitArrow()
 	const float xPos{ 180.f };
 	pSelectionComponent->SetXPos(xPos);
 
+	auto singlePlayer = []()
+	{
+		digdug::DigDugSceneManager::GetInstance().SetGameMode(digdug::Single);
+		digdug::DigDugSceneManager::GetInstance().NextLevel();
+	};
+	auto coop = []()
+	{
+		digdug::DigDugSceneManager::GetInstance().SetGameMode(digdug::PvE);
+		digdug::DigDugSceneManager::GetInstance().NextLevel();
+	};
+	auto versus = []()
+	{
+		digdug::DigDugSceneManager::GetInstance().SetGameMode(digdug::PvP);
+		digdug::DigDugSceneManager::GetInstance().NextLevel();
+	};
+	std::vector<std::function<void()>> functions{};
+	functions.emplace_back(singlePlayer);
+	functions.emplace_back(coop);
+	functions.emplace_back(versus);
 
+	pSelectionComponent->SetActivateFunctions(functions);
 
 	// Add to root
 	pGameObject->SetParent(m_pSceneRootObject, false);
