@@ -132,7 +132,7 @@ void ScoreInputComponent::InputStart()
 	auto scores{ sceneManager.GetScores() };
 
 	// Remove last if over max
-	if (m_MaxScores <= scores.size()) scores.pop_back();
+	if (m_MaxScores <= static_cast<int>(scores.size())) scores.pop_back();
 
 	// Add own score
 	const std::string scoreString{ "AAA/" + std::to_string(currentScore) };
@@ -231,7 +231,7 @@ void ScoreInputComponent::StoreScore()
 		auto scores{ sceneManager.GetScores() };
 
 		// Remove last if over max
-		if (m_MaxScores <= scores.size()) scores.pop_back();
+		if (m_MaxScores <= static_cast<int>(scores.size())) scores.pop_back();
 
 		// Add own score
 		const std::string scoreString{ letters + "/" + std::to_string(currentScore) };

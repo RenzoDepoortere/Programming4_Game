@@ -39,7 +39,7 @@ void GridComponent::Reset()
 	// Reset cells
 	// -----------
 	Cell* pCell{};
-	for (int idx{}; idx < m_pCells.size(); ++idx)
+	for (size_t idx{}; idx < m_pCells.size(); ++idx)
 	{
 		pCell = m_pCells[idx].get();
 
@@ -59,7 +59,7 @@ void GridComponent::Reset()
 	// Reset rocks
 	// -----------
 	RockComponent* pRock{};
-	for (int idx{}; idx < m_pRocks.size(); ++idx)
+	for (size_t idx{}; idx < m_pRocks.size(); ++idx)
 	{
 		pRock = m_pRocks[idx];
 
@@ -73,7 +73,7 @@ void GridComponent::Reset()
 
 Cell* GridComponent::GetCell(int index) const
 {
-	if (0 <= index && index < m_pCells.size())
+	if (0 <= index && index < static_cast<int>(m_pCells.size()))
 	{
 		return m_pCells[index].get();
 	}

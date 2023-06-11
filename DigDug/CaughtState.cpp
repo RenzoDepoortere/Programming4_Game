@@ -95,7 +95,7 @@ enemy::EnemyStates enemy::CaughtState::HandleCaughtGrading(EnemyComponent* pEnem
 	m_CurrentTime += deltaTime;
 
 	// If was last state
-	const bool lastState{ m_CurrentState == m_pCurrentCaughtTextures.size() - 1 };
+	const bool lastState{ m_CurrentState == static_cast<int>(m_pCurrentCaughtTextures.size() - 1) };
 	if (lastState)
 	{
 		// Check if reached hold treshold

@@ -57,7 +57,7 @@ void DigDugSceneManager::NextLevel()
 
 	// Go up a level
 	++m_CurrentLevel;
-	if (m_LevelNames.size() <= m_CurrentLevel)
+	if (static_cast<int>(m_LevelNames.size()) <= m_CurrentLevel)
 	{
 		GoToMenu();
 		return;
@@ -244,16 +244,16 @@ void DigDugSceneManager::CommunalCommands()
 	// ------
 
 	// Keyboard
-	auto controllerInput{ std::make_pair(0, dae::InputManager::ControllerButton::None) };
-	auto inputKeys{ std::make_pair(SDL_SCANCODE_ESCAPE, controllerInput) };
+	dae::InputMapper::controllerInput controllerInput{ std::make_pair(static_cast<unsigned long>(0), dae::InputManager::ControllerButton::None) };
+	dae::InputMapper::inputKey inputKeys{ std::make_pair(SDL_SCANCODE_ESCAPE, controllerInput) };
 
 	std::unique_ptr<EventCommand> eventCommand{ std::make_unique<EventCommand>(event::SelectMenu) };
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(eventCommand));
 
 	// Controllers
-	for (int idx{}; idx < m_ControllerIndices.size(); ++idx)
+	for (size_t idx{}; idx < m_ControllerIndices.size(); ++idx)
 	{
-		controllerInput = std::make_pair(idx, dae::InputManager::ControllerButton::Select);
+		controllerInput = std::make_pair(static_cast<unsigned long>(idx), dae::InputManager::ControllerButton::Select);
 		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
 
 		eventCommand = std::make_unique<EventCommand>(event::SelectMenu);
@@ -264,16 +264,16 @@ void DigDugSceneManager::CommunalCommands()
 	// -----
 
 	// Keyboard
-	controllerInput = std::make_pair(0, dae::InputManager::ControllerButton::None);
+	controllerInput = std::make_pair(static_cast<unsigned long>(0), dae::InputManager::ControllerButton::None);
 	inputKeys = std::make_pair(SDL_SCANCODE_RETURN, controllerInput);
 
 	eventCommand = std::make_unique<EventCommand>(event::StartMenu);
 	dae::InputMapper::GetInstance().MapInputKey(inputKeys, keyState, std::move(eventCommand));
 
 	// Controllers
-	for (int idx{}; idx < m_ControllerIndices.size(); ++idx)
+	for (size_t idx{}; idx < m_ControllerIndices.size(); ++idx)
 	{
-		controllerInput = std::make_pair(idx, dae::InputManager::ControllerButton::Start);
+		controllerInput = std::make_pair(static_cast<unsigned long>(idx), dae::InputManager::ControllerButton::Start);
 		inputKeys = std::make_pair(SDL_SCANCODE_UNKNOWN, controllerInput);
 
 		eventCommand = std::make_unique<EventCommand>(event::StartMenu);

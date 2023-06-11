@@ -27,7 +27,7 @@ void PlayerManager::Reset()
 	grid::Cell* pCell{ pGrid->GetCell(0) };
 
 	// Loop through
-	for (int idx{}; idx < m_pCharacters.size(); ++idx)
+	for (size_t idx{}; idx < m_pCharacters.size(); ++idx)
 	{
 		// Reset player
 		m_pCharacters[idx]->Reset();

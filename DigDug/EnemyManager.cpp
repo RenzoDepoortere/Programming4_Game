@@ -41,7 +41,7 @@ void EnemyManager::Reset()
 	auto spawnData{ digdug::DigDugSceneManager::GetInstance().GetGrid()->GetEnemySpawnData() };
 
 	// Loop through
-	for (int idx{}; idx < m_pEnemies.size(); ++idx)
+	for (size_t idx{}; idx < m_pEnemies.size(); ++idx)
 	{
 		// Reset enemy
 		m_pEnemies[idx]->Reset();

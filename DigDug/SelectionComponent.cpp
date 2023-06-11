@@ -106,7 +106,7 @@ void SelectionComponent::Subscribe()
 void SelectionComponent::GoDown()
 {
 	// return if at end
-	if (m_CurrentPos == m_Positions.size() - 1) return;
+	if (m_CurrentPos == static_cast<int>(m_Positions.size() - 1)) return;
 
 	// Return if on cooldown
 	if (0.f < m_Cooldown) return;
