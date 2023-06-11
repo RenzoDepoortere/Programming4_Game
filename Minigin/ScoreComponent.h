@@ -22,6 +22,7 @@ public:
 	ScoreComponent& operator=(ScoreComponent&& other) = delete;
 
 	// Functionality
+	void SetHighestScore(int highestScore) { m_HighestScore = highestScore; }
 	void StoreScore();
 
 	// Observer
@@ -33,6 +34,7 @@ private:
 	// ----------------
 	dae::TextComponent* m_pTextComponent{ nullptr };
 	int m_CurrentScore{};
+	int m_HighestScore{};
 
 	// Member functions
 	// ----------------

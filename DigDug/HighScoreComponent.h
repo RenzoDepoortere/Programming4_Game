@@ -11,7 +11,7 @@ namespace dae
 	class TextComponent;
 }
 
-class HighScoreComponent final : public Component, public dae::Observer<float>
+class HighScoreComponent final : public Component, public dae::Observer<int>
 {
 public:
 	// Rule of Five
@@ -23,14 +23,16 @@ public:
 	HighScoreComponent& operator=(const HighScoreComponent& other) = delete;
 	HighScoreComponent& operator=(HighScoreComponent&& other) = delete;
 
+	// Functionality
+	int GetHighestScore() const { return m_HighestScore; }
+
 	// Observer
-	virtual void HandleEvent(unsigned int eventID, float newHighScore) override;
+	virtual void HandleEvent(unsigned int eventID, int newHighScore) override;
 	virtual void OnSubjectDestroy() override;
 
 private:
 	// Member variables
 	// ----------------
 	dae::TextComponent* m_pTextComponent{ nullptr };
-	std::shared_ptr<std::ifstream> m_pHighscoreFile{ nullptr };
-	int m_CurrentScore{};
+	int m_HighestScore{};
 };

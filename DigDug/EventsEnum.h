@@ -9,6 +9,7 @@ namespace event
 		SelectMenu,
 		
 		RockBreak,
+		NewHighScore,
 		
 		EnemyAttack,
 		EnemyPopped,

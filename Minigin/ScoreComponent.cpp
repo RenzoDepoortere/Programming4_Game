@@ -58,7 +58,7 @@ void ScoreComponent::StoreScore()
 		// If so, remove lowest score
 
 		// Add own score
-		*pHighscoreFile << std::to_string(m_CurrentScore) << '\n';
+		*pHighscoreFile << "/" << std::to_string(m_CurrentScore) << '\n';
 	}
 	else
 	{
@@ -88,6 +88,12 @@ void ScoreComponent::HandleEvent(unsigned int eventID, grid::Cell* pCell, void* 
 	}
 
 	m_CurrentScore += scoreGain;
+
+	// Send event if exceeded highscore
+	if (m_HighestScore < m_CurrentScore)
+	{
+		dae::EventManager<int>::GetInstance().SendEvent(event::NewHighScore, m_CurrentScore);
+	}
 
 	// Set text
 	m_pTextComponent->SetText(std::to_string(m_CurrentScore));
