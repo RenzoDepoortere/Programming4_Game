@@ -35,7 +35,7 @@ namespace enemy
 		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
 		// Observer
-		void HandleEvent(unsigned int eventID, float deltaTim) override;
+		void HandleEvent(unsigned int eventID, float deltaTime) override;
 		void OnSubjectDestroy() override;
 
 	private:	
@@ -54,6 +54,7 @@ namespace enemy
 		float m_CurrentRoamTime{};
 		float m_CurrentAttackTime{};
 
+		EnemyComponent* m_pEnemyComponent{ nullptr };
 		bool m_WantedToAttack{ false };
 		bool m_WantedToGhost{ false };
 

@@ -177,8 +177,8 @@ void EnemyManager::SpawnFygar(const glm::vec3& position)
 	behaviorData.detectionRange = 1;
 	behaviorData.detectionInterval = 1.f;
 
-	int maxTime{ 15 };
-	int minTime{ 10 };
+	int maxTime{ 3 };
+	int minTime{ 7 };
 	behaviorData.ghostTime = static_cast<float>(utils::RandomInteger(minTime, maxTime));
 	behaviorData.maxGhostTime = 2.5f;
 

@@ -31,6 +31,8 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 	m_WantedToAttack = false;
 	m_WantedToGhost = false;
 
+	m_pEnemyComponent = pEnemy;
+
 	// Create move commands
 	// --------------------
 	if (m_CommandInitialized == false)
@@ -62,7 +64,6 @@ void enemy::RoamingState::OnEnter(EnemyComponent* pEnemy)
 
 	// Subscribe to events
 	// -------------------
-
 	if (pEnemy->GetIsControlled())
 	{
 		dae::EventManager<float>::GetInstance().Subscribe(event::ControllerLeft_1, this);
@@ -95,6 +96,8 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 	EnemyStates state{ NR_STATES };
 	const bool isControlled{ pEnemy->GetIsControlled() };
 
+	m_CurrentRoamTime += deltaTime;
+
 	// Update if not controlled
 	if (isControlled == false)
 	{
@@ -113,10 +116,11 @@ enemy::EnemyStates enemy::RoamingState::Update(EnemyComponent* pEnemy, float del
 		HandlePathing(pEnemy, deltaTime);
 		state = LookForPlayer(pEnemy, deltaTime);
 	}
-	// If controlled, and wanted to attack
-	else if (isControlled && m_WantedToAttack)
+	// If controlled
+	else if (isControlled)
 	{
-		state = Attack;
+		if (m_WantedToAttack)	  state = Attack;
+		else if (m_WantedToGhost) state = Ghost;
 	}
 
 	// Return
@@ -127,6 +131,8 @@ void enemy::RoamingState::HandleEvent(unsigned int eventID, float deltaTime)
 {
 	// Check event
 	glm::vec2 movementDirection{};
+	auto behaviorData{ m_pEnemyComponent->GetBehaviorData() };
+
 	switch (eventID)
 	{
 	case event::ControllerLeft_1:
@@ -146,7 +152,7 @@ void enemy::RoamingState::HandleEvent(unsigned int eventID, float deltaTime)
 		break;
 
 	case event::ControllerActionA_1:
-		
+		if(behaviorData.ghostTime <= m_CurrentRoamTime) m_WantedToGhost = true;
 		break;
 
 	case event::ControllerActionB_1:
@@ -175,11 +181,9 @@ void enemy::RoamingState::InitMovementCommands(EnemyComponent* pEnemy)
 	m_pMoveCommand = std::make_unique<dae::MoveCommand>(pGameObject, glm::vec2{}, movementSpeed, pGrid, true);
 }
 
-enemy::EnemyStates enemy::RoamingState::CheckGhostTimer(EnemyComponent* pEnemy, float deltaTime)
+enemy::EnemyStates enemy::RoamingState::CheckGhostTimer(EnemyComponent* pEnemy, float /*deltaTime*/)
 {
 	auto behaviorData{ pEnemy->GetBehaviorData() };
-
-	m_CurrentRoamTime += deltaTime;
 	if (behaviorData.ghostTime <= m_CurrentRoamTime)
 	{
 		return Ghost;

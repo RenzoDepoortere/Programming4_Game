@@ -2,6 +2,7 @@
 #include "EnemyState.h"
 #include "Texture2D.h"
 #include "MoveCommand.h"
+#include "Observer.h"
 
 #include <memory>
 
@@ -12,7 +13,7 @@ namespace dae
 
 namespace enemy
 {
-	class GhostState final : public EnemyState
+	class GhostState final : public EnemyState, public dae::Observer<float>
 	{
 	public:
 		// Rule of Five
@@ -30,6 +31,10 @@ namespace enemy
 
 		virtual EnemyStates Update(EnemyComponent* pEnemy, float deltaTime) override;
 
+		// Observer
+		void HandleEvent(unsigned int eventID, float deltaTime) override;
+		void OnSubjectDestroy() override;
+
 	private:
 		// Member variables
 		// ----------------
@@ -39,6 +44,9 @@ namespace enemy
 		std::unique_ptr<dae::MoveCommand> m_pMoveCommand{ nullptr };
 		float m_CurrentGhostTime{};
 		bool m_AllowToTransferBack{};
+
+		EnemyComponent* m_pEnemyComponent{ nullptr };
+		bool m_WantsToGoBack{ false };
 
 		// Member functions
 		// ----------------
