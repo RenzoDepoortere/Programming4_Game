@@ -9,7 +9,7 @@
       <UniqueIdentifier>{cb208900-58b7-484e-8ab7-c8827486ca4d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Framework\Managers">
-      <UniqueIdentifier>{00293c93-2145-4a65-b9ef-a842082c9847}</UniqueIdentifier>
+      <UniqueIdentifier>{00293c93-2145-4a65-b9ef-a842082c9847}</UniqueIdentifier> 
     </Filter>
     <Filter Include="Framework\ObjectHelpers">
       <UniqueIdentifier>{c8515711-fc8a-4415-8b1a-2664b8a2c65f}</UniqueIdentifier>
