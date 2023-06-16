@@ -1,7 +1,7 @@
 # Goal
-The goal of the final assignement of this course was to recreate a retro game using our own little engine.
+The goal of the final assignement of this course was to recreate a retro game using our own little game engine.
 We received a very bare bone starting template and during the semester we would improve it bit by bit using the 
-the things we learned in class.
+things we learned in class.
 
 # Dig Dug
 The game that was assigned to me was Dig Dug, a 2D grid-based game where the player would have to eradicate all the monsters
