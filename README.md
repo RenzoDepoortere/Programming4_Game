@@ -7,6 +7,9 @@ the things we learned in class.
 The game that was assigned to me was Dig Dug, a 2D grid-based game where the player would have to eradicate all the monsters
 lurking underneath the ground. To do this the player digs though the dirt and blows up the enemies using a little pump.
 
+![Gameplay](https://github.com/RenzoDepoortere/Programming4_Game/assets/95619804/ef369a75-e7a2-472b-a1a9-3f0a7aea775b)
+
+
 # Experience
 I've learned quite a lot from creating my own game engine.
 From implementing patterns to keeping my code maintainable, I've seen it all.
